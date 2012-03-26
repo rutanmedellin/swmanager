@@ -3,7 +3,7 @@
 ## Project Resources
   * Pivotal Tracker is used for managing stories: https://www.pivotaltracker.com/projects/496655
   * Git is used for source control, canonical repo is at https://github.com/rutanmedellin/swmanager
-  * Jenkins _will be_ used for Continuous Integration, CI server _will be_ located at http://
+  * Travis _will be_ used for Continuous Integration, CI server _will be_ located at http://
   * Staging server is at http://swmanager.herokuapps.com
   * Admin web console is at http://swmanager.herokuapps.com/admin
 
