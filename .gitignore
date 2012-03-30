@@ -14,5 +14,5 @@
 coverage.xml
 a.out
 
-tourvox/local_settings.py
-tourvox/covhtml
+app/local_settings.py
+app/covhtml
