@@ -1,4 +1,4 @@
-# Startup Weekend Event Manager
+# Startup Weekend Event Manager [![Build Status](https://secure.travis-ci.org/rutanmedellin/swmanager.png?branch=master)](http://travis-ci.org/rutanmedellin/swmanager)
 
 ## Project Resources
   * Pivotal Tracker is used for managing stories: https://www.pivotaltracker.com/projects/496655
