@@ -10,14 +10,15 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# mongodb://heroku_app3483318:ug5hcm372e901qrq3u696hi7ls@ds031647.mongolab.com:31647/heroku_app3483318
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_engine',
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': 'heroku_app3483318',
+        'USER': 'heroku_app3483318',
+        'PASSWORD': 'ug5hcm372e901qrq3u696hi7ls',
+        'HOST': 'ds031647.mongolab.com',
+        'PORT': 31647,
     }
 }
 
