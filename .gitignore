@@ -11,8 +11,9 @@
 .db
 .settings_local
 .project
+.pydevproject
 coverage.xml
 a.out
-
+dist/
 app/local_settings.py
 app/covhtml
