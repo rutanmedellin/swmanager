@@ -12,4 +12,9 @@ urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(swm_api.urls)),
+    url(r'^/?$', 'web.views.home'),
+    url(r'^web/', include('web.urls')),
+    
+    # jasmine testings urls
+    url(r'^jasmine/', include('django_jasmine.urls')),
 )
