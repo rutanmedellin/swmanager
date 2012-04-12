@@ -8,6 +8,33 @@ setup(name='swmanager',
       author='Ruta N Medellin',
       author_email='castillobuiles@gmail.com',
       packages=[],
+      dependency_links = [
+         #django-nonrel, currently a fork from django v1.3
+         'hg+http://bitbucket.org/wkornewald/django-nonrel#egg=Django',
+    
+         # djangotoolbox
+         'hg+https://bitbucket.org/wkornewald/djangotoolbox#egg=djangotoolbox',
+    
+         # django_mongodb_engine
+         'git+https://github.com/django-nonrel/mongodb-engine#egg=django_mongodb_engine',
+    
+         # auth backend
+         'git+https://github.com/django-nonrel/django-permission-backend-nonrel.git#egg=permission_backend_nonrel'
+    
+         # hacked-on version of tastypie
+         'git+https://github.com/andresdouglas/django-tastypie.git@nonrel#egg=tastypie'
+
+      ],
       install_requires=[
-          'pymongo',
+            'pymongo',
+            
+            #tastie dependecies
+            'mimeparse>=0.1.3',
+            'python-dateutil',
+            'lxml',
+            'PyYAML',
+            'biplist',
+            
+            #utilities
+            'django-extensions',
           ])
