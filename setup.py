@@ -19,10 +19,13 @@ setup(name='swmanager',
          'git+https://github.com/django-nonrel/mongodb-engine#egg=django_mongodb_engine',
     
          # auth backend
-         'git+https://github.com/django-nonrel/django-permission-backend-nonrel.git#egg=permission_backend_nonrel'
+         'git+https://github.com/django-nonrel/django-permission-backend-nonrel.git#egg=permission_backend_nonrel',
     
          # hacked-on version of tastypie
-         'git+https://github.com/andresdouglas/django-tastypie.git@nonrel#egg=tastypie'
+         'git+https://github.com/andresdouglas/django-tastypie.git@nonrel#egg=tastypie',
+         
+         # django-jasmine with jasmine-1.2.0.rc3
+         'git+https://github.com/juanpgaviria/django-jasmine.git'
 
       ],
       install_requires=[
