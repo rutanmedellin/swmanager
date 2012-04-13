@@ -1,0 +1,65 @@
+.visible-phone {
+  display: none;
+}
+.visible-tablet {
+  display: none;
+}
+.login-btn.visible-desktop {
+  display: inline-block;
+}
+.hidden-phone {
+  display: block;
+}
+.hidden-tablet {
+  display: block;
+}
+.hidden-desktop {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .visible-phone {
+    display: block;
+  }
+  .hidden-phone {
+    display: none;
+  }
+  .hidden-desktop {
+    display: block;
+  }
+  .login-btn.visible-desktop {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  .visible-tablet {
+    display: block;
+  }
+  .hidden-tablet {
+    display: none;
+  }
+  .hidden-desktop {
+    display: block;
+  }
+  .visible-desktop {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+ 
+}
+@media (max-width: 767px) {
+ 
+}
+@media (min-width: 768px) and (max-width: 979px) {
+ 
+}
+@media (max-width: 979px) {
+ 
+}
+@media (min-width: 980px) {
+  
+}
+@media (min-width: 1200px) {
+ 
+}
