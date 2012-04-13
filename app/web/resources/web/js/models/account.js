@@ -6,10 +6,10 @@ App.Models.Session = App.Models.BaseModel.extend({
 	},
 	
 	validate: function (attrs){
-		if (attrs.username == undefined){
+		if (attrs.username == undefined || attrs.username == ""){
 			return "Username required";
 		}
-		if (attrs.password == undefined){
+		if (attrs.password == undefined || attrs.password == ""){
 			return "Password required";
 		}
 	},
