@@ -1,0 +1,19 @@
+{
+    "name": "Main Test Suite",
+    "js_files": [
+		"/media/web/js/libs/jquery-1.7.1.min.js",
+		"/media/web/js/plugins.js",
+		"/media/web/js/utils.js",
+		"/media/web/js/cookies.js",
+		"/media/web/js/libs/underscore-min.js",
+		"/media/web/js/libs/json2.js",	
+		"/media/web/js/libs/backbone-min.js",
+		"/media/web/js/init.js",
+		"/media/web/js/routers/swmanager.js",
+		"/media/web/js/models/account.js",	
+		"/media/web/js/views/auth.js",
+		"/web/templates.js"
+    ],
+    "media_files": [
+    ]
+}

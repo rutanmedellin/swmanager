@@ -1,3 +1,12 @@
+import os
+import django
+from os import path
+# calculated paths for django and the site
+# used as starting points for various other paths
+DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+
 # Django settings for app project.
 ENVIRONMENT = 'production'
 
@@ -58,22 +67,23 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = path.join(SITE_ROOT, 'media')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = '/media/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    path.join(SITE_ROOT,'web/resources'),
 )
 
 # List of finder classes that know how to find static files in
@@ -108,6 +118,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SITE_ROOT, "templates")
 )
 
 INSTALLED_APPS = (
@@ -120,12 +131,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # 'django.contrib.admindocs',
     'django_extensions',
+    'django_jasmine',
     'django_mongodb_engine',
     'djangotoolbox',
     'permission_backend_nonrel',
     'tastypie',
     'app.core',
     'app.api',
+    'app.web',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -154,6 +167,12 @@ LOGGING = {
 #TEST_RUNNER = 'mongorunner.TestRunner'
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = ['--verbosity=2']
+
+# Backbone.js testing with jasmine variables
+JASMINE_TEST_DIRECTORY = path.join(SITE_ROOT, 'web/resources/web/js/')
+
+# Mock for javascript 
+MOCK_API_FOR_JS = False
 
 # This should go last
 try:
