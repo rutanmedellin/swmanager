@@ -5,6 +5,7 @@ from django.template import RequestContext
 import logging
 import os
 
+
 def jst(request):
 
     templates = {}
