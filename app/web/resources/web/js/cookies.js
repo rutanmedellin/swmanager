@@ -90,7 +90,7 @@ function Set_Cookie( name, value, expires, path, domain, secure ) {
 	document.cookie = name + "=" +escape( value ) +
 		( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + //expires.toGMTString()
 		( ( path ) ? ";path=" + path : "" ) + 
-		( (domain && (domain !== 'localhost' && domain !== '.localhost')) ? '; domain=' + (domain) : '') +
+		( (domain && (".localhost:8".search('^(\.|)localhost(:[0-9]+|)') < 0)) ? '; domain=' + (domain) : '') +
 		( ( secure ) ? ";secure" : "" );
 }
 
@@ -98,6 +98,6 @@ function Set_Cookie( name, value, expires, path, domain, secure ) {
 function Delete_Cookie( name, path, domain ) {
 	if ( Get_Cookie( name ) ) document.cookie = name + "=" +
 			( ( path ) ? ";path=" + path : "") +
-			( (domain && (domain !== 'localhost' && domain !== '.localhost')) ? '; domain=' + (domain) : '') +
+			( (domain && (".localhost:8".search('^(\.|)localhost(:[0-9]+|)') < 0)) ? '; domain=' + (domain) : '') +
 			";expires=Thu, 01-Jan-1970 00:00:01 GMT";
 }
