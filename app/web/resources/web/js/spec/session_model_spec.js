@@ -81,12 +81,26 @@ describe("Session Model", function() {
 			
 			var callback = sinon.spy();
 			
+			// session data
+			this.session_data = {
+				"id":123, 
+				"key": "123",
+				"user": {
+					"id": "1",
+					"username": "admin",
+					"first_name": "juan",
+					"last_name": "gaviria",
+					"email": "juanpgaviria@gmail.com",
+				}				 
+			};
+			
 			// set server response
 			this.server.respondWith(
 				"POST", 
 				"/api/v1/sessions",
 				[200, {"Content-Type": "application/json"},
-				'{"id":123, "username":"admin"}']
+				JSON.stringify(this.session_data)
+				]
 			);
 			
 			// set data and save to create the post request
@@ -99,12 +113,8 @@ describe("Session Model", function() {
 			this.server.respond(); 
 			
 			expect(callback.called).toBeTruthy();
-			expect(callback.getCall(0).args[0].attributes)
-				.toEqual({
-        			id: 123,
-        			username: "admin",
-					password: "123",
-      		});
+			expect(callback.getCall(0).args[0].attributes.id)
+				.toEqual(123);
 		});
 	});	
 });
