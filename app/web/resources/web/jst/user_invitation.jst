@@ -1,10 +1,10 @@
 <td class="avatar">
-	<img src="<%= model.get('avatar') %>?size=50"/> 
+	<img src="<%= model.avatar %>?size=50"/> 
 </td>
 <td class="info">
 	<%= model.escape("email") %>
 </td>
 <td class="actions">
-	<button class="btn btn-success resend">Resend</button>
+	<button class="btn btn-primary resend">Resend</button>
 	<button class="btn btn-danger cancel">Cancel</button>
 </td>
