@@ -8,24 +8,24 @@ describe("Invitations pending for Admin Users view", function (){
 			{
 				"id": "4f84b22ade94e65caf000010",
 				"email": "juanpgaviria@gmail.com", 
-				"type": "admin", 
+				"role": "admin", 
 				"resource_uri": "/api/v1/users/4f84b22ade94e65caf000010/", 
 			},
 			{
 				"id": "4f84b22ade94e65caf000011",
 				"email": "castillobuiles@gmail.com", 
-				"type": "admin", 
+				"role": "admin", 
 				"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/", 
 			},
 			{
 				"id": "4f84b22ade94e65caf000012",
 				"email": "manuelzs@gmail.com", 
-				"type": "admin", 
+				"role": "admin", 
 				"resource_uri": "/api/v1/users/4f84b22ade94e65caf000012/", 
 			}
 		]);
 		
-		this.view = new App.Views.Invitations({el: ".invitations-pending", collection: this.invitations, type: "admin"});
+		this.view = new App.Views.Invitations({el: ".invitations-pending", collection: this.invitations, role: "admin"});
 	});
 	
 	afterEach(function (){
@@ -47,54 +47,79 @@ describe("Invitations pending for Admin Users view", function (){
 			expect($(".invitation", this.view.el).length).toEqual(3);
 		});		
 	});
-/*
 	
-	describe("When method invite is call", function (){
+	describe("When method resend is call", function (){
 		beforeEach(function (){
 			this.server = sinon.fakeServer.create();
 			
 			// session data
 			this.invitation_data = {
-				"id":123, 
-				"email": "juanpgaviria@gmail.com",
-				"role": "admin"
+				"id": "4f84b22ade94e65caf000010",
+				"email": "juanpgaviria@gmail.com", 
+				"role": "admin", 
+				"resource_uri": "/api/v1/users/4f84b22ade94e65caf000010/",
 			};
 		  
 			this.server.respondWith(
-				"POST", 
-				"/api/v1/invitations",
+				"PUT", 
+				"/api/v1/invitations/4f84b22ade94e65caf000010",
 				[200, {"Content-Type": "application/json"},
 				JSON.stringify(this.invitation_data)
 				]
 			);
 			
-			this.invitation = new App.Models.Invitation();
-			this.invitationStub = sinon.stub(window.App.Models, "Invitation")
-				.returns(this.invitation);
-				
-			this.spy_save = sinon.spy(this.invitation, "save");
+			this.invitation = this.view.collection.get("4f84b22ade94e65caf000010");
+			this.invitationStub = sinon.stub(this.invitation, "save").returns(this.invitation);
 			
-			$("input[name=email]", this.el).val("juanpgaviria@gmail.com");
-			this.view.invite();
-			
+			this.invitation_view = new App.Views.Invitation({model: this.invitation});
+			this.invitation_view.resend();
+						
 		});
 		
 		afterEach(function (){
-			this.server.restore();
 			this.invitationStub.restore();
+			this.server.restore();
 		});
 		
-		it("Should create an invitation model and save it", function(){
+		it("Should send a put to the invitation with resend param equal true", function(){
 			expect(this.invitationStub.calledOnce).toEqual(true);
-			expect(this.spy_save.calledOnce).toEqual(true);
-			expect(this.spy_save.getCall(0).args[0].email).toEqual("juanpgaviria@gmail.com");
-			expect(this.spy_save.getCall(0).args[0].role).toEqual("admin");			
+			expect(this.invitationStub.getCall(0).args[0].resend).toEqual(true);
 		});
-	});
-	
-	describe("Render the admin users list", function (){
-		
 	});
 
-*/
+	describe("When method cancel is call", function (){
+		beforeEach(function (){
+			this.server = sinon.fakeServer.create();
+			
+			// session data
+			this.invitation_data = {
+			};
+		  
+			this.server.respondWith(
+				"PUT", 
+				"/api/v1/invitations/4f84b22ade94e65caf000010",
+				[200, {"Content-Type": "application/json"},
+				JSON.stringify(this.invitation_data)
+				]
+			);
+			
+			this.invitation = this.view.collection.get("4f84b22ade94e65caf000010");
+			this.invitationStub = sinon.stub(this.invitation, "destroy").returns(this.invitation);
+			
+			this.invitation_view = new App.Views.Invitation({model: this.invitation});
+			this.invitation_view.cancel();
+						
+		});
+		
+		afterEach(function (){
+			this.invitationStub.restore();
+			this.server.restore();
+		});
+		
+		it("Should send a put to the invitation with resend param equal true", function(){
+			expect(this.invitationStub.calledOnce).toEqual(true);
+		});
+	});
+
+
 });
