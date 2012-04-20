@@ -10,8 +10,10 @@
 		"/media/web/js/libs/backbone-min.js",
 		"/media/web/js/init.js",
 		"/media/web/js/routers/swmanager.js",
-		"/media/web/js/models/account.js",	
+		"/media/web/js/models/account.js",
+		"/media/web/js/models/invitation.js",	
 		"/media/web/js/views/auth.js",
+		"/media/web/js/views/admin.js",
 		"/web/templates.js"
     ],
     "media_files": [
