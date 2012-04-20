@@ -1,0 +1,67 @@
+<div class="row-fluid">
+    <div class="span3">
+        <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+            	<% if (model.get("role") == "admin") { %>
+	                <li class="nav-header">
+	                    Settings
+	                </li>
+					<li class="menu-item account">
+	                    <a href="#!/admin/account"><i class="icon-user"></i> Account</a>
+	                </li>
+	                <li class="menu-item site">
+	                    <a href="#!/admin/settings"><i class="icon-cog"></i> Site</a>
+	                </li>
+	                <li class="nav-header">
+	                    Users
+	                </li>
+	                <li class="menu-item admin-users">
+	                    <a href="#!/admin/admin-users"><i class="icon-th-list"></i> Admin Users</a>
+	                </li>
+					<li class="menu-item participants">
+	                    <a href="#!/admin/participants"><i class="icon-th-list"></i> Participants</a>
+	                </li>
+	                <li class="nav-header">
+	                    Ideas
+	                </li>
+	                <li class="menu-item ideas-list">
+	                    <a href="#!/admin/ideas"><i class="icon-th-list"></i> List</a>
+	                </li>
+	                <li class="nav-header">
+	                    Projects
+	                </li>
+	                <li class="menu-item projects-list">
+	                    <a href="#!/admin/projects"><i class="icon-th-list"></i> List</a>
+	                </li>
+				
+				<% }else { %>
+	                <li class="nav-header">
+	                    Settings
+	                </li>
+					<li class="menu-item account">
+	                    <a href="#!/admin/account"><i class="icon-user"></i> Account</a>
+	                </li>
+	                <li class="nav-header">
+	                    Ideas
+	                </li>
+	                <li class="menu-item ideas-list">
+	                    <a href="#!/admin/ideas"><i class="icon-th-list"></i> List</a>
+	                </li>
+	                <li class="nav-header">
+	                    Projects
+	                </li>
+	                <li class="menu-item projects-list">
+	                    <a href="#!/admin/projects"><i class="icon-th-list"></i> List</a>
+	                </li>
+			
+				<% } %>			
+            </ul>
+        </div>
+        <!--/.well -->
+    </div>
+    <!--/span-->
+    <div class="span9 admin-content">
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
