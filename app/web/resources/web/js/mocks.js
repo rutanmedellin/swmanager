@@ -64,7 +64,45 @@ $.ajax = function ajaxMock(params) {
 			};
 			response = data;
 		}
-		
+		else if (params.url.match('.*invitations$') != null){
+			data = {
+				"meta": {
+					"limit": 20,
+					 "next": null, 
+					 "offset": 0, 
+					 "previous": null, 
+					 "total_count": 4
+				}, 
+				"objects": [
+					 	{
+							"id": "4f84b22ade94e65caf000010",
+							"email": "juanpgaviria@gmail.com", 
+							"type": "admin", 
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000010/", 
+						},
+						{
+							"id": "4f84b22ade94e65caf000011",
+							"email": "castillobuiles@gmail.com", 
+							"type": "admin", 
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/", 
+						},
+						{
+							"id": "4f84b22ade94e65caf000012",
+							"email": "manuelzs@gmail.com", 
+							"type": "admin", 
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/", 
+						},
+						{
+							"id": "4f84b22ade94e65caf000013",
+							"email": "elizabeth.ramirez@rutanmedellin.org", 
+							"type": "participant", 
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/", 
+						}
+						
+				]
+			};
+			response = data;
+		}
 	}
 	params.success(data);
 };
