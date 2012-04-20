@@ -26,6 +26,7 @@ App.Views.Invitation = Backbone.View.extend({
 	
 	initialize: function (){
 		_.bindAll(this, 'render', 'avatar', 'resend', 'cancel');
+		this.model.bind("destroy", this.remove, this);
 		this.render();	
 	},
 	
@@ -43,16 +44,37 @@ App.Views.Invitation = Backbone.View.extend({
 	// get the gravatar url
 	avatar: function (){
 		gravatar_url = Gravatar(this.model.escape("email"));
-		this.model.set({avatar: gravatar_url},{silent: true});
+		this.model.avatar = gravatar_url;
 	},
 	
 	resend: function (){
-		
+		if(this.model.isNew()){
+			this.model.id = this.model.get("id");
+		}
+	
+		this.model.save(
+			{
+				resend: true,
+			},{
+				success: function(model, response){
+					log("success");
+					$('#send-success').modal('show');
+				},
+				error: function(model, response){
+					log("error");
+					$('#send-error').modal('show');
+				}
+			}			
+		);
 	},
 	
 	cancel: function (){
-		
-	}
+		if(this.model.isNew()){
+			this.model.id = this.model.get("id");
+		}
+	
+		this.model.destroy();
+	},
 }); 
 
 
@@ -67,7 +89,7 @@ App.Views.Invitations = Backbone.View.extend({
 	},
 	
 	render: function(){
-		admin_invitations = this.collection.where({type: this.options.type});	
+		admin_invitations = this.collection.where({role: this.options.role});	
 		this.collection = new App.Collections.Invitations(admin_invitations);
 		$(this.el).html(JST.invitations());					
 		this.addAll();
@@ -96,13 +118,14 @@ App.Views.AdminUsers = Backbone.View.extend({
 	},
 	
 	render: function(){				
+		var view = this;
 		$(this.el).html(JST.admin_users());
 		$(".invitation-form", this.el).html(JST.invite_user_form({role: "admin"}));
 		Data.Collections.invitations = new App.Collections.Invitations();
 		Data.Collections.invitations.fetch(
 			{
 				success: function (collection, response){
-					new App.Views.Invitations({el: ".invitations-pending", collection: collection, type: "admin"});
+					view.invitations = new App.Views.Invitations({el: ".invitations-pending", collection: collection, role: "admin"});
 				},
 				error: function (collection, response){
 					
@@ -112,6 +135,10 @@ App.Views.AdminUsers = Backbone.View.extend({
 	},
 	
 	invite: function (e){
+		var view = this;
+		try{
+			e.preventDefault();	
+		}catch (e){}
 		var email = $("input[name=email]", this.el).val();
 		var role = "admin";
 		var invitation = new App.Models.Invitation();
@@ -119,17 +146,14 @@ App.Views.AdminUsers = Backbone.View.extend({
 				email: email,
 				role: role	
 			},{
-				success: function (model, response ){
-					
+				success: function(model, response){
+					$('#send-success').modal('show');
+					view.invitations.addOne(model);
 				},
-				error: function (model, response){
-					
+				error: function(model, response){
+					$('#send-error').modal('show');
 				}
 		});
-		try{
-			e.preventDefault();	
-		}catch (e){}
-				
 	}
 });
 
