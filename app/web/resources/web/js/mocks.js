@@ -31,14 +31,40 @@ $.ajax = function ajaxMock(params) {
 				user: data
 			};
 		}
-		else if (params.url.match('.*users/self/changepassword$') != null) {
-	  		data = {
-		      "messages": {
-			  		"type": "info",
-			  		"message": "Your password has been changed."
-		    	}
-	  		};
+		else if (params.url.match('.*users/[0-9]+$') != null) {
+	  		data = {'id': 1,
+					'resource_uri': "/api/v1/users/1",
+					'username': "juanpgaviria",
+					'first_name': "juan",
+					'last_name': "gaviria",
+					'email': "juanpgaviria@gmail.com",
+					};
 	  	}
+		else if (params.url.match('.*invitations$') != null){
+			data = {
+				id: 1,
+				email: "juanpgaviria@gmail.com",
+				role: "admin",
+			};
+		}
+	}
+	else if (params.type == 'GET' || params.type == 'get'){
+		if (params.url.match('.*users/[0-9]+$') != null) {
+			data = {
+				'id': 1,
+				'resource_uri': "/api/v1/users/1",
+				'username': "juanpgaviria",
+				'first_name': "juan",
+				'last_name': "gaviria",
+				'email': "juanpgaviria@gmail.com",
+				'role': "admin",
+				'bio': "hola mundo",
+				'ideas': "/api/v1/ideas/?user=1",
+				'projects': "/api/v1/projects/?user=1"
+			};
+			response = data;
+		}
+		
 	}
 	params.success(data);
 };
