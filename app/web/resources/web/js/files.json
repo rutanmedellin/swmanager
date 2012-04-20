@@ -15,7 +15,9 @@
 		"/media/web/js/collections/invitations.js",	
 		"/media/web/js/views/auth.js",
 		"/media/web/js/views/admin.js",
-		"/web/templates.js"
+		"/web/templates.js",
+		"/media/web/bootstrap/bootstrap.js",
+		"/media/web/bootstrap/bootstrap-modal.js"
     ],
     "media_files": [
     ]
