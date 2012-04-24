@@ -17,7 +17,7 @@ var App = {
 	init: function(){
 		log('init');
 		username = Get_Cookie('username');
-		router = new App.Routers.StartupWeekendManager();		
+		Data.Routers.router = new App.Routers.StartupWeekendManager();		
 		Backbone.history.start();
 	},
 	
