@@ -1,0 +1,12 @@
+<td class="avatar">
+	<img src="<%= model.avatar %>?size=50"/> 
+</td>
+<td class="info">
+<%= model.escape("first_name") %> <%= model.escape("last_name") %>
+</td>
+<td class="actions">
+	<button class="btn btn-primary profile visible-desktop">Profile</button>
+</td>
+<td class="actions">	
+	<button class="btn btn-danger remove visible-desktop">Delete</button>
+</td>
