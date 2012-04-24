@@ -17,6 +17,7 @@
 		"/media/web/js/collections/users.js",	
 		"/media/web/js/views/auth.js",
 		"/media/web/js/views/admin.js",
+		"/media/web/js/views/registration.js",
 		"/web/templates.js",
 		"/media/web/bootstrap/bootstrap.js",
 		"/media/web/bootstrap/bootstrap-modal.js"
