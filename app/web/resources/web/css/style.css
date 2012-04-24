@@ -63,3 +63,13 @@
 @media (min-width: 1200px) {
  
 }
+
+/*
+ * Registration form centralized
+ */
+.registrtion-form {
+	float: none;
+	margin: 0 auto;
+}
+
+
