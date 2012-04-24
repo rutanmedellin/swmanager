@@ -51,10 +51,44 @@ $.ajax = function ajaxMock(params) {
 						role: "admin",
 					};
 				}
-	}
-	else 
-		if (params.type == 'GET' || params.type == 'get') {
-			if (params.url.match('.*users/[0-9]+$') != null) {
+	}else if (params.type == 'GET' || params.type == 'get') {
+		if (params.url.match('.*users$') != null) {
+				data = {
+					"meta": {
+						"limit": 20,
+						 "next": null, 
+						 "offset": 0, 
+						 "previous": null, 
+						 "total_count": 2
+					}, 
+					"objects": [
+							{
+						  		id: 5, 
+						  		username: "juanpgaviria",
+								email: "juanpgaviria@gmail.com",
+								role: "admin",
+								first_name: "juan pablo",
+								last_name: "gaviria",
+								ideas: "/api/v1/ideas/?user=5", 
+								projects: "/api/v1/projects/?user=5",
+								"resource_uri": "/api/v1/users/5/"			
+							},
+							{
+						  		id: 6, 
+						  		username: "castillobuiles",
+								email: "castillobuiles@gmail.com",
+								role: "admin",
+								first_name: "Sebastian",
+								last_name: "Castillo",
+								ideas: "/api/v1/ideas/?user=6", 
+								projects: "/api/v1/projects/?user=6",
+								"resource_uri": "/api/v1/users/6/"
+							}
+					]
+				};
+
+				response = data;
+			}else if (params.url.match('.*users/[0-9]+$') != null) {
 				data = {
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
