@@ -33,18 +33,18 @@ $.ajax = function ajaxMock(params) {
 			};
 		}
 		else 
-			if (params.url.match('.*users/[0-9]+$') != null) {
+			if (params.url.match('.*users$') != null) {
+				var d = $.parseJSON(params.data);
 				data = {
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
-					'username': "juanpgaviria",
-					'first_name': "juan",
-					'last_name': "gaviria",
-					'email': "juanpgaviria@gmail.com",
+					'username': d.email,
+					'first_name': "",
+					'last_name': "",
+					'email': d.email,
 				};
-			}
-			else 
-				if (params.url.match('.*invitations$') != null) {
+		}else 
+			if (params.url.match('.*invitations$') != null) {
 					data = {
 						id: 1,
 						email: "juanpgaviria@gmail.com",
