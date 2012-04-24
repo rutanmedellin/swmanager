@@ -105,6 +105,86 @@ App.Views.Invitations = Backbone.View.extend({
 	}
 }); 
 
+
+// admin users list view
+
+App.Views.AdminUserView = Backbone.View.extend({
+	tagName: "tr",
+	className: "user",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'detail', 'profile', 'remove');
+		this.render();	
+	},
+	
+	events: {
+		"click": 	"detail",
+		"click .profile":	"profile",
+		"click .remove":	"remove",
+	},
+
+	render: function(){
+		this.avatar()				
+		$(this.el).html(JST.user_row({model: this.model}));
+		return this;
+	},
+	
+	// get the gravatar url
+	avatar: function (){
+		gravatar_url = Gravatar(this.model.escape("email"));
+		this.model.avatar = gravatar_url;
+	},	
+	
+	detail: function (e){
+		if($(".remove", this.el).is(':visible')){
+			e.preventDefault();
+			return;	
+		}else{
+			this.profile();
+		}
+	},
+	
+	profile: function (){
+		alert("detail")
+		log('detail');
+	},
+	
+	remove: function (){
+		log('remove');
+	}
+	
+}); 
+
+App.Views.AdminUsersList = Backbone.View.extend({
+
+	tagName: "div",
+	className: "admin-users-list",
+	
+	initialize: function (){
+		_.bindAll(this, 'render', 'addOne', 'addAll');
+		this.render();	
+	},
+	
+	events: {
+		"click .refresh":	"render",
+	},
+	
+	render: function(){				
+		$(this.el).html(JST.admin_users_list());
+		this.addAll();
+	},
+	
+	addOne: function (user){
+		var view = new App.Views.AdminUserView({model: user});
+		$('table', this.el).append(view.render().el);
+	},
+	
+	addAll: function (){
+		this.collection.each(this.addOne);	
+	}
+	
+});
+
 // admin users view
 App.Views.AdminUsers = Backbone.View.extend({
 
@@ -120,7 +200,12 @@ App.Views.AdminUsers = Backbone.View.extend({
 	render: function(){				
 		var view = this;
 		$(this.el).html(JST.admin_users());
-		$(".invitation-form", this.el).html(JST.invite_user_form({role: "admin"}));
+		
+		/*
+		 * Load form and admin user invitations
+		 */
+		
+		$(".invitation-form", this.el).html(JST.invite_user_form({role: "admin"}));				
 		Data.Collections.invitations = new App.Collections.Invitations();
 		Data.Collections.invitations.fetch(
 			{
@@ -132,6 +217,25 @@ App.Views.AdminUsers = Backbone.View.extend({
 				}
 			}
 		);
+		
+		/*
+		 * load admin user list
+		 */
+		Data.Collections.adminUsers = new App.Collections.Users();
+		Data.Collections.adminUsers.fetch(
+			{				
+				data: {
+					role: "admin"
+				},
+				success: function (collection, response){
+					view.adminUsers = new App.Views.AdminUsersList({el: ".admin-users-list", collection: collection, role: "admin"});
+				},
+				error: function (collection, response){
+					
+				}
+			}
+		);
+
 	},
 	
 	invite: function (e){
