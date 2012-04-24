@@ -5,13 +5,13 @@ describe("Invition pending collection", function (){
 	  		id: 5, 
 	  		code: "Qweasdawe2343",
 			email: "juanpgaviria@gmail.com",
-			type: "admin"
+			role: "admin"
 		});
 		this.participantInvitation = new Backbone.Model({
 	  		id: 5, 
 	  		code: "Qweasdawe2343",
 			email: "juanpgaviria@hotmail.com",
-			type: "participant"
+			role: "participant"
 		});
 		this.invitationStub.returns(this.adminInvitation);
 		this.invitations = new App.Collections.Invitations();
@@ -50,7 +50,7 @@ describe("Invition pending collection", function (){
 					 	{
 							"id": "4f84b22ade94e65caf000010",
 							"email": "juanpgaviria@gmail.com", 
-							"type": "admin", 
+							"role": "admin", 
 							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000010/", 
 						}
 				]
