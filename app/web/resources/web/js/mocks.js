@@ -15,8 +15,16 @@ $.ajax = function ajaxMock(params) {
 			var d = $.parseJSON(params.data);
 			
 			data = {'id': 1,
-					'username': d.username,
-					'token': "12345",
+					'key': "12345",
+					'resource_uri': "/api/v1/sessions/1",
+					'user': {
+						'id': 1,
+						'username': d.username,
+						'first_name': "juan",
+						'last_name': "gaviria",
+						'email': "juanpgaviria@gmail.com",
+						'resource_uri': "/api/v1/users/1"
+						}
 					};
 			response = data;
 			account_data = {
