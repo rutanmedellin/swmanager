@@ -1,4 +1,4 @@
-# Django settings for app project.
+# Django settings for app project. (swmanager)
 ENVIRONMENT = 'production'
 
 DEBUG = True
@@ -14,10 +14,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_engine',
-        'NAME': 'heroku_app3483318',
-        'USER': 'heroku_app3483318',
-        'PASSWORD': 'ug5hcm372e901qrq3u696hi7ls',
-        'HOST': 'ds031647.mongolab.com',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': 31647,
     }
 }
@@ -123,6 +123,8 @@ INSTALLED_APPS = (
     'django_mongodb_engine',
     'djangotoolbox',
     'permission_backend_nonrel',
+    'guardian',
+    'activation',
     'tastypie',
     'app.core',
     'app.api',
@@ -150,6 +152,15 @@ LOGGING = {
         },
     }
 }
+
+AUTH_PROFILE_MODULE = 'core.UserProfile'
+
+ANONYMOUS_USER_ID = '0' * 24
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 #TEST_RUNNER = 'mongorunner.TestRunner'
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
