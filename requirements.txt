@@ -50,3 +50,4 @@ django-extensions
 # per object permission for nonrel 
 -e git+https://github.com/bhomnick/django-guardian-nonrel.git#egg=django-guardian-nonrel
 
+-e  git+https://github.com/juanpgaviria/django-jasmine.git
