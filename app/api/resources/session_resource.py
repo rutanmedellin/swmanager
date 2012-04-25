@@ -26,7 +26,7 @@ class PublicSessionResource(ModelResource):
 
     class Meta(object):
         queryset = ApiKey.objects.all()
-        resource_name = 'public/sessions'
+        resource_name = 'sessions'
         fields = ['user', 'key', 'id']
         allowed_methods = ['post', 'get']
         authorization = Authorization()
