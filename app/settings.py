@@ -24,10 +24,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_engine',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'NAME': 'heroku_app3483318',
+        'USER': 'swmanager',
+        'PASSWORD': 'diepafeimo7ooRuidee0',
+        'HOST': 'ds031647.mongolab.com',
         'PORT': 31647,
     }
 }
