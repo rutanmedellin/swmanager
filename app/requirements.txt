@@ -44,4 +44,4 @@ factory_boy
 django-extensions
 
 # user invitation
--e git+http://github.com:scastillo/django-activation.git#egg=django-activation
+-e git+http://github.com/scastillo/django-activation.git#egg=django-activation
