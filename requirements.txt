@@ -13,7 +13,8 @@ pymongo
 -e git+https://github.com/django-nonrel/django-permission-backend-nonrel.git#egg=permission_backend_nonrel
 
 # hacked-on version of tastypie
--e git+https://github.com/andresdouglas/django-tastypie.git@nonrel#egg=tastypie
+#-e git+https://github.com/andresdouglas/django-tastypie.git@nonrel#egg=tastypie
+-e git+https://github.com/toastdriven/django-tastypie.git#egg=tastypie
 
 # path module
 #http://pypi.python.org/packages/source/p/path.py/path-2.2.zip
@@ -42,3 +43,10 @@ factory_boy
 
 #utilities
 django-extensions
+
+# user activation
+-e git@github.com:scastillo/django-activation.git
+
+# per object permission for nonrel 
+-e git+https://github.com/bhomnick/django-guardian-nonrel.git#egg=django-guardian-nonrel
+
