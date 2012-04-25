@@ -45,7 +45,7 @@ factory_boy
 django-extensions
 
 # user activation
--e git+http://github.com:scastillo/django-activation.git#egg=django-activation
+-e git+http://github.com/scastillo/django-activation.git#egg=django-activation
 
 # per object permission for nonrel 
 -e git+https://github.com/bhomnick/django-guardian-nonrel.git#egg=django-guardian-nonrel
