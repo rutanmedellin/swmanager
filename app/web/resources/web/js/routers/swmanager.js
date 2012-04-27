@@ -12,6 +12,8 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'': "index",
 		'!/admin': "admin", 
 		'!/admin/admin-users': "adminUsers",
+		'!/admin/account': "adminAccount",
+		'!/admin/user/:id': "adminAccount",
 		'!/user/registration?:params': "registration",
 	},
 	
@@ -48,6 +50,25 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	adminUsers: function (){
 		this.admin("admin-users");
 		Data.Views.admin = new App.Views.AdminUsers({el: ".admin-content"});
+	},
+	
+	adminAccount: function (id){
+		this.admin("account");
+		if (id != undefined){
+			user = new App.Models.User();
+			user.id = id;
+			user.fetch({
+				success: function (model, response){
+					
+				},
+				error: function (model, response){
+					Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: model})	
+				}
+			});
+		}else{
+			Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: Data.Models.account})
+		}
+				
 	},
 	
 	/*
