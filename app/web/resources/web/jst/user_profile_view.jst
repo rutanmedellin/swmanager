@@ -1,0 +1,44 @@
+<div class="row-fluid">
+	<div class="span9">
+		<h1 class="name"><%= model.escape("first_name") %> <%= model.escape("last_name") %></h1>
+	<div class="avatar span1">
+		<img src="<%= model.avatar %>" />
+	</div>
+	<div class="well span3">		
+		<dl>
+			<dt>Email</dt>
+			<dd class="email"><%= model.escape("email") %></dd>
+			<% if (model.escape("twitter")) { %>
+				<dt>Twitter</dt>
+				<dd class="twitter"><%= model.escape("twitter") %></dd>
+			<% } %>
+			<% if (model.escape("bio")) { %>
+				<dt>Bio</dt>
+				<dd class=""><%= model.escape("bio") %></dd>
+			<% } %>			
+			
+			
+		</dl>
+		<% if (model.canEdit) { %>
+			<span class="edit-profile"><a href="#!/user/edit/<%= model.id %>"><i class="icon-pencil"></i>edit</a></span>
+		<% } %>		
+	</div>
+	</div>
+</div>
+<hr />
+<div class="row">
+    <div class="span9">
+        <div class="row">
+            <div class="span4">
+            	<h1>Ideas</h1>
+				<div class="user-ideas">
+				</div>
+            </div>
+            <div class="span5">
+                <h1>Projects</h1>
+				<div class="user-projects">
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
