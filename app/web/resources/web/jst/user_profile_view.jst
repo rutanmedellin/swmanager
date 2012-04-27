@@ -20,7 +20,7 @@
 			
 		</dl>
 		<% if (model.canEdit) { %>
-			<span class="edit-profile"><a href="#!/user/edit/<%= model.id %>"><i class="icon-pencil"></i>edit</a></span>
+			<span class="edit-profile"><a href="#!/admin/user/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a></span>
 		<% } %>		
 	</div>
 	</div>
@@ -32,11 +32,17 @@
             <div class="span4">
             	<h1>Ideas</h1>
 				<div class="user-ideas">
+					<p>
+						No ideas registered for user
+					</p>
 				</div>
             </div>
             <div class="span5">
                 <h1>Projects</h1>
 				<div class="user-projects">
+					<p>
+						No project registered for user
+					</p>
 				</div>
             </div>
         </div>
