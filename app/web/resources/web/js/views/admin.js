@@ -19,7 +19,7 @@ App.Views.Admin = Backbone.View.extend({
 	}
 });
 
-// invitation view
+// invitation item view
 App.Views.Invitation = Backbone.View.extend({
 	tagName: "tr",
 	className: "invitation",
@@ -106,7 +106,7 @@ App.Views.Invitations = Backbone.View.extend({
 }); 
 
 
-// admin users list view
+// admin users list item view
 
 App.Views.AdminUserView = Backbone.View.extend({
 	tagName: "tr",
@@ -145,8 +145,7 @@ App.Views.AdminUserView = Backbone.View.extend({
 	},
 	
 	profile: function (){
-		alert("detail")
-		log('detail');
+		location = "/#!/admin/user/" + this.model.id;
 	},
 	
 	remove: function (){
@@ -154,6 +153,9 @@ App.Views.AdminUserView = Backbone.View.extend({
 	}
 	
 }); 
+
+
+// Admin user list
 
 App.Views.AdminUsersList = Backbone.View.extend({
 
@@ -261,12 +263,15 @@ App.Views.AdminUsers = Backbone.View.extend({
 	}
 });
 
+
+// User profile view
+
 App.Views.UserProfileView = Backbone.View.extend({
 	tagName: "div",
 	className: "admin-content",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'detail', 'profile', 'remove');	
+		_.bindAll(this, 'render', 'edit', 'remove');	
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -277,8 +282,7 @@ App.Views.UserProfileView = Backbone.View.extend({
 	},
 	
 	events: {
-		"click .profile":	"profile",
-		"click .remove":	"remove",
+		"click .edit-profile":	"edit",
 	},
 
 	render: function(){
@@ -302,22 +306,8 @@ App.Views.UserProfileView = Backbone.View.extend({
 		}
 	},
 	
-	detail: function (e){
-		if($(".remove", this.el).is(':visible')){
-			e.preventDefault();
-			return;	
-		}else{
-			this.profile();
-		}
-	},
-	
-	profile: function (){
-		alert("detail")
-		log('detail');
-	},
-	
 	edit: function (){
-		location = "/#!/users/" + this.model.id + "/edit";	
+		location = "/#!/admin/user/" + this.model.id + "/edit";	
 	},
 	
 	remove: function (){
@@ -327,8 +317,88 @@ App.Views.UserProfileView = Backbone.View.extend({
 }); 
 
 
-// Admin account
+// user profile edit view
 
+App.Views.UserProfileEditView = Backbone.View.extend({
+	tagName: "div",
+	className: "admin-content",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'save', 'cancel');	
+		this.render();	
+	},
+	
+	events: {
+		"click .save":	"save",
+		"click .cancel":	"cancel",
+	},
+
+	render: function(){
+		this.avatar()
+		$(this.el).html(JST.user_profile_edit({model: this.model}));
+		return this;
+	},
+	
+	// get the gravatar url
+	avatar: function (){
+		gravatar_url = Gravatar(this.model.escape("email"));
+		this.model.avatar = gravatar_url;
+	},	
+	
+	save: function (e){
+		var view = this;
+		try{
+			e.preventDefault();
+		}catch(e){}
+		var data = {
+			first_name: $("input[name=first_name]", this.el).val(),
+			last_name: $("input[name=last_name]", this.el).val(),
+			twitter: $("input[name=twitter]", this.el).val(),
+			bio: $("input[name=bio]", this.el).val(),
+		};
+		this.model.save(data, {
+			success: function (model, response){
+				Data.Routers.router.navigate("/#!/admin/user/" + model.id, true);
+			},
+			error: function (model, response) {
+				if (response.status != undefined){
+					errors = response.users;
+					if (response.status != 400){
+						$("#save-error").modal("show");
+					}
+				}else{
+					errors = response;
+				}
+				if (errors.first_name != undefined){
+					$(".help-block", ".first-name").removeClass("hide");
+					$(".first-name").addClass("error");
+				}else{
+					$(".help-block", ".first-name").addClass("hide");
+					$(".first-name").removeClass("error");
+				}
+				if (errors.last_name != undefined){
+					$(".help-block", ".last-name").removeClass("hide");
+					$(".last-name").addClass("error");
+				}else{
+					$(".help-block", ".last-name").addClass("hide");
+					$(".last-name").removeClass("error");
+				}				
+			}
+		}); 	
+	},
+
+	validate: function (){
+		
+	},
+	
+	cancel: function (e){
+		try{
+			e.preventDefault();
+		}catch(e){}
+		Data.Routers.router.navigate("/#!/admin/user/" + model.id, true);
+	}	
+	
+}); 
  
 
 
