@@ -7,6 +7,22 @@ App.Models.User = App.Models.BaseModel.extend({
 	
 	parse: function (response){
 		return response;
+	},
+	
+	validate: function (attrs){
+		var errors = {};
+		var errors_count = 0;
+		if(attrs.first_name == undefined || attrs.first_name == ""){
+			errors.first_name = "First name required";
+			errors_count +=1;
+		}
+		if(attrs.last_name == undefined || attrs.last_name == ""){		
+			errors.last_name = "Last name required";
+			errors_count +=1;
+		}
+		if (errors_count){
+			return errors;
+		}
 	}
 	
 });
