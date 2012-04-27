@@ -37,6 +37,17 @@ describe("AppRouter routes", function() {
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
+  it("fires the admin route with a #!/admin/user/:id hash", function (){
+  	this.router.bind("route:adminAccount", this.routeSpy);
+    this.router.navigate("/#!/admin/user/1", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
+  it("fires the admin route with a #!/admin/user/:id/edit hash", function (){
+  	this.router.bind("route:adminEditProfile", this.routeSpy);
+    this.router.navigate("/#!/admin/user/1/edit", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
   
   it("fires the registration route with a #!/user/registration hash", function (){
   	this.router.bind("route:registration", this.routeSpy);
