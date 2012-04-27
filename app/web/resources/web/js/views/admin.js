@@ -261,7 +261,75 @@ App.Views.AdminUsers = Backbone.View.extend({
 	}
 });
 
+App.Views.UserProfileView = Backbone.View.extend({
+	tagName: "div",
+	className: "admin-content",
 
+	initialize: function (){
+		_.bindAll(this, 'render', 'detail', 'profile', 'remove');	
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}
+		
+		this.render();	
+	},
+	
+	events: {
+		"click .profile":	"profile",
+		"click .remove":	"remove",
+	},
+
+	render: function(){
+		this.avatar()
+		this.checkUser();				
+		$(this.el).html(JST.user_profile_view({model: this.model}));
+		return this;
+	},
+	
+	// get the gravatar url
+	avatar: function (){
+		gravatar_url = Gravatar(this.model.escape("email"));
+		this.model.avatar = gravatar_url;
+	},	
+	
+	checkUser: function (){
+		if ((this.loggedUser != undefined && this.loggedUser.id == this.model.id) || this.loggedUser.get("role") == "admins"){
+			this.model.canEdit = true;
+		}else{
+			this.model.canEdit = false;
+		}
+	},
+	
+	detail: function (e){
+		if($(".remove", this.el).is(':visible')){
+			e.preventDefault();
+			return;	
+		}else{
+			this.profile();
+		}
+	},
+	
+	profile: function (){
+		alert("detail")
+		log('detail');
+	},
+	
+	edit: function (){
+		location = "/#!/users/" + this.model.id + "/edit";	
+	},
+	
+	remove: function (){
+		log('remove');
+	},
+	
+}); 
+
+
+// Admin account
+
+ 
 
 
 
