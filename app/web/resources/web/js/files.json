@@ -1,7 +1,9 @@
 {
     "name": "Main Test Suite",
-    "js_files": [
+    "js_files": [	
 		"/media/web/js/libs/jquery-1.7.1.min.js",
+		"/media/web/bootstrap/bootstrap.js",
+		"/media/web/bootstrap/bootstrap-modal.js",		
 		"/media/web/js/plugins.js",
 		"/media/web/js/utils.js",
 		"/media/web/js/cookies.js",
@@ -18,9 +20,7 @@
 		"/media/web/js/views/auth.js",
 		"/media/web/js/views/admin.js",
 		"/media/web/js/views/registration.js",
-		"/web/templates.js",
-		"/media/web/bootstrap/bootstrap.js",
-		"/media/web/bootstrap/bootstrap-modal.js"
+		"/web/templates.js"
     ],
     "media_files": [
     ]
