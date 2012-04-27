@@ -15,6 +15,7 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/account': "adminAccount",
 		'!/admin/user/:id': "adminAccount",
 		'!/user/registration?:params': "registration",
+		'!/admin/user/:id/edit': "adminEditProfile",
 	},
 	
 	/*
@@ -57,18 +58,40 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		if (id != undefined){
 			user = new App.Models.User();
 			user.id = id;
+			log(id);
 			user.fetch({
 				success: function (model, response){
-					
+					Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: model});
 				},
 				error: function (model, response){
-					Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: model})	
+						
 				}
 			});
 		}else{
-			Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: Data.Models.account})
+			Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: Data.Models.account});
 		}
 				
+	},
+	
+	adminEditProfile: function (id){
+		this.admin();
+		if ((id != undefined && id == Data.Models.account.id) || Data.Models.account.get("role") == "admin"){
+			user = new App.Models.User();
+			user.id = id;
+			user.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.UserProfileEditView({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
 	},
 	
 	/*
@@ -84,8 +107,14 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	_extractParameters: function(route, fragment) {
         var result = route.exec(fragment).slice(1);
-        result.unshift(deparam(result[result.length-1]));
-        return result.slice(0,-1);
+		result = _.map(result, function (param){
+			if (param.match(/^([A-Za-z0-9]+)=([A-Za-z0-9]+)/)){
+				return deparam(param);
+			}else{
+				return param;
+			}
+		});
+		return result;
     }
 	
 });
@@ -100,6 +129,7 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 
 var deparam = function(paramString){
     var result = {};
+	log(paramString);
     if( ! paramString){
         return result;
     }
