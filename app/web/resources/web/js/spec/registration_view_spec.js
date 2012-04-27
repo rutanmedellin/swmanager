@@ -88,7 +88,10 @@ describe("User Registration view", function (){
 			$("input[name=password]", this.el).val("abc");
 			$("input[name=repassword]", this.el).val("abc");
 			
-			this.view.signup();			
+			$.fn.modal = function (options){};
+			
+			this.view.signup();
+						
 		});
 		
 		afterEach(function (){
