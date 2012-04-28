@@ -66,7 +66,7 @@ $.ajax = function ajaxMock(params) {
 						  		id: 5, 
 						  		username: "juanpgaviria",
 								email: "juanpgaviria@gmail.com",
-								role: "admin",
+								role: "admins",
 								first_name: "juan pablo",
 								last_name: "gaviria",
 								ideas: "/api/v1/ideas/?user=5", 
@@ -77,7 +77,7 @@ $.ajax = function ajaxMock(params) {
 						  		id: 6, 
 						  		username: "castillobuiles",
 								email: "castillobuiles@gmail.com",
-								role: "admin",
+								role: "admins",
 								first_name: "Sebastian",
 								last_name: "Castillo",
 								ideas: "/api/v1/ideas/?user=6", 
@@ -96,7 +96,8 @@ $.ajax = function ajaxMock(params) {
 					'first_name': "juan",
 					'last_name': "gaviria",
 					'email': "juanpgaviria@gmail.com",
-					'role': "admin",
+					'twitter': "juanpgaviria", 
+					'role': "admins",
 					'bio': "hola mundo",
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
@@ -116,17 +117,17 @@ $.ajax = function ajaxMock(params) {
 						"objects": [{
 							"id": "4f84b22ade94e65caf000010",
 							"email": "juanpgaviria@gmail.com",
-							"role": "admin",
+							"role": "admins",
 							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000010/",
 						}, {
 							"id": "4f84b22ade94e65caf000011",
 							"email": "castillobuiles@gmail.com",
-							"role": "admin",
+							"role": "admins",
 							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/",
 						}, {
 							"id": "4f84b22ade94e65caf000012",
 							"email": "manuelzs@gmail.com",
-							"role": "admin",
+							"role": "admins",
 							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/",
 						}, {
 							"id": "4f84b22ade94e65caf000013",
@@ -139,7 +140,6 @@ $.ajax = function ajaxMock(params) {
 				}
 		}
 		else if (params.type == 'PUT' || params.type == 'put') {
-			log("put");
 				if (params.url.match('.*invitations/[A-Za-z0-9]+$') != null) {
 					log("invitation");
 					var d = $.parseJSON(params.data);
@@ -151,9 +151,26 @@ $.ajax = function ajaxMock(params) {
 					};
 					response = data;
 				}
+				if (params.url.match('.*users/[A-Za-z0-9]+$') != null) {
+					var d = $.parseJSON(params.data);
+					data = {
+						'id': d.id,
+						'resource_uri': "/api/v1/users/" + d.id,
+						'username': d.username,
+						'first_name': d.first_name,
+						'last_name': d.last_name,
+						'email': "juanpgaviria@gmail.com",
+						'twitter': d.twitter, 
+						'role': d.role,
+						'bio': d.bio,
+						'ideas': "/api/v1/ideas/?user=" + d.id,
+						'projects': "/api/v1/projects/?user=" + d.id
+					};
+					response = data;
+				}
+
 		}
 		else if (params.type == 'DELETE' || params.type == 'delete') {
-			log("put");
 			if (params.url.match('.*invitations/[A-Za-z0-9]+$') != null) {
 				data = {
 				};
