@@ -68,7 +68,34 @@ beforeEach(function (){
 		it("should be the name(first and last)", function (){
 			expect($(".name", this.view.el).length).toEqual(1);
 		});		
-				
+		
+		describe("When admin user is seen the user profile edit form", function (){
+			beforeEach(function (){
+				// session data
+				this.user_data = {
+					'id': 1,
+					'resource_uri': "/api/v1/users/1",
+					'username': "juanpgaviria",
+					'first_name': "cambio",
+					'last_name': "cambio",
+					'email': "juanpgaviria@gmail.com",
+					'twitter': "cambio",
+					'role': "admin",
+					'bio': "cambio",
+					'ideas': "/api/v1/ideas/?user=1",
+					'projects': "/api/v1/projects/?user=1"
+				};
+			  	Data.Models.account = new App.Models.Account(this.user_data);
+				this.view.initialize();
+			});
+			
+			afterEach(function (){
+			});
+						
+			it("should render a select role form", function (){				
+				expect($(".role", this.view.el).length).toEqual(1);
+			});
+		});
 		describe("When the click save button", function (){
 			beforeEach(function (){
 				this.server = sinon.fakeServer.create();
