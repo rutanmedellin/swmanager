@@ -64,6 +64,40 @@
               <textarea rows="5" name="bio" placeholder="A little resume about you.."></textarea>
           </div>
       </div>
+	  
+	  <% if (model.canEdit) { %>
+		  <div class="control-group role">
+	          <label class="control-label">
+	              Role
+	          </label>
+	          <div class="controls">
+	              <select name="role">
+	              	<% if(model.escape("role") == "admins") { %>
+						<option value="admins" selected>Admin</option>
+						<option value="participant">Participant</option>				
+					<% }else{ %>
+						<option value="admins">Admin</option>
+						<option value="participant" selected>Participant</option>
+					<% } %>              	
+	              </select>
+	          </div>
+	      </div>
+	 <% }else { %>
+	 	  <label class="control-label">
+	              Role
+	          </label>
+	          <div class="controls">
+	              <select name="role" disabled="">
+	              	<% if(model.escape("role") == "admins") { %>
+						<option value="admins" selected>Admin</option>
+						<option value="participant">Participant</option>				
+					<% }else{ %>
+						<option value="admins">Admin</option>
+						<option value="participant" selected>Participant</option>
+					<% } %>              	
+	              </select>
+	          </div>
+	 <% } %>
       
       <div class="form-actions">
           <button class="btn btn-primary save">
