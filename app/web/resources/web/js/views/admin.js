@@ -207,12 +207,12 @@ App.Views.AdminUsers = Backbone.View.extend({
 		 * Load form and admin user invitations
 		 */
 		
-		$(".invitation-form", this.el).html(JST.invite_user_form({role: "admin"}));				
+		$(".invitation-form", this.el).html(JST.invite_user_form({role: "admins"}));				
 		Data.Collections.invitations = new App.Collections.Invitations();
 		Data.Collections.invitations.fetch(
 			{
 				success: function (collection, response){
-					view.invitations = new App.Views.Invitations({el: ".invitations-pending", collection: collection, role: "admin"});
+					view.invitations = new App.Views.Invitations({el: ".invitations-pending", collection: collection, role: "admins"});
 				},
 				error: function (collection, response){
 					
@@ -227,10 +227,10 @@ App.Views.AdminUsers = Backbone.View.extend({
 		Data.Collections.adminUsers.fetch(
 			{				
 				data: {
-					role: "admin"
+					role: "admins"
 				},
 				success: function (collection, response){
-					view.adminUsers = new App.Views.AdminUsersList({el: ".admin-users-list", collection: collection, role: "admin"});
+					view.adminUsers = new App.Views.AdminUsersList({el: ".admin-users-list", collection: collection, role: "admins"});
 				},
 				error: function (collection, response){
 					
@@ -246,7 +246,7 @@ App.Views.AdminUsers = Backbone.View.extend({
 			e.preventDefault();	
 		}catch (e){}
 		var email = $("input[name=email]", this.el).val();
-		var role = "admin";
+		var role = "admins";
 		var invitation = new App.Models.Invitation();
 		invitation.save({
 				email: email,
@@ -324,7 +324,12 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 	className: "admin-content",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'save', 'cancel');	
+		_.bindAll(this, 'render', 'save', 'cancel');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
 		this.render();	
 	},
 	
@@ -334,7 +339,8 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 	},
 
 	render: function(){
-		this.avatar()
+		this.avatar();
+		this.checkUser();
 		$(this.el).html(JST.user_profile_edit({model: this.model}));
 		return this;
 	},
@@ -344,6 +350,14 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 		gravatar_url = Gravatar(this.model.escape("email"));
 		this.model.avatar = gravatar_url;
 	},	
+	
+	checkUser: function (){
+		if ((this.loggedUser != undefined && this.loggedUser.id == this.model.id) || this.loggedUser.get("role") == "admins"){
+			this.model.canEdit = true;
+		}else{
+			this.model.canEdit = false;
+		}
+	},
 	
 	save: function (e){
 		var view = this;
@@ -355,6 +369,7 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 			last_name: $("input[name=last_name]", this.el).val(),
 			twitter: $("input[name=twitter]", this.el).val(),
 			bio: $("input[name=bio]", this.el).val(),
+			role: $("select[name=role]", this.el).val(),
 		};
 		this.model.save(data, {
 			success: function (model, response){
