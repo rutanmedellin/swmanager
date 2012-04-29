@@ -1,0 +1,125 @@
+<form class="well form-horizontal">
+  <p>
+  	<h1 class="name">
+  		<% if (model.escape("first_name") != "") { %>
+			<%= model.escape("first_name") %> <%= model.escape("last_name") %>
+		<% }else{ %>
+			<%= model.escape("email") %>
+  		<% } %>		  		
+	</h1>  	
+  </p>
+	
+  <fieldset>
+	  <div class="control-group email">
+	      <label class="control-label">
+	          Email
+	      </label>
+	      <div class="controls">
+	          <input class="disabled" type="text" placeholder="<%= model.escape('email') %>" disabled="">
+	      </div>
+	  </div>  	
+  	  <div class="control-group avatar">
+          <label class="control-label">
+          	  Avatar
+          </label>
+          <div class="controls">
+        	<img src="<%= model.avatar %>" /> <span class="help-inline">Gravatar Picture '<a href="http://gravatar.com/emails/">(change)</a>'</span>      
+          </div>
+      </div>
+     
+      <div class="control-group first-name">
+          <label class="control-label">
+              First Name
+          </label>
+          <div class="controls">
+              <input type="text" name="first_name" value=""><span class="help-inline">*</span>
+			  <p class="help-block hide">First name required</p>
+          </div>
+      </div>
+      <div class="control-group last-name">
+          <label class="control-label">
+              Last Name
+          </label>
+          <div class="controls">
+              <input type="text" name="last_name" value=""><span class="help-inline">*</span>
+			  <p class="help-block hide">Last name required</p>
+          </div>
+      </div>
+      <div class="control-group twitter">
+          <label class="control-label">
+              Twitter
+          </label>
+          <div class="controls">
+          	<div class="input-prepend">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="">
+			  <p class="help-block">Twitter username without @</p>
+			</div>
+          </div>
+      </div>
+      <div class="control-group bio">
+          <label class="control-label">
+              Bio
+          </label>
+          <div class="controls">
+              <textarea rows="5" name="bio" placeholder="A little resume about you.."></textarea>
+          </div>
+      </div>
+	  
+	  <% if (model.canEdit) { %>
+		  <div class="control-group role">
+	          <label class="control-label">
+	              Role
+	          </label>
+	          <div class="controls">
+	              <select name="role">
+	              	<% if(model.escape("role") == "admins") { %>
+						<option value="admins" selected>Admin</option>
+						<option value="participant">Participant</option>				
+					<% }else{ %>
+						<option value="admins">Admin</option>
+						<option value="participant" selected>Participant</option>
+					<% } %>              	
+	              </select>
+	          </div>
+	      </div>
+	 <% }else { %>
+	 	  <label class="control-label">
+	              Role
+	          </label>
+	          <div class="controls">
+	              <select name="role" disabled="">
+	              	<% if(model.escape("role") == "admins") { %>
+						<option value="admins" selected>Admin</option>
+						<option value="participant">Participant</option>				
+					<% }else{ %>
+						<option value="admins">Admin</option>
+						<option value="participant" selected>Participant</option>
+					<% } %>              	
+	              </select>
+	          </div>
+	 <% } %>
+      
+      <div class="form-actions">
+          <button class="btn btn-primary save">
+              Save changes
+          </button>
+          <button class="btn cancel">
+              Cancel
+          </button>
+      </div>
+  </fieldset>
+  
+</form>
+
+<div class="modal hide fade" id="save-error">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Save data fail</h3>
+  </div>
+  <div class="modal-body">
+    <p>Try again later.</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>

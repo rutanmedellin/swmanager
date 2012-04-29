@@ -12,6 +12,10 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'': "index",
 		'!/admin': "admin", 
 		'!/admin/admin-users': "adminUsers",
+		'!/admin/account': "adminAccount",
+		'!/admin/user/:id': "adminAccount",
+		'!/user/registration?:params': "registration",
+		'!/admin/user/:id/edit': "adminEditProfile",
 	},
 	
 	/*
@@ -47,6 +51,94 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	adminUsers: function (){
 		this.admin("admin-users");
 		Data.Views.admin = new App.Views.AdminUsers({el: ".admin-content"});
-	}
+	},
+	
+	adminAccount: function (id){
+		this.admin("account");
+		if (id != undefined){
+			user = new App.Models.User();
+			user.id = id;
+			log(id);
+			user.fetch({
+				success: function (model, response){
+					Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: model});
+				},
+				error: function (model, response){
+						
+				}
+			});
+		}else{
+			Data.Views.admin = new App.Views.UserProfileView({el: ".admin-content", model: Data.Models.account});
+		}
+				
+	},
+	
+	adminEditProfile: function (id){
+		this.admin();
+		if ((id != undefined && id == Data.Models.account.id) || Data.Models.account.get("role") == "admin"){
+			user = new App.Models.User();
+			user.id = id;
+			user.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.UserProfileEditView({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	/*
+	 * Registration route
+	 */
+	
+	registration: function (params){
+		var code = (params.code != undefined ? params.code : "");
+		var email = (params.email != undefined ? params.email : "");
+		new App.Views.UserRegistration({el: "#wrapper", code: code, email: email});
+		
+	},
+	
+	_extractParameters: function(route, fragment) {
+        var result = route.exec(fragment).slice(1);
+		result = _.map(result, function (param){
+			if (param.match(/^([A-Za-z0-9]+)=([A-Za-z0-9]+)/)){
+				return deparam(param);
+			}else{
+				return param;
+			}
+		});
+		return result;
+    }
 	
 });
+
+/*
+ * To be able to get the ?key=value after #..
+ * see http://stackoverflow.com/questions/7445353/key-value-pair-params-handling-in-backbone-js-router and
+ * http://jsfiddle.net/avrelian/h5wL2/ 
+ * 
+ * in th jsfiddle open firebug to see the result :P
+ */
+
+var deparam = function(paramString){
+    var result = {};
+	log(paramString);
+    if( ! paramString){
+        return result;
+    }
+    $.each(paramString.split('&'), function(index, value){
+        if(value){
+            var param = value.split('=');
+            result[param[0]] = param[1];
+        }
+    });
+    return result;
+};
+

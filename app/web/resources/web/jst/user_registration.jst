@@ -1,0 +1,50 @@
+<div class="container">
+    <form class="form-horizontal registrtion-form span4">
+        <fieldset>
+        	<input type="hidden" id="code" name="code" value="<%= model.escape('code') %>" />
+            <legend>
+                User Registration
+            </legend>            
+            <div class="control-group" id="email-ctrl">
+                <label class="control-label" for="inputWarning">
+                    Email
+                </label>
+                <div class="controls">
+                    <input type="text" id="email" name="email" value="<%= model.escape('email') %>"><span class="help-inline hide">Bad email address</span>
+                </div>
+            </div>
+            <div class="control-group" id="password-ctrl">
+                <label class="control-label" for="inputError">
+                    Password
+                </label>
+                <div class="controls">
+                    <input type="password" id="password" name="password"><span class="help-inline hide">Password required</span>
+                </div>
+            </div>
+            <div class="control-group" id="repassword-ctrl">
+                <label class="control-label" for="inputSuccess">
+                    Confirm Password
+                </label>
+                <div class="controls">
+                    <input type="password" id="repassword" name="repassword" value=""><span class="help-inline hide">Password does note match!</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary signup">Sign up</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<div class="modal hide fade" id="registration-code-error">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Invalid Invitation code</h3>
+  </div>
+  <div class="modal-body">
+    <p>Talk with the admin in order to receive a new invitation.</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>

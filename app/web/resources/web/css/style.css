@@ -63,3 +63,28 @@
 @media (min-width: 1200px) {
  
 }
+
+/*
+ * Registration form centralized
+ */
+.registrtion-form {
+	float: none;
+	margin: 0 auto;
+}
+
+/*
+ * forms labels 
+ */
+
+.control-label {
+	font-weight: bold;
+}
+
+
+/*
+ * tiwtter input control when prenped @ for responsive render
+ */
+
+.twitter-input {
+	width: 80%;
+}

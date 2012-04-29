@@ -1,6 +1,7 @@
 describe("Admin Users view", function (){
 	beforeEach(function (){
 		setFixtures('<div class="admin-content"></div>');
+		$.fn.modal = function (options){};
 		this.view = new App.Views.AdminUsers({el: ".admin-content"});		
 	});
 	
@@ -30,7 +31,7 @@ describe("Admin Users view", function (){
 		it("should render a input with role as name and type hidden and value admin", function (){
 			expect($("input[name=role]", this.el).length).toEqual(1);
 			expect($("input[name=role]", this.el).attr("type")).toEqual("hidden");
-			expect($("input[name=role]", this.el).val()).toEqual("admin");
+			expect($("input[name=role]", this.el).val()).toEqual("admins");
 		});
 		
 		it("should render a button with Invite as text and invite class ", function (){
@@ -83,7 +84,7 @@ describe("Admin Users view", function (){
 			expect(this.invitationStub.calledOnce).toEqual(true);
 			expect(this.spy_save.calledOnce).toEqual(true);
 			expect(this.spy_save.getCall(0).args[0].email).toEqual("juanpgaviria@gmail.com");
-			expect(this.spy_save.getCall(0).args[0].role).toEqual("admin");			
+			expect(this.spy_save.getCall(0).args[0].role).toEqual("admins");			
 		});
 	});
 	
