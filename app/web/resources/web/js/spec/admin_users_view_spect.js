@@ -38,8 +38,8 @@ describe("Admin Users view", function (){
 			expect($(".invite", this.el).html()).toEqual("Invite");
 		});
 		
-		it("should render a div with class admin-users", function (){
-			expect($(".admin-users", this.el).length).toEqual(1);
+		it("should render a div with class admin-users-list", function (){
+			expect($(".admin-users-list", this.el).length).toEqual(1);
 		});
 		
 	});
