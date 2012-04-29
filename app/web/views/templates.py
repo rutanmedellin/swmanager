@@ -27,4 +27,3 @@ def jst(request):
         RequestContext(request, {'templates': templates}),
         mimetype="text/javascript",
         )
-

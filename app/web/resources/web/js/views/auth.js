@@ -37,7 +37,7 @@ App.Views.Auth = Backbone.View.extend({
 				}
 			});
 			$(this.el).html(JST.logout({model: Data.Models.session}));
-			$("#main-menu").append('<li><a href="#!/admin">Admin</a></li>');
+			$("#main-menu").append('<li class="nav-item admin"><a href="#!/admin">Admin</a></li>');
 			
 		}
 	},

@@ -72,3 +72,15 @@ App.Models.BaseModel = Backbone.Model.extend({
 App.Collections.BaseCollection = Backbone.Collection.extend({
 	sync : SWMSync,
 });
+
+
+/*
+ * Gravatar calculator
+ */
+var Gravatar = function (email){
+	email = email;
+	email = email.toLowerCase();
+	md5 = MD5(email);
+	return "http://www.gravatar.com/avatar/" + md5;
+};
+ 
