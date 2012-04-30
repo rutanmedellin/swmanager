@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Swmanager by rutanmedellin</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Swmanager</h1>
+        <p>Startup Weekend Event Manager</p>
+        <p class="view"><a href="https://github.com/rutanmedellin/swmanager">View the Project on GitHub <small>rutanmedellin/swmanager</small></a></p>
+        <ul>
+          <li><a href="https://github.com/rutanmedellin/swmanager/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/rutanmedellin/swmanager/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/rutanmedellin/swmanager">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Startup Weekend Event Manager <a href="http://travis-ci.org/rutanmedellin/swmanager"><img src="https://secure.travis-ci.org/rutanmedellin/swmanager.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<h2>Project Resources</h2>
+
+<ul>
+<li>Pivotal Tracker is used for managing stories: <a href="https://www.pivotaltracker.com/projects/496655">https://www.pivotaltracker.com/projects/496655</a>
+</li>
+<li>Git is used for source control, canonical repo is at <a href="https://github.com/rutanmedellin/swmanager">https://github.com/rutanmedellin/swmanager</a>
+</li>
+<li>Travis is used for Continuous Integration, CI server: [<img src="https://secure.travis-ci.org/rutanmedellin/swmanager.png?branch=master" alt="Build Status">]</li>
+<li>Staging server is at <a href="http://swmanager.herokuapps.com">http://swmanager.herokuapps.com</a>
+</li>
+<li>Admin web console is at <a href="http://swmanager.herokuapps.com/admin">http://swmanager.herokuapps.com/admin</a>
+</li>
+<li>For full documentation go to read the docs: <a href="http://readthedocs.org/projects/startup-weekend-manager/">http://readthedocs.org/projects/startup-weekend-manager/</a>
+</li>
+</ul><h2>Convention for commits</h2>
+
+<p>Prepend the Pivotal Tracker story number to each commit.  E.g.,:</p>
+
+<p>[15123994] Adding token authentication</p>
+
+<h2>Git practices</h2>
+
+<ul>
+<li>Use git pull --rebase instead of git --pull wherever possible to avoid meaningless merge commits in the project history.</li>
+<li>Squash and cherrypick are your friends :) <a href="https://makandracards.com/makandra/527-squash-several-git-commits-into-a-single-commit">https://makandracards.com/makandra/527-squash-several-git-commits-into-a-single-commit</a>
+</li>
+</ul><h2>Virtualenv</h2>
+
+<p>This project uses Virtualenv and distribute/pip to install dependencies. Make sure you have virtualenv installed locally and maybe virtualenv_wrapper. For more info go to the wiki section and check development enviroment deployment topics.</p>
+
+<h2>MongoDB and Django</h2>
+
+<p>This project runs django and tastypie specific version to work with mongodb. See the requirements.txt file for details.</p>
+
+<h2>Unit testing</h2>
+
+<p>This project uses unittest2 with nose as runner trough TOX.</p>
+
+<h3>Running tests</h3>
+
+<pre><code>$ cd /path/to/project/root/
+$ tox
+</code></pre>
+
+<h2>Authors and contributors</h2>
+
+<p>Thanks to the <a href="http://coffeegrid.org">http://coffeegrid.org</a> team (<a href="https://github.com/scastillo" class="user-mention">@scastillo</a>, <a href="https://github.com/juanpgaviria" class="user-mention">@juanpgaviria</a>) and <a href="http://www.rutanmedellin.org">http://www.rutanmedellin.org</a> (<a href="https://github.com/rutanmedellin" class="user-mention">@rutanmedellin</a>) to start this project.</p>
+
+<h1>Handcrafted with love in <a href="http://en.wikipedia.org/wiki/Medell%C3%ADn">the eternal spring city</a>
+</h1>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/rutanmedellin">rutanmedellin</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31283297-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
