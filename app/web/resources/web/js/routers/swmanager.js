@@ -1,3 +1,4 @@
+var a;
 App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	initialize: function(){
@@ -82,7 +83,8 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	adminEditProfile: function (id){
 		this.admin();
-		if ((id != undefined && id == Data.Models.account.id) || Data.Models.account.get("role") == "admin"){
+		a = id;		
+		if ((id != undefined && id == Data.Models.account.id) || Data.Models.account.get("role") == "admins"){
 			user = new App.Models.User();
 			user.id = id;
 			user.fetch({
