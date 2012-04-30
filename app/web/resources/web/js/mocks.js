@@ -99,6 +99,17 @@ $.ajax = function ajaxMock(params) {
 								ideas: "/api/v1/ideas/?user=6", 
 								projects: "/api/v1/projects/?user=6",
 								"resource_uri": "/api/v1/users/6/"
+							},							
+							{
+						  		id: 7, 
+						  		username: "castillobuiles",
+								email: "castillobuiles@gmail.com",
+								role: "participants",
+								first_name: "Sebastian",
+								last_name: "Castillo",
+								ideas: "/api/v1/ideas/?user=6", 
+								projects: "/api/v1/projects/?user=6",
+								"resource_uri": "/api/v1/users/6/"
 							}
 					]
 				};
@@ -147,7 +158,7 @@ $.ajax = function ajaxMock(params) {
 						}, {
 							"id": "4f84b22ade94e65caf000013",
 							"email": "elizabeth.ramirez@rutanmedellin.org",
-							"role": "participant",
+							"role": "participants",
 							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/",
 						}]
 					};

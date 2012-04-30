@@ -44,11 +44,11 @@ describe("Invitation Model", function (){
 			Data.Models.invitation.bind("error", spy);
 			
 			// set empty fields to trigger error
-			Data.Models.invitation.set({role: "admin"});
+			Data.Models.invitation.set({role: "admins"});
 			expect(spy.called).toBeTruthy();
 			
 			// set with required fields
-			Data.Models.invitation.set({role: "admin", email: "admin@example.com"}); 
+			Data.Models.invitation.set({role: "admins", email: "admin@example.com"}); 
 			expect(spy.calledTwice).toEqual(false);		
 		});
 		
@@ -65,7 +65,7 @@ describe("Invitation Model", function (){
 			expect(spy.called).toBeTruthy();
 			
 			// set with required fields
-			Data.Models.invitation.set({email: "admin@example.com", role: "admin"}); 
+			Data.Models.invitation.set({email: "admin@example.com", role: "admins"}); 
 			expect(spy.calledTwice).toEqual(false);		
 		});
 		
@@ -77,7 +77,7 @@ describe("Invitation Model", function (){
 			Data.Models.invitation.bind("error", spy);
 			
 			// set with required fields
-			Data.Models.session.set({email: "admin@example.com", role: "admin"}); 
+			Data.Models.invitation.set({email: "admin@example.com", role: "admins"}); 
 			expect(spy.called).toEqual(false);		
 		});
 		
@@ -90,7 +90,7 @@ describe("Invitation Model", function (){
 			this.invitation_data = {
 				"id":123, 
 				"email": "juanpgaviria@gmail.com",
-				"role": "admin"		 
+				"role": "admins"		 
 			};
 			
 			// set server response
@@ -103,7 +103,7 @@ describe("Invitation Model", function (){
 			);
 			
 			// set data and save to create the post request
-			Data.Models.invitation.set({email: "juanpgaviria@gmail.com", role: "admin"});
+			Data.Models.invitation.set({email: "juanpgaviria@gmail.com", role: "admins"});
 			
 			Data.Models.invitation.bind('change', callback);
 			Data.Models.invitation.save();
