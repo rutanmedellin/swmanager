@@ -30,7 +30,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'users'
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
         resource_uri_fieldname = 'username'
         allowed_methods = ['get', 'put', 'post']
         always_return_data = True
