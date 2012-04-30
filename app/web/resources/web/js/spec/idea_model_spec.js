@@ -15,7 +15,7 @@ describe("Idea Model", function (){
 			if (!url){
 				url = typeof Data.Models.idea.url == "string" && Data.Models.idea.url;
 			}
-			expect(url).toEqual('/api/v1/ideas');
+			expect(url).toEqual('/api/v1/ideas/');
 	    });
 	});
 	
@@ -30,7 +30,7 @@ describe("Idea Model", function (){
 			if (!url){
 				url = typeof Data.Models.idea.url == "string" && Data.Models.idea.url;
 			}
-			expect(url).toEqual('/api/v1/ideas/1');
+			expect(url).toEqual('/api/v1/ideas/1/');
 	    });
 	});
 	
@@ -126,7 +126,7 @@ describe("Idea Model", function (){
 			// set server response
 			this.server.respondWith(
 				"POST", 
-				"/api/v1/ideas",
+				"/api/v1/ideas/",
 				[200, {"Content-Type": "application/json"},
 				JSON.stringify(this.idea_data)
 				]

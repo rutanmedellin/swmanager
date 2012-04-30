@@ -15,7 +15,7 @@ describe("Account Model", function (){
 			if (!url){
 				url = typeof Data.Models.account.url == "string" && Data.Models.account.url;
 			}
-			expect(url).toEqual('/api/v1/users');
+			expect(url).toEqual('/api/v1/users/');
 	    });
 	});
 	
@@ -30,7 +30,7 @@ describe("Account Model", function (){
 			if (!url){
 				url = typeof Data.Models.account.url == "string" && Data.Models.account.url;
 			}
-			expect(url).toEqual('/api/v1/users/1');
+			expect(url).toEqual('/api/v1/users/1/');
 	    });
 	});
 	
@@ -57,7 +57,7 @@ describe("Account Model", function (){
 			
 			this.server.respondWith(
 				"GET", 
-				"/api/v1/users/1",
+				"/api/v1/users/1/",
 				[
 					200, 
 					{"Content-Type": "application/json"},
@@ -109,7 +109,7 @@ describe("Account Model", function (){
 			
 			this.server.respondWith(
 				"POST", 
-				"/api/v1/users",
+				"/api/v1/users/",
 				[
 					200, 
 					{"Content-Type": "application/json"},
@@ -129,7 +129,7 @@ describe("Account Model", function (){
 			expect(this.server.requests[0].method)
 				.toEqual("POST");
 			expect(this.server.requests[0].url)
-				.toEqual("/api/v1/users");
+				.toEqual("/api/v1/users/");
 		});
 		
 		it("Should return like fetch", function (){

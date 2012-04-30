@@ -86,7 +86,7 @@ describe("Users collection", function (){
 			// fake response
 			this.server.respondWith(
 			    "GET",
-			    "/api/v1/users",
+			    "/api/v1/users/",
 			    [
 			      200,
 			      {"Content-Type": "application/json"},
@@ -109,7 +109,7 @@ describe("Users collection", function (){
 			expect(this.server.requests[0].method)
 				.toEqual("GET");
 			expect(this.server.requests[0].url)
-				.toEqual("/api/v1/users");
+				.toEqual("/api/v1/users/");
 		});
 		
 		it("should parse invitations from the response", function (){
