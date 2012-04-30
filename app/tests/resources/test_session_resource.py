@@ -25,7 +25,7 @@ class TestSessionResource(SWManagerTestCase):
         """
         username = 'tonymontana'
         user = User.Factory(username=username)
-        response = self.client.post('/api/v1/public/sessions/', 
+        response = self.client.post('/api/v1/sessions/', 
                                     content_type='application/json',
                                     **self.get_auth_headers(username=username, password='123'))
         logging.info(response)
