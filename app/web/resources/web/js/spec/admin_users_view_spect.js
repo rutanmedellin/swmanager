@@ -53,7 +53,7 @@ describe("Admin Users view", function (){
 			this.invitation_data = {
 				"id":123, 
 				"email": "juanpgaviria@gmail.com",
-				"role": "admin"
+				"role": "admins"
 			};
 		  
 			this.server.respondWith(
