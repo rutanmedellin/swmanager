@@ -25,4 +25,7 @@ class TestInvitationResource(SWManagerTestCase):
         logging.info(response)
         self.assertEqual(response.status_code, 201)
         response.json = json.loads(response.content)
-        self.fail("Partially implemented test")
+        self.assertEqual(response.json['to_object_id'], self.groups[data['role']].id)
+        self.assertIn('id', response.json)
+        self.assertIn('email', response.json)
+        self.assertEqual(response.json['email'], data['email'])
