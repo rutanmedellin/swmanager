@@ -12,10 +12,12 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'': "index",
 		'!/admin': "admin", 
 		'!/admin/admin-users': "adminUsers",
+		'!/admin/participants': "adminParticipants",
 		'!/admin/account': "adminAccount",
 		'!/admin/user/:id': "adminAccount",
 		'!/user/registration?:params': "registration",
 		'!/admin/user/:id/edit': "adminEditProfile",
+		'!/admin/ideas': "adminIdeas",
 	},
 	
 	/*
@@ -50,7 +52,12 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	adminUsers: function (){
 		this.admin("admin-users");
-		Data.Views.admin = new App.Views.AdminUsers({el: ".admin-content"});
+		Data.Views.admin = new App.Views.AdminUsers({el: ".admin-content", role: "admins"});
+	},
+	
+	adminParticipants: function (){
+		this.admin("participants")
+		Data.Views.admin = new App.Views.AdminUsers({el: ".admin-content", role: "participants"});
 	},
 	
 	adminAccount: function (id){
@@ -93,6 +100,12 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 			$(".admin-content").html(JST.permission_denied());
 		}
 	},
+	
+	adminIdeas: function (){
+		this.admin("ideas");
+		Data.Views.admin = new App.Views.AdminIdeas({el: ".admin-content"});
+	},
+	
 	
 	/*
 	 * Registration route

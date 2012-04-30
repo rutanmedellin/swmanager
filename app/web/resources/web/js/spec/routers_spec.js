@@ -25,9 +25,21 @@ describe("AppRouter routes", function() {
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
+  it("fires the admin route with a #!/admin/participants hash", function (){
+  	this.router.bind("route:adminParticipants", this.routeSpy);
+    this.router.navigate("/#!/admin/participants", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
   it("fires the admin route with a #!/admin/admin-users hash", function (){
   	this.router.bind("route:adminUsers", this.routeSpy);
     this.router.navigate("/#!/admin/admin-users", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
+  it("fires the admin route with a #!/admin/ideas hash", function (){
+  	this.router.bind("route:adminIdeas", this.routeSpy);
+    this.router.navigate("/#!/admin/ideas", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
