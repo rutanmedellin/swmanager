@@ -369,7 +369,8 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 			last_name: $("input[name=last_name]", this.el).val(),
 			twitter: $("input[name=twitter]", this.el).val(),
 			bio: $("input[name=bio]", this.el).val(),
-			role: $("select[name=role]", this.el).val(),
+			role: $("select[name=role]", this.el).val()
+			,
 		};
 		this.model.save(data, {
 			success: function (model, response){
@@ -416,6 +417,192 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 }); 
  
 
+// Ideas admin view
 
+App.Views.Idea = Backbone.View.extend({
+	tagName: "tr",
+	className: "idea",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'detail', 'remove');
+		this.render();	
+	},
+	
+	events: {
+		"click": 	"detail",
+		"click .remove":	"remove",
+	},
+
+	render: function(){
+		this.avatar()				
+		$(this.el).html(JST.idea_row({model: this.model}));
+		return this;
+	},
+	
+	// get the gravatar url
+	avatar: function (){
+		gravatar_url = Gravatar(this.model.get("participant").email);
+		this.model.avatar = gravatar_url;
+	},	
+	
+	detail: function (e){
+		if($(".remove", this.el).is(':visible')){
+			e.preventDefault();
+			return;	
+		}else{
+			this.profile();
+		}
+	},
+	
+	profile: function (){
+		location = "/#!/admin/idea/" + this.model.id;
+	},
+	
+	remove: function (){
+		log('remove');
+	}
+	
+}); 
+
+
+
+App.Views.Ideas = Backbone.View.extend({
+	tagName: "div",
+	className: "participants-ideas",
+	
+	initialize: function (){
+		_.bindAll(this, 'render', 'addOne', 'addAll');
+		this.render();	
+	},
+	
+	events: {
+		"click .refresh":	"render",
+	},
+	
+	render: function(){				
+		$(this.el).html(JST.admin_ideas_list());
+		this.addAll();
+	},
+	
+	addOne: function (user){
+		var view = new App.Views.Idea({model: user});
+		$('table', this.el).append(view.render().el);
+	},
+	
+	addAll: function (){
+		this.collection.each(this.addOne);	
+	}
+	
+});
+ 
+
+
+App.Views.AdminIdeas = Backbone.View.extend({
+
+	initialize: function (){
+		_.bindAll(this, 'render');
+		this.render();	
+	},
+	
+	events: {
+		"click .create":	"create",
+	},
+	
+	render: function(){				
+		var view = this;
+		$(this.el).html(JST.admin_ideas());
+		
+		/*
+		 * Load form and admin user invitations
+		 */
+		
+		$(".idea-form", this.el).html(JST.idea_create_form());
+		
+		$('#create-idea', this.el).on('hidden', function (e) {
+  			$('.create-idea-twisty').html("Create new Idea");
+		});
+		
+		$('#create-idea', this.el).on('shown', function (e) {
+  			$('.create-idea-twisty').html("Hide form");
+		});
+							
+		Data.Collections.ideas = new App.Collections.Ideas();
+		Data.Collections.ideas.fetch(
+			{
+				success: function (collection, response){
+					view.ideas = new App.Views.Ideas({el: ".participants-ideas", collection: collection});
+				},
+				error: function (collection, response){
+					
+				}
+			}
+		);		
+	},
+	
+	create: function (e){
+		var view = this;
+		try{
+			e.preventDefault();	
+		}catch (e){}
+		var name = $("input[name=name]", this.el).val();
+		var participant = $("input[name=participant]", this.el).val();;
+		var description = $("textarea[name=description]", this.el).val();;
+		var idea = new App.Models.Idea();
+		idea.save({
+				name: name,
+				participant: participant, 
+				description: description	
+			},{
+				success: function(model, response){
+					$('#send-success').modal('show');
+					view.clean_fields();
+					view.validate({});
+					view.ideas.addOne(model);
+				},
+				error: function(model, response){			
+					if (response.status != undefined){
+						errors = response.ideas;
+						if (response.status != 400){
+							$('#send-error').modal('show');
+						}
+					}else{
+						errors = response;
+					}
+					view.validate(errors);
+				}
+		});
+	},
+	
+	clean_fields: function (){		
+		var name = $("input[name=name]", this.el).val("");
+		var participant = $("input[name=participant]", this.el).val("");
+		var description = $("textarea[name=description]", this.el).val("");
+	},
+	
+	validate: function (errors){
+		var view = this;
+		if (errors.name != undefined){
+			//$(".help-block", ".name").removeClass("hide");
+			$(".name", view.el).addClass("error");
+		}else{
+			//$(".help-block", ".first-name").addClass("hide");
+			$(".name", view.el).removeClass("error");
+		}
+		if (errors.participant != undefined){
+			//$(".help-block", ".last-name").removeClass("hide");
+			$(".participant", view.el).addClass("error");
+		}else{
+			//$(".help-block", ".last-name").addClass("hide");
+			$(".participant", view.el).removeClass("error");
+		}
+		if (errors.description != undefined){
+			//$(".help-block", ".last-name").removeClass("hide");
+			$(".description", view.el).addClass("error");
+		}else{
+			//$(".help-block", ".last-name").addClass("hide");
+			$(".description", view.el).removeClass("error");
+		}
+	}
+}); 
 
 
