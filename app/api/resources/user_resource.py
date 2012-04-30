@@ -4,11 +4,13 @@ from tastypie.resources import ModelResource
 from tastypie.throttle import CacheThrottle
 from tastypie.authorization import Authorization
 from tastypie.validation import Validation
+from tastypie import fields
+
 
 from activation.models import Invitation
 
 from core.models import UserProfile
-
+from api.fields import ListField
 
 class UserResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -24,8 +26,12 @@ class UserResourceValidation(Validation):
 
         return errors
 
+
 class UserResource(ModelResource):
 #TODO: public user
+
+    # Workaround for non-rel ListField
+    roles = ListField()
 
     class Meta:
         queryset = User.objects.all()
@@ -46,3 +52,6 @@ class UserResource(ModelResource):
                                                  password=bundle.data['password'],
                                                  invitation=bundle.data['invitation'])
         return bundle
+
+    def dehydrate_roles(self, bundle):
+        return bundle.obj.get_profile().roles
