@@ -12,7 +12,7 @@ App.Models.Invitation = App.Models.BaseModel.extend({
 		if(attrs.email == undefined || !attrs.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)){
 			return "Email is requiered";
 		}
-		if(attrs.role == undefined || !attrs.role.match(/^(admin|participant)$/)){
+		if(attrs.role == undefined || !attrs.role.match(/^(admins|participants)$/)){
 			return "Type of inivtation required";
 		}
 	},
