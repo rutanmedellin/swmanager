@@ -1,8 +1,8 @@
 App.Models.Invitation = App.Models.BaseModel.extend({
 	url: function (){
-		var base = "/api/v1/invitations"
+		var base = "/api/v1/invitations/"
 		if (this.isNew()) return base;
-    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id + "/";
 	},
 	
 	validate: function(attrs){
