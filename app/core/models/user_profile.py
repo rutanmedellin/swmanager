@@ -6,6 +6,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
 from django_mongodb_engine.contrib import MongoDBManager
+from djangotoolbox.fields import ListField, DictField
 
 from tastypie.models import create_api_key
 
@@ -32,6 +33,7 @@ class UserProfile(models.Model):
     " Profile of an user."
     
     user = models.ForeignKey(User)
+    roles = ListField()
 
     #: Is a public profile.
     is_public = models.BooleanField("Public", default=True)
@@ -47,6 +49,7 @@ class UserProfile(models.Model):
 #: Signals
 
 models.signals.post_save.connect(create_api_key, sender=User)
+
 
 @receiver(post_save, sender=User, dispatch_uid='create_profile')
 def create_profile(sender, instance, created, **kwargs):
@@ -68,4 +71,7 @@ def send_invitation_key(sender, invitation, **kwargs):
 def add_role(sender, invitation, user, **kwargs):
     if isinstance(invitation.to, Group):
         user.groups.add(invitation.to)
+        profile = user.get_profile()
+        profile.roles.append(invitation.to.name)
+        user.save()
         print "###### %s added to %s :)" % (user, invitation.to)

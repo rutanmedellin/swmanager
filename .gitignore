@@ -18,3 +18,4 @@ dist/
 app/local_settings.py
 app/covhtml
 app/media/
+app/cover

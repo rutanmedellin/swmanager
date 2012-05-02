@@ -1,6 +1,6 @@
 App.Collections.Ideas = App.Collections.BaseCollection.extend({
 	model: App.Models.Idea,
-	url: "/api/v1/ideas",
+	url: "/api/v1/ideas/",
 	parse: function (response){
 		this.limit = response.meta.limit;
 		this.next = response.meta.next;

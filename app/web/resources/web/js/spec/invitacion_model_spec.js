@@ -15,7 +15,7 @@ describe("Invitation Model", function (){
 			if (!url){
 				url = typeof Data.Models.invitation.url == "string" && Data.Models.invitation.url;
 			}
-			expect(url).toEqual('/api/v1/invitations');
+			expect(url).toEqual('/api/v1/invitations/');
 	    });
 	});
 	
@@ -30,7 +30,7 @@ describe("Invitation Model", function (){
 			if (!url){
 				url = typeof Data.Models.invitation.url == "string" && Data.Models.invitation.url;
 			}
-			expect(url).toEqual('/api/v1/invitations/1');
+			expect(url).toEqual('/api/v1/invitations/1/');
 	    });
 	});
 	
@@ -96,7 +96,7 @@ describe("Invitation Model", function (){
 			// set server response
 			this.server.respondWith(
 				"POST", 
-				"/api/v1/invitations",
+				"/api/v1/invitations/",
 				[200, {"Content-Type": "application/json"},
 				JSON.stringify(this.invitation_data)
 				]

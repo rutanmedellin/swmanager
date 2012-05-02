@@ -22,4 +22,6 @@ class TestUserResource(SWManagerTestCase):
         response = self.client.post('/api/v1/users/', data=json.dumps(data), content_type='application/json')
         logging.info(response)
         self.assertEqual(response.status_code, 201)
-        self.fail("Partially implemented test")
+        response.json = json.loads(response.content)
+        print response.json
+        self.assertIn('participants', response.json.get('roles'))
