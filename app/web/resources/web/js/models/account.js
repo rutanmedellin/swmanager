@@ -1,8 +1,8 @@
 App.Models.Session = App.Models.BaseModel.extend({
 	url: function (){
-		var base = "/api/v1/sessions"
+		var base = "/api/v1/sessions/"
 		if (this.isNew()) return base;
-    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id + "/";
 	},
 	
 	validate: function (attrs){
@@ -22,9 +22,9 @@ App.Models.Session = App.Models.BaseModel.extend({
 
 App.Models.Account = App.Models.BaseModel.extend({
 	url: function (){
-		var base = "/api/v1/users"
+		var base = "/api/v1/users/"
 		if (this.isNew()) return base;
-    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    	return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id + "/";
 	},
 	
 	parse: function (response){

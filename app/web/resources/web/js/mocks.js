@@ -11,20 +11,20 @@ $.ajax = function ajaxMock(params) {
 	};
 	
 	if (params.type == 'POST' || params.type == 'post') {
-		if (params.url.match('.*sessions$') != null) {
+		if (params.url.match('.*sessions/$') != null) {
 			var d = $.parseJSON(params.data);
 			
 			data = {
 				'id': 1,
 				'key': "12345",
-				'resource_uri': "/api/v1/sessions/1",
+				'resource_uri': "/api/v1/sessions/1/",
 				'user': {
 					'id': 1,
 					'username': d.username,
 					'first_name': "juan",
 					'last_name': "gaviria",
 					'email': "juanpgaviria@gmail.com",
-					'resource_uri': "/api/v1/users/1"
+					'resource_uri': "/api/v1/users/1/"
 				}
 			};
 			response = data;
@@ -33,24 +33,24 @@ $.ajax = function ajaxMock(params) {
 			};
 		}
 		else 
-			if (params.url.match('.*users$') != null) {
+			if (params.url.match('.*users/$') != null) {
 				var d = $.parseJSON(params.data);
 				data = {
 					'id': 1,
-					'resource_uri': "/api/v1/users/1",
+					'resource_uri': "/api/v1/users/1/",
 					'username': d.email,
 					'first_name': "",
 					'last_name': "",
 					'email': d.email,
 				};
 		}else 
-			if (params.url.match('.*invitations$') != null) {
+			if (params.url.match('.*invitations/$') != null) {
 					data = {
 						id: 1,
 						email: "juanpgaviria@gmail.com",
 						role: "admins",
 					};
-	    }else if (params.url.match('.*ideas$') != null) {
+	    }else if (params.url.match('.*ideas/$') != null) {
 			var d = $.parseJSON(params.data);
 			data = {
 				"id": "4f84b22ade94e65caf000011",
@@ -68,7 +68,7 @@ $.ajax = function ajaxMock(params) {
 			};
 		}
 	}else if (params.type == 'GET' || params.type == 'get') {
-		if (params.url.match('.*users$') != null) {
+		if (params.url.match('.*users/$') != null) {
 				data = {
 					"meta": {
 						"limit": 20,
@@ -115,10 +115,10 @@ $.ajax = function ajaxMock(params) {
 				};
 
 				response = data;
-			}else if (params.url.match('.*users/[0-9]+$') != null) {
+			}else if (params.url.match('.*users/[0-9]+/$') != null) {
 				data = {
 					'id': 1,
-					'resource_uri': "/api/v1/users/1",
+					'resource_uri': "/api/v1/users/1/",
 					'username': "juanpgaviria",
 					'first_name': "juan",
 					'last_name': "gaviria",
@@ -131,7 +131,7 @@ $.ajax = function ajaxMock(params) {
 				};
 				response = data;
 			}
-			else if (params.url.match('.*invitations$') != null) {
+			else if (params.url.match('.*invitations/$') != null) {
 					data = {
 						"meta": {
 							"limit": 20,
@@ -163,7 +163,7 @@ $.ajax = function ajaxMock(params) {
 						}]
 					};
 					response = data;
-			}else if (params.url.match('.*ideas$') != null) {
+			}else if (params.url.match('.*ideas/$') != null) {
 					data = {
 						"meta": {
 							"limit": 20,
@@ -230,7 +230,7 @@ $.ajax = function ajaxMock(params) {
 				}
 		}
 		else if (params.type == 'PUT' || params.type == 'put') {
-				if (params.url.match('.*invitations/[A-Za-z0-9]+$') != null) {
+				if (params.url.match('.*invitations/[A-Za-z0-9]+/$') != null) {
 					log("invitation");
 					var d = $.parseJSON(params.data);
 					data = {
@@ -241,11 +241,11 @@ $.ajax = function ajaxMock(params) {
 					};
 					response = data;
 				}
-				if (params.url.match('.*users/[A-Za-z0-9]+$') != null) {
+				if (params.url.match('.*users/[A-Za-z0-9]+/$') != null) {
 					var d = $.parseJSON(params.data);
 					data = {
 						'id': d.id,
-						'resource_uri': "/api/v1/users/" + d.id,
+						'resource_uri': "/api/v1/users/" + d.id + "/",
 						'username': d.username,
 						'first_name': d.first_name,
 						'last_name': d.last_name,
@@ -261,7 +261,7 @@ $.ajax = function ajaxMock(params) {
 
 		}
 		else if (params.type == 'DELETE' || params.type == 'delete') {
-			if (params.url.match('.*invitations/[A-Za-z0-9]+$') != null) {
+			if (params.url.match('.*invitations/[A-Za-z0-9]+/$') != null) {
 				data = {
 				};
 				response = data;

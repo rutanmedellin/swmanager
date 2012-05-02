@@ -103,7 +103,7 @@ describe("Ideas collection", function (){
 			// fake response
 			this.server.respondWith(
 			    "GET",
-			    "/api/v1/ideas",
+			    "/api/v1/ideas/",
 			    [
 			      200,
 			      {"Content-Type": "application/json"},
@@ -126,7 +126,7 @@ describe("Ideas collection", function (){
 			expect(this.server.requests[0].method)
 				.toEqual("GET");
 			expect(this.server.requests[0].url)
-				.toEqual("/api/v1/ideas");
+				.toEqual("/api/v1/ideas/");
 		});
 		
 		it("should parse ideas from the response", function (){

@@ -59,7 +59,7 @@ describe("Invition pending collection", function (){
 			// fake response
 			this.server.respondWith(
 			    "GET",
-			    "/api/v1/invitations",
+			    "/api/v1/invitations/",
 			    [
 			      200,
 			      {"Content-Type": "application/json"},
@@ -82,7 +82,7 @@ describe("Invition pending collection", function (){
 			expect(this.server.requests[0].method)
 				.toEqual("GET");
 			expect(this.server.requests[0].url)
-				.toEqual("/api/v1/invitations");
+				.toEqual("/api/v1/invitations/");
 		});
 		
 		it("should parse invitations from the response", function (){

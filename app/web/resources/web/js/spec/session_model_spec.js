@@ -14,7 +14,7 @@ describe("Session Model", function() {
 			if (!url){
 				url = typeof Data.Models.session.url == "string" && Data.Models.session.url;
 			}
-			expect(url).toEqual('/api/v1/sessions');
+			expect(url).toEqual('/api/v1/sessions/');
 	    });
 	});
 	
@@ -25,7 +25,7 @@ describe("Session Model", function() {
 			if (!url){
 				url = typeof Data.Models.session.url == "string" && Data.Models.session.url;
 			}
-			expect(url).toEqual('/api/v1/sessions/1');
+			expect(url).toEqual('/api/v1/sessions/1/');
 	    });
 	});
 	
@@ -97,7 +97,7 @@ describe("Session Model", function() {
 			// set server response
 			this.server.respondWith(
 				"POST", 
-				"/api/v1/sessions",
+				"/api/v1/sessions/",
 				[200, {"Content-Type": "application/json"},
 				JSON.stringify(this.session_data)
 				]

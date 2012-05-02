@@ -1,6 +1,6 @@
 App.Collections.Invitations = App.Collections.BaseCollection.extend({
 	model: App.Models.Invitation,
-	url: "/api/v1/invitations",
+	url: "/api/v1/invitations/",
 	parse: function (response){
 		this.limit = response.meta.limit;
 		this.next = response.meta.next;
