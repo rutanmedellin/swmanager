@@ -1,6 +1,6 @@
 App.Collections.Users = App.Collections.BaseCollection.extend({
 	model: App.Models.User,
-	url: "/api/v1/users",
+	url: "/api/v1/users/",
 	parse: function (response){
 		this.limit = response.meta.limit;
 		this.next = response.meta.next;
