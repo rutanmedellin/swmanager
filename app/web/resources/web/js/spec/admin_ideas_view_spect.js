@@ -2,6 +2,8 @@ describe("Admin Ideas view", function (){
 	beforeEach(function (){
 		setFixtures('<div class="admin-content"></div>');
 		$.fn.modal = function (options){};
+		$.fn.typeahead = function (options){};
+		
 		this.view = new App.Views.AdminIdeas({el: ".admin-content"});		
 	});
 	
@@ -25,7 +27,7 @@ describe("Admin Ideas view", function (){
 		
 		it("should render a input with participante as name and type text", function (){
 			expect($("input[name=participant]", this.el).length).toEqual(1);
-			expect($("input[name=participant]", this.el).attr("type")).toEqual("text");
+			expect($("input[name=participant]", this.el).attr("type")).toEqual("hidden");
 		});
 		
 		it("should render a input with name as name and type text", function (){
