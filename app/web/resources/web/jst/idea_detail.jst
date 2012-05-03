@@ -1,0 +1,18 @@
+<h1><%= model.escape("name") %></h1>
+<h6>
+	<span>by <img src="<%= model.avatar %>" width="30px"> <%= model.get("participant").first_name %> <%= model.get("participant").last_name %></span>
+</h6>
+<hr />
+<p>
+	<%= model.escape("description") %>
+</p>
+
+<div class="btn-group">
+	<% if (model.canEdit) { %>
+		<a class="edit" href="#!/admin/idea/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+		<a class="remove"><i class="icon-trash"></i>delete</a>
+	<% }else{ %>  
+		<a class="btn btn-primary vote">Vote</a>
+	<% } %> 
+</div>
+
