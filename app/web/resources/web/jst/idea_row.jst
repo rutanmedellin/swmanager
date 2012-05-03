@@ -6,7 +6,11 @@
 <p>
 <%= model.escape("description") %>	
 </p>
-<div class="btn-group">
-	<a class="btn btn-primary vote">Vote</a> 
+<div class="btn-group visible-desktop">
+	<% if (model.canEdit) { %>
+		<a class="edit" href="#!/admin/idea/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+	<% }else{ %>
+		<a class="btn btn-primary vote">Vote</a>
+	<% } %> 
 </div>
 </td>
