@@ -140,7 +140,7 @@ $.ajax = function ajaxMock(params) {
 					'last_name': "gaviria",
 					'email': "juanpgaviria@gmail.com",
 					'twitter': "juanpgaviria", 
-					'role': "admins",
+					'role': "participants",
 					'bio': "hola mundo",
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
@@ -199,6 +199,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/1/",	
 							},
 							"name": "test",
+							"votes": 0,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
 						}, {
@@ -212,6 +213,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/2/",	
 							},
 							"name": "test",
+							"votes": 10,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -225,6 +227,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/3/",	
 							},
 							"name": "test",
+							"votes": 15,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -238,6 +241,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/4/",	
 							},
 							"name": "test",
+							"votes": 2,
 							"description": "test",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}]
@@ -255,6 +259,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/1/",	
 							},
 							"name": "test",
+							"votes": 2,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
 					  };
