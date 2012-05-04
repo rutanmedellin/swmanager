@@ -7,6 +7,10 @@
 	<%= model.escape("description") %>
 </p>
 
+<p>
+<small>Votes </small> <span class="badge badge-inverse">	<%= model.get("votes") %></span>
+</p>
+
 <div class="btn-group">
 	<% if (model.canEdit) { %>
 		<a class="edit" href="#!/admin/idea/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
