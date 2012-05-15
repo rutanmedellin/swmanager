@@ -60,6 +60,19 @@ describe("AppRouter routes", function() {
     this.router.navigate("/#!/admin/user/1/edit", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
+
+  it("fires the admin route with a #!/admin/idea/:id hash", function (){
+  	this.router.bind("route:adminIdea", this.routeSpy);
+    this.router.navigate("/#!/admin/idea/1", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
+  it("fires the admin route with a #!/admin/idea/:id/edit hash", function (){
+  	this.router.bind("route:adminIdeaEdit", this.routeSpy);
+    this.router.navigate("/#!/admin/idea/1/edit", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
   
   it("fires the registration route with a #!/user/registration hash", function (){
   	this.router.bind("route:registration", this.routeSpy);

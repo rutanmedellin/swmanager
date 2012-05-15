@@ -79,7 +79,8 @@ describe("Ideas collection", function (){
 								last_name: "gaviria",
 								"resource_uri": "/api/v1/users/1/",	
 							},
-							name: "test", 
+							name: "test",
+							votes: 0, 
 							description: "test",
 							resource_uri: "/api/v1/ideas/1/"			
 						},
@@ -94,6 +95,7 @@ describe("Ideas collection", function (){
 								"resource_uri": "/api/v1/users/1/",	
 							},
 							name: "test", 
+							votes: 11,
 							description: "test",
 							resource_uri: "/api/v1/ideas/2/"
 						}
@@ -137,6 +139,13 @@ describe("Ideas collection", function (){
 				.toEqual(this.fixtures.objects.length);
 			expect(this.ideas.get("1").get('participant').id).
 				toEqual(this.fixtures.objects[0].participant.id);
+		});
+		
+		it("should order models by votes", function() {
+			this.ideas.fetch();
+			this.server.respond();
+			expect(this.ideas.at(0).id).toEqual(2);
+			expect(this.ideas.at(1).id).toEqual(1);
 		});
 		
 	});

@@ -1,12 +1,13 @@
-<a class="btn btn-large btn-primary hidden-phone hidden-tablet create-idea-twisty" data-toggle="collapse" data-target="#create-idea">Create new Idea</a>
-<a class="btn btn-large btn-primary visible-desktop visible-phone visible-tablet create-idea-twisty" data-toggle="collapse" data-target="#create-idea">Create new Idea</a>
-<div class="collapse out" id="create-idea">
+
+<h1 >New Idea</h1>
+
 <form class="well form-horizontal">   	 
    <fieldset>
 	    <div class="control-group participant">
 	      <label class="control-label" for="participant">Participant</label>
 	      <div class="controls">
-	        <input type="text" class="" id="participant" name="participant" value="" placeholder="Search by name or email"><span class="help-inline">*</span>
+	        <img src="http://gravatar.com/avatar/doesnotexist?d=retro" class="gravatar"/> <input type="text" name="search-participant" autocomplete="off" value="" placeholder="Type participant's name or email"><span class="help-inline">*</span>
+			<input type="hidden" name="participant" value="">
 	        <p class="help-block">Owner of the idea</p>
 	      </div>
 	    </div>
@@ -29,4 +30,3 @@
 	    </div>
    </fieldset>
 </form>
-</div>

@@ -66,6 +66,22 @@ $.ajax = function ajaxMock(params) {
 				"description": d.description, 
  				"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 			};
+		}else if (params.url.match('.*votes/$') != null) {
+			var d = $.parseJSON(params.data);
+			data = {
+				"id": "4f84b22ade94e65caf000011",
+				"user": {
+					id: d.user,
+					email: "castillobuiles@gmail.com",
+					username: "castillobuiles@gmail.com",
+					first_name: "sebastian",
+					last_name: "castillo",
+					"resource_uri": "/api/v1/users/2/",	
+				},
+				"type": d.type,
+				"type_id": d.type_id, 
+ 				"resource_uri": "/api/v1/votes/4f84b22ade94e65caf000011/",
+			};
 		}
 	}else if (params.type == 'GET' || params.type == 'get') {
 		if (params.url.match('.*users/$') != null) {
@@ -124,7 +140,7 @@ $.ajax = function ajaxMock(params) {
 					'last_name': "gaviria",
 					'email': "juanpgaviria@gmail.com",
 					'twitter': "juanpgaviria", 
-					'role': "admins",
+					'role': "participants",
 					'bio': "hola mundo",
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
@@ -183,6 +199,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/1/",	
 							},
 							"name": "test",
+							"votes": 0,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
 						}, {
@@ -196,6 +213,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/2/",	
 							},
 							"name": "test",
+							"votes": 10,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -209,6 +227,7 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/3/",	
 							},
 							"name": "test",
+							"votes": 15,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -222,11 +241,28 @@ $.ajax = function ajaxMock(params) {
 								"resource_uri": "/api/v1/users/4/",	
 							},
 							"name": "test",
+							"votes": 2,
 							"description": "test",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}]
 					};
 					response = data;
+				}else if (params.url.match('.*ideas/[A-Za-z0-9]+/$') != null) {
+					data = {
+							"id": "4f84b22ade94e65caf000010",
+							"participant": {
+								id: "1",
+								email: "juanpgaviria@gmail.com",
+								username: "juanpgaviria@gmail.com",
+								first_name: "juan",
+								last_name: "gaviria",
+								"resource_uri": "/api/v1/users/1/",	
+							},
+							"name": "test",
+							"votes": 2,
+							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
+							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
+					  };
 				}
 		}
 		else if (params.type == 'PUT' || params.type == 'put') {
@@ -241,23 +277,41 @@ $.ajax = function ajaxMock(params) {
 					};
 					response = data;
 				}
-				if (params.url.match('.*users/[A-Za-z0-9]+/$') != null) {
-					var d = $.parseJSON(params.data);
-					data = {
-						'id': d.id,
-						'resource_uri': "/api/v1/users/" + d.id + "/",
-						'username': d.username,
-						'first_name': d.first_name,
-						'last_name': d.last_name,
-						'email': "juanpgaviria@gmail.com",
-						'twitter': d.twitter, 
-						'role': d.role,
-						'bio': d.bio,
-						'ideas': "/api/v1/ideas/?user=" + d.id,
-						'projects': "/api/v1/projects/?user=" + d.id
-					};
-					response = data;
-				}
+				else 
+					if (params.url.match('.*users/[A-Za-z0-9]+/$') != null) {
+						var d = $.parseJSON(params.data);
+						data = {
+							'id': d.id,
+							'resource_uri': "/api/v1/users/" + d.id + "/",
+							'username': d.username,
+							'first_name': d.first_name,
+							'last_name': d.last_name,
+							'email': "juanpgaviria@gmail.com",
+							'twitter': d.twitter,
+							'role': d.role,
+							'bio': d.bio,
+							'ideas': "/api/v1/ideas/?user=" + d.id,
+							'projects': "/api/v1/projects/?user=" + d.id
+						};
+						response = data;
+					}
+					else if (params.url.match('.*ideas/[A-Za-z0-9]+/$') != null) {
+							var d = $.parseJSON(params.data);
+							data = {
+								"id": "4f84b22ade94e65caf000010",
+								"participant": {
+									id: "1",
+									email: "juanpgaviria@gmail.com",
+									username: "juanpgaviria@gmail.com",
+									first_name: "juan",
+									last_name: "gaviria",
+									"resource_uri": "/api/v1/users/1/",	
+								},
+								"name": d.name,
+								"description": d.description, 
+								"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",	
+							};
+					}
 
 		}
 		else if (params.type == 'DELETE' || params.type == 'delete') {
