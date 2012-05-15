@@ -8,7 +8,7 @@ describe("Admin Ideas view", function (){
 	});
 	
 	afterEach(function (){
-	
+		
 	});
 	
 	describe("Instantiation", function() {
@@ -118,6 +118,7 @@ describe("Admin Ideas view", function (){
 								"resource_uri": "/api/v1/users/1/",	
 							},
 							"name": "test",
+							"votes": 10,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
 						}, {
@@ -131,6 +132,7 @@ describe("Admin Ideas view", function (){
 								"resource_uri": "/api/v1/users/2/",	
 							},
 							"name": "test",
+							"votes": 20,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -144,6 +146,7 @@ describe("Admin Ideas view", function (){
 								"resource_uri": "/api/v1/users/3/",	
 							},
 							"name": "test",
+							"votes": 0,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}, {
@@ -157,6 +160,7 @@ describe("Admin Ideas view", function (){
 								"resource_uri": "/api/v1/users/4/",	
 							},
 							"name": "test",
+							"votes": 11,
 							"description": "test",
 							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 						}]

@@ -466,6 +466,7 @@ App.Views.Idea = Backbone.View.extend({
 	},
 	
 	vote: function (){
+		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
 			user: Data.Models.account.id,
@@ -473,6 +474,8 @@ App.Views.Idea = Backbone.View.extend({
 			type_id: this.model.id
 		},{
 			success: function (model, response){
+				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
+				view.render();
 				$("#vote-success").modal("show");
 			},
 			error: function (model, response){
@@ -847,6 +850,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 	},
 	
 	vote: function (){
+		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
 			user: Data.Models.account.id,
@@ -854,7 +858,11 @@ App.Views.AdminIdea = Backbone.View.extend({
 			type_id: this.model.id
 		},{
 			success: function (model, response){
+				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
+				view.render();
 				$("#vote-success").modal("show");
+				
+				
 			},
 			error: function (model, response){
 				$("#vote-error").modal("show");
