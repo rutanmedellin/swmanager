@@ -37,7 +37,7 @@ setup(name='swmanager',
             #'lxml',
             #'PyYAML',
             #'biplist',
-            
+            'django',
             #utilities
             #'django-extensions',
           ])
