@@ -28,12 +28,12 @@ gunicorn==0.14.2
 #
 
 mimeparse>=0.1.3
-#python-dateutil
-#lxml
-#PyYAML
-#biplist
+python-dateutil
+lxml
+PyYAML
+biplist
 
-#-e git+https://github.com/toastdriven/django-tastypie.git#egg=tastypie
+-e git+https://github.com/toastdriven/django-tastypie.git#egg=tastypie
 
 # testing stuff
 django-nose
