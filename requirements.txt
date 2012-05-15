@@ -51,6 +51,7 @@ factory_boy
 django-extensions
 
 # user invitation
+django-guardian
 -e git+http://github.com/scastillo/django-activation.git#egg=django-activation
 
 -e  git+https://github.com/juanpgaviria/django-jasmine.git#egg=django-jasmine
