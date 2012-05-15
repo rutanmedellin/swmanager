@@ -19,6 +19,8 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/user/registration?:params': "registration",
 		'!/admin/user/:id/edit': "adminEditProfile",
 		'!/admin/ideas': "adminIdeas",
+		'!/admin/idea/:id': "adminIdea",
+		'!/admin/idea/:id/edit': "adminIdeaEdit",
 	},
 	
 	/*
@@ -106,6 +108,48 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	adminIdeas: function (){
 		this.admin("ideas");
 		Data.Views.admin = new App.Views.AdminIdeas({el: ".admin-content"});
+	},
+	
+	adminIdea: function (id){
+		this.admin("ideas");
+		if (id != undefined){
+			idea = new App.Models.Idea();
+			idea.id = id;
+			idea.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.AdminIdea({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	adminIdeaEdit: function (id){
+		this.admin("ideas");
+		if (id != undefined){
+			idea = new App.Models.Idea();
+			idea.id = id;
+			idea.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.AdminIdeaEdit({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
 	},
 	
 	
