@@ -434,6 +434,7 @@ App.Views.Idea = Backbone.View.extend({
 	
 	events: {
 		"click": 	"detail",
+		"click .vote": "vote",
 		"click .remove":	"remove",
 	},
 
@@ -448,6 +449,22 @@ App.Views.Idea = Backbone.View.extend({
 		gravatar_url = Gravatar(this.model.get("participant").email);
 		this.model.avatar = gravatar_url;
 	},	
+	
+	vote: function (){
+		Data.Models.vote = new App.Models.Vote();
+		Data.Models.vote.save({
+			user: Data.Models.account.id,
+			type: "idea",
+			type_id: this.model.id
+		},{
+			success: function (model, response){
+				$("#vote-success").modal("show");
+			},
+			error: function (model, response){
+				$("#vote-error").modal("show");
+			}
+		});
+	},
 	
 	detail: function (e){
 		if($(".remove", this.el).is(':visible')){
@@ -488,8 +505,8 @@ App.Views.Ideas = Backbone.View.extend({
 		this.addAll();
 	},
 	
-	addOne: function (user){
-		var view = new App.Views.Idea({model: user});
+	addOne: function (idea){
+		var view = new App.Views.Idea({model: idea});
 		$('table', this.el).append(view.render().el);
 	},
 	

@@ -66,6 +66,22 @@ $.ajax = function ajaxMock(params) {
 				"description": d.description, 
  				"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
 			};
+		}else if (params.url.match('.*votes/$') != null) {
+			var d = $.parseJSON(params.data);
+			data = {
+				"id": "4f84b22ade94e65caf000011",
+				"user": {
+					id: d.user,
+					email: "castillobuiles@gmail.com",
+					username: "castillobuiles@gmail.com",
+					first_name: "sebastian",
+					last_name: "castillo",
+					"resource_uri": "/api/v1/users/2/",	
+				},
+				"type": d.type,
+				"type_id": d.type_id, 
+ 				"resource_uri": "/api/v1/votes/4f84b22ade94e65caf000011/",
+			};
 		}
 	}else if (params.type == 'GET' || params.type == 'get') {
 		if (params.url.match('.*users/$') != null) {
