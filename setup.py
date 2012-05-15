@@ -29,15 +29,15 @@ setup(name='swmanager',
 
       ],
       install_requires=[
-            'pymongo',
+#'pymongo',
             
             #tastie dependecies
-            'mimeparse>=0.1.3',
-            'python-dateutil',
-            'lxml',
-            'PyYAML',
-            'biplist',
+            #           'mimeparse>=0.1.3',
+            #'python-dateutil',
+            #'lxml',
+            #'PyYAML',
+            #'biplist',
             
             #utilities
-            'django-extensions',
+            #'django-extensions',
           ])
