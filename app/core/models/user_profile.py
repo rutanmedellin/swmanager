@@ -5,8 +5,8 @@ from django.dispatch import receiver
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
-from django_mongodb_engine.contrib import MongoDBManager
-from djangotoolbox.fields import ListField, DictField
+#from django_mongodb_engine.contrib import MongoDBManager
+#from djangotoolbox.fields import ListField, DictField
 
 from tastypie.models import create_api_key
 
@@ -19,10 +19,11 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class UserProfileManager(MongoDBManager):
+class UserProfileManager(models.Manager):
 
     def sign_up(self, username, email, password, invitation=None):
         " Signup an user to the system."
+
         user = User.objects.create_user(username, email, password)
         if invitation:
             invitation.accept(user)
@@ -33,7 +34,6 @@ class UserProfile(models.Model):
     " Profile of an user."
     
     user = models.ForeignKey(User)
-    roles = ListField()
 
     #: Is a public profile.
     is_public = models.BooleanField("Public", default=True)
@@ -48,9 +48,11 @@ class UserProfile(models.Model):
 
 #: Signals
 
+#: Create apikey for each user_profile created
 models.signals.post_save.connect(create_api_key, sender=User)
 
 
+#: Create a user_profile for each user created
 @receiver(post_save, sender=User, dispatch_uid='create_profile')
 def create_profile(sender, instance, created, **kwargs):
     " Create an user profile after an user is created."
@@ -71,7 +73,5 @@ def send_invitation_key(sender, invitation, **kwargs):
 def add_role(sender, invitation, user, **kwargs):
     if isinstance(invitation.to, Group):
         user.groups.add(invitation.to)
-        profile = user.get_profile()
-        profile.roles.append(invitation.to.name)
         user.save()
         print "###### %s added to %s :)" % (user, invitation.to)
