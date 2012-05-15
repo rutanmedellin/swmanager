@@ -35,4 +35,7 @@ class InvitationResource(ModelResource):
                                                           to=group,
                                                           email=bundle.data['email'])
         return bundle
+
+    def dehydrate_to_object_id(self, bundle):
+        return int(bundle.obj.to_object_id)
     
