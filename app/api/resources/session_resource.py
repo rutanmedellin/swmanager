@@ -37,10 +37,14 @@ class PublicSessionResource(ModelResource):
     def obj_create(self, bundle, request=None, **kwargs):
         """
         Create a new session
+
+        By now just get the static one but it's gonna change
+        on further version when time expiration implemented
         """
 
         self.is_valid(bundle, request=request)
-        bundle.obj = ApiKey.objects.create(user=request.user)
+        print "APIKEYS: %s" % [(k.id, k.user_id) for k in ApiKey.objects.all()]
+        bundle.obj = ApiKey.objects.get(user=request.user)
         return bundle
 
     #def dehydrate_resource_uri(self, bundle):
