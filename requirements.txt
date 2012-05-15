@@ -28,7 +28,7 @@ lxml
 PyYAML
 biplist
 
--e git+https://github.com/toastdriven/django-tastypie.git#egg=tastypie
+#-e git+https://github.com/toastdriven/django-tastypie.git#egg=tastypie
 
 # testing stuff
 django-nose
