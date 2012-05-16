@@ -54,4 +54,4 @@ class UserResource(ModelResource):
         return bundle
 
     def dehydrate_roles(self, bundle):
-        return bundle.obj.get_profile().roles
+        return bundle.obj.groups.all()
