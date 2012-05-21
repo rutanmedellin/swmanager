@@ -1,0 +1,23 @@
+<td>
+<h2 class="name"><a href="#!/admin/project/<%= model.id %>"><%= model.escape("name") %></a></h2> 
+
+<% if (model.get('image') != undefined) { %>
+	<div>
+		<img src="<%= model.get('image') %>" />
+	</div>
+<% } %>
+<p>
+<%= model.escape("description") %>	
+</p>
+<p>
+<small>Votes </small> <span class="badge badge-inverse">	<%= model.get("votes") %></span>
+</p>
+
+<div class="btn-group visible-desktop">
+	<% if (model.canEdit) { %>
+		<a class="edit" href="#!/admin/project/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+	<% }else{ %>
+		<a class="btn btn-primary vote">Vote</a>
+	<% } %> 
+</div>
+</td>

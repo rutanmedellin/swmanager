@@ -1,0 +1,104 @@
+<form class="well form-horizontal">
+  <p>
+  	<h1>
+  		Edit Project
+	</h1>  	
+  </p>
+	
+  <fieldset>
+	  <div class="control-group name">
+	      <label class="control-label">
+	          Name
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="name" value="<%= model.escape('name') %>" placeholder="Name of the idea">
+	      </div>
+	  </div>  	
+  	  <div class="control-group owner">
+          <label class="control-label">
+          	  Owner
+          </label>
+          <div class="controls">
+        	<img src="<%= model.get('owner').avatar %>" class="gravatar"/> <input type="text" name="search-owner" autocomplete="off" value="<%= model.get('owner').first_name %> <%= model.get('owner').last_name %>" placeholder="Type participant's name or email">
+			<input type="hidden" name="owner" value="<%= model.get('owner').id %>">						
+          </div>
+      </div>
+	  
+	  <div class="control-group twitter">
+          <label class="control-label">
+              Twitter
+          </label>
+          <div class="controls">
+          	<div class="input-prepend">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.get('twitter') %>">
+			  <p class="help-block">Twitter username without @</p>
+			</div>
+          </div>
+      </div>	  
+	  
+	  <div class="control-group image">
+          <label class="control-label">
+          	  Project Image
+          </label>
+          <div class="controls">
+        	<img src="<%= model.get('owner').avatar %>" class="project-img"/>
+			<p class="help-block">The project image is the profile picture of the project twitter account.</p>						
+          </div>
+      </div>
+	  
+	  
+	  <div class="control-group url">
+	      <label class="control-label">
+	          Project URL
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="url" value="<%= model.escape('url') %>" placeholder="Project URL">
+	      </div>
+	  </div>  	
+     
+      <div class="control-group description">
+          <label class="control-label">
+              Description
+          </label>
+          <div class="controls">
+              <textarea rows="5" name="description" placeholder="A little resume of the idea.."><%= model.escape("description") %></textarea>
+          </div>
+      </div>
+	        
+	  <div class="control-group team">
+	  		<label class="control-label">
+              Team
+          	</label>
+			<div class="controls members">
+	
+			</div>
+			<div class="controls">
+				<div class="input-append">
+        			<img src="http://gravatar.com/avatar/doesnotexist?d=retro&size=40" class="gravatar"/> <input type="text" name="search-member" autocomplete="off" value="" placeholder="Type participant's name or email"><button class="btn add-member" type="button">Add</button>
+					<input type="hidden" name="possible-member" value="">
+				</div>						
+          	</div>
+	  </div>		
+			
+      <div class="form-actions">
+          <button class="btn btn-primary save">Save</button>
+          <button class="btn cancel">
+              Cancel
+          </button>
+      </div>
+  </fieldset>
+  
+</form>
+
+<div class="modal hide fade" id="save-error">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Save data fail</h3>
+  </div>
+  <div class="modal-body">
+    <p>Try again later.</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
