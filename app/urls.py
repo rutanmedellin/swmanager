@@ -4,9 +4,15 @@ from tastypie.api import Api
 admin.autodiscover()
 
 from api.resources import UserResource
+from api.resources import PublicSessionResource
+from api.resources import InvitationResource
+from api.resources import IdeaResource
 
 swm_api = Api(api_name='v1')
 swm_api.register(UserResource())
+swm_api.register(PublicSessionResource())
+swm_api.register(InvitationResource())
+swm_api.register(IdeaResource())
 
 urlpatterns = patterns(
     '',
