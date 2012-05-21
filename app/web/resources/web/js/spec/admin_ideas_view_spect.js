@@ -25,7 +25,7 @@ describe("Admin Ideas view", function (){
 			expect($(".idea-form", this.el).length).toEqual(1);
 		});
 		
-		it("should render a input with participante as name and type text", function (){
+		it("should render a input with participante as name and type hidden", function (){
 			expect($("input[name=participant]", this.el).length).toEqual(1);
 			expect($("input[name=participant]", this.el).attr("type")).toEqual("hidden");
 		});
