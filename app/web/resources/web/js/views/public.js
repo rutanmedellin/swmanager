@@ -18,6 +18,9 @@ App.Views.PublicProjects = Backbone.View.extend({
 		Data.Collections.projects.fetch(
 			{
 				success: function (collection, response){
+					/*
+					 * the App.Views.Projects is taken from the admin view
+					 */
 					view.projects = new App.Views.Projects({el: ".participants-projects", collection: collection});
 				},
 				error: function (collection, response){
