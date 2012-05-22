@@ -1,10 +1,10 @@
-describe("Admin Ideas view", function (){
+describe("Admin Projects view", function (){
 	beforeEach(function (){
 		setFixtures('<div class="admin-content"></div>');
 		$.fn.modal = function (options){};
 		$.fn.typeahead = function (options){};
 		
-		this.view = new App.Views.AdminIdeas({el: ".admin-content"});		
+		this.view = new App.Views.AdminProjects({el: ".admin-content"});		
 	});
 	
 	afterEach(function (){
@@ -20,14 +20,14 @@ describe("Admin Ideas view", function (){
     
   	});
 	
-	describe("Render the new idea form", function (){
-		it("should render a div with class idea-form", function (){
-			expect($(".idea-form", this.el).length).toEqual(1);
+	describe("Render the new project form", function (){
+		it("should render a div with class project-form", function (){
+			expect($(".project-form", this.el).length).toEqual(1);
 		});
 		
-		it("should render a input with participante as name and type hidden", function (){
-			expect($("input[name=participant]", this.el).length).toEqual(1);
-			expect($("input[name=participant]", this.el).attr("type")).toEqual("hidden");
+		it("should render a input with owner as name and type hidden", function (){
+			expect($("input[name=owner]", this.el).length).toEqual(1);
+			expect($("input[name=owner]", this.el).attr("type")).toEqual("hidden");
 		});
 		
 		it("should render a input with name as name and type text", function (){
@@ -51,30 +51,37 @@ describe("Admin Ideas view", function (){
 			this.server = sinon.fakeServer.create();
 			
 			// session data
-			this.idea_data = {
+			this.project_data = {
 				"id":123, 
 				"name": "test",
-				"participant": "1",
+				"owner": {
+								id: "1",
+								email: "juanpgaviria@gmail.com",
+								username: "juanpgaviria@gmail.com",
+								first_name: "juan",
+								last_name: "gaviria",
+								"resource_uri": "/api/v1/users/1/",	
+							},
 				"description": "test",
-				"resource_uri": "/api/v1/ideas/123"
+				"resource_uri": "/api/v1/projects/123"
 			};
 		  
 			this.server.respondWith(
 				"POST", 
-				"/api/v1/ideas/",
+				"/api/v1/projects/",
 				[200, {"Content-Type": "application/json"},
-				JSON.stringify(this.idea_data)
+				JSON.stringify(this.project_data)
 				]
 			);
 			
-			this.idea = new App.Models.Idea();
-			this.ideaStub = sinon.stub(window.App.Models, "Idea")
-				.returns(this.idea);
+			this.project = new App.Models.Project();
+			this.projectStub = sinon.stub(window.App.Models, "Project")
+				.returns(this.project);
 				
-			this.spy_save = sinon.spy(this.idea, "save");
+			this.spy_save = sinon.spy(this.project, "save");
 			
 			$("input[name=name]", this.el).val("test");
-			$("input[name=participant]", this.el).val("1");
+			$("input[name=owner]", this.el).val("1");
 			$("textarea[name=description]", this.el).val("test");
 			this.view.create();
 			
@@ -82,24 +89,24 @@ describe("Admin Ideas view", function (){
 		
 		afterEach(function (){
 			this.server.restore();
-			this.ideaStub.restore();
+			this.projectStub.restore();
 		});
 		
-		it("Should create an invitation model and save it", function(){
-			expect(this.ideaStub.calledOnce).toEqual(true);
+		it("Should create a project model and save it", function(){
+			expect(this.projectStub.calledOnce).toEqual(true);
 			expect(this.spy_save.calledOnce).toEqual(true);
 			expect(this.spy_save.getCall(0).args[0].name).toEqual("test");
-			expect(this.spy_save.getCall(0).args[0].participant).toEqual("1");
+			expect(this.spy_save.getCall(0).args[0].owner).toEqual("1");
 			expect(this.spy_save.getCall(0).args[0].description).toEqual("test");			
 		});
 	});
 	
-	describe("Render the ideas list", function (){
+	describe("Render the projects list", function (){
 		beforeEach(function (){
 			this.server = sinon.fakeServer.create();
 			
-			// session data
-			this.ideas_collections = {
+			// projects data
+			this.projects_collections = {
 						"meta": {
 							"limit": 20,
 							"next": null,
@@ -109,7 +116,7 @@ describe("Admin Ideas view", function (){
 						},
 						"objects": [{
 							"id": "4f84b22ade94e65caf000010",
-							"participant": {
+							"owner": {
 								id: "1",
 								email: "juanpgaviria@gmail.com",
 								username: "juanpgaviria@gmail.com",
@@ -119,11 +126,12 @@ describe("Admin Ideas view", function (){
 							},
 							"name": "test",
 							"votes": 10,
+							"team": [],
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000010/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000010/",
 						}, {
 							"id": "4f84b22ade94e65caf000011",
-							"participant": {
+							"owner": {
 								id: "2",
 								email: "castillobuiles@gmail.com",
 								username: "castillobuiles@gmail.com",
@@ -133,11 +141,12 @@ describe("Admin Ideas view", function (){
 							},
 							"name": "test",
 							"votes": 20,
+							"team": [],
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
 						}, {
 							"id": "4f84b22ade94e65caf000012",
-							"participant": {
+							"owner": {
 								id: "3",
 								email: "manuelzs@gmail.com",
 								username: "manuelzs@gmail.com",
@@ -147,11 +156,12 @@ describe("Admin Ideas view", function (){
 							},
 							"name": "test",
 							"votes": 0,
+							"team": [],
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
 						}, {
 							"id": "4f84b22ade94e65caf000013",
-							"participant": {
+							"owner": {
 								id: "4",
 								email: "elizabeth.ramirez@rutanmedellin.org",
 								username: "elizabeth.ramirez@rutanmedellin.org",
@@ -161,77 +171,63 @@ describe("Admin Ideas view", function (){
 							},
 							"name": "test",
 							"votes": 11,
+							"team": [],
 							"description": "test",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
 						}]
 					};
 		  
 			this.server.respondWith(
 				"GET", 
-				"/api/v1/ideas/",
+				"/api/v1/projects/",
 				[200, {"Content-Type": "application/json"},
-				JSON.stringify(this.ideas_collections)
+				JSON.stringify(this.projects_collections)
 				]
 			);
 			
-			this.ideas = new App.Collections.Ideas();
-			this.ideas.fetch();
+			this.projects = new App.Collections.Projects();
+			this.projects.fetch();
 			this.server.respond();
 						
-			this.view.ideas = new App.Views.Ideas({el: ".participants-ideas", collection: this.ideas});				
+			this.view.projects = new App.Views.Projects({el: ".participants-projects", collection: this.projects});				
 		});
 		
 		afterEach(function (){
 			this.server.restore();
 		});
 		
-		it("Should render 4 ideas", function (){
-			expect($(".idea", this.view.ideas.el).length).toEqual(this.ideas_collections.objects.length);
+		it("Should render 4 projects", function (){
+			expect($(".project", this.view.projects.el).length).toEqual(this.projects_collections.objects.length);
 		});
 		
-		describe("Every idea item", function (){
+		describe("Every project item", function (){
 			beforeEach(function (){
-				this.idea = this.ideas.get(this.ideas_collections.objects[0].id);
-				this.view.ideas.idea = new App.Views.Idea({model: this.idea});
-				this.view.ideas.idea.render();
+				Data.Models.account = new App.Models.Account({
+					'id': 8,
+					'resource_uri': "/api/v1/users/8",
+					'username': "juanpgaviria",
+					'first_name': "juan",
+					'last_name': "gaviria",
+					'email': "juanpgaviria@gmail.com",
+					'twitter': "@juanpgaviria",
+					'role': "participants",
+					'bio': "hola mundo",
+					'ideas': "/api/v1/ideas/?user=8",
+					'projects': "/api/v1/projects/?user=8"
+				});
+				Data.Models.account.id = 8;
+				
+				this.project = this.projects.get(this.projects_collections.objects[0].id);
+				this.view.projects.project = new App.Views.Project({model: this.project});
+				this.view.projects.project.render();
 			});			
 			
 			it("should has a vote button", function (){
-				expect($(".vote", this.view.ideas.idea.el).length).toEqual(1);
+				expect($(".vote", this.view.projects.project.el).length).toEqual(1);
 			});
 			
-			describe("When idea vote method is call", function (){
-				beforeEach(function (){
-					
-					Data.Models.account = new App.Models.Account({
-						id: "1",
-						first_name: "juan",
-						last_name: "gaviria",
-						email: "juanpgaviria@gmail.com",
-						role: "participants",						
-					});
-					Data.Models.account.id = 1;
-					
-					this.vote = new App.Models.Vote();
-					this.voteStub = sinon.stub(window.App.Models, "Vote").returns(this.vote);
-					
-					this.spy_vote = sinon.spy(this.vote, "save");
-					
-					this.view.ideas.idea.vote();
-				});
+			describe("When projects vote method is call", function (){
 				
-				afterEach(function (){
-					Data.Models.account = undefined;
-					this.voteStub.restore();
-				});
-				
-				it("should create a vote model and save it", function (){
-					expect(this.voteStub.calledOnce).toEqual(true);
-					expect(this.spy_vote.getCall(0).args[0].user).toEqual(Data.Models.account.id);
-					expect(this.spy_vote.getCall(0).args[0].type).toEqual("idea");
-					expect(this.spy_vote.getCall(0).args[0].type_id).toEqual(this.idea.id);
-					
-				});
 			});
 		});
 			

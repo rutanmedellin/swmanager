@@ -32,7 +32,7 @@
               First Name
           </label>
           <div class="controls">
-              <input type="text" name="first_name" value=""><span class="help-inline">*</span>
+              <input type="text" name="first_name" value="<%= model.escape('first_name') %>"><span class="help-inline">*</span>
 			  <p class="help-block hide">First name required</p>
           </div>
       </div>
@@ -41,7 +41,7 @@
               Last Name
           </label>
           <div class="controls">
-              <input type="text" name="last_name" value=""><span class="help-inline">*</span>
+              <input type="text" name="last_name" value="<%= model.escape('last_name') %>"><span class="help-inline">*</span>
 			  <p class="help-block hide">Last name required</p>
           </div>
       </div>
@@ -51,7 +51,7 @@
           </label>
           <div class="controls">
           	<div class="input-prepend">
-          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.escape('twitter') %>">
 			  <p class="help-block">Twitter username without @</p>
 			</div>
           </div>
@@ -61,7 +61,7 @@
               Bio
           </label>
           <div class="controls">
-              <textarea rows="5" name="bio" placeholder="A little resume about you.."></textarea>
+              <textarea rows="5" name="bio" placeholder="A little resume about you.."><%= model.escape('bio') %></textarea>
           </div>
       </div>
 	  

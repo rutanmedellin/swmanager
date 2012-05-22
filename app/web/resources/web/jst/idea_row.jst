@@ -1,5 +1,5 @@
 <td>
-<h2><%= model.escape("name") %></h2> 
+<h2><a class="name" href="#!/admin/idea/<%= model.id %>"><%= model.escape("name") %></a></h2> 
 <h6>
 	<span>by <img src="<%= model.avatar %>" width="30px"> <%= model.get("participant").first_name %> <%= model.get("participant").last_name %></span>
 </h6>
