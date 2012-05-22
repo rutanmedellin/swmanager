@@ -20,3 +20,12 @@
 	<% } %> 
 </div>
 
+<% if (model.canEdit) { %>
+	<div class="btn-group">
+		<% if ( !model.get("isProject") ) { %>
+			<a class="btn btn-primary create-project">Create a project from this idea</a>
+		<% }else{ %>
+			<a class="btn disabled">There is a project runnig from this idea</a>
+		<% } %>			
+	</div>
+<% } %>
