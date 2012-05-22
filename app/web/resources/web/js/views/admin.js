@@ -439,6 +439,7 @@ App.Views.Idea = Backbone.View.extend({
 	
 	events: {
 		"click": 	"detail",
+		"click .name":	"profile",
 		"click .vote": "vote",
 		"click .edit": "edit",		
 		"click .remove":	"remove",
@@ -825,6 +826,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 	events: {
 		"click .vote":	"vote",
 		"click .remove": "remove",
+		"click .create-project": "createProject"
 	},
 	
 	render: function(){				
@@ -847,6 +849,36 @@ App.Views.AdminIdea = Backbone.View.extend({
 		}else{
 			this.model.canEdit = false;
 		}
+	},
+	
+	createProject: function (){
+		var view = this;
+		var project = new App.Models.Project();
+		project.save({
+			owner: {
+				id: this.model.get("participant").id
+			},
+			name: this.model.get("name"),
+			description: this.model.get("description"),
+		},{
+			success: function (model, response){
+				log("project created");
+				view.model.save({
+					isProject: true
+					},{
+					success: function (model, response){
+						
+					},
+					error: function (model, response){
+						
+					}
+							
+				});		
+			},
+			error: function (model, response) {
+				log("error creating project");
+			}
+		});
 	},
 	
 	vote: function (){
