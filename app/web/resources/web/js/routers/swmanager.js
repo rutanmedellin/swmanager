@@ -24,6 +24,8 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/projects': "adminProjects",
 		'!/admin/project/:id': "adminProject",
 		'!/admin/project/:id/edit': "adminProjectEdit",
+		'!/public/projects': "publicProjects",
+		'!/public/project/:id': "publicProject"
 	},
 	
 	/*
@@ -190,6 +192,36 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 				success: function(model, response){
 					Data.Views.admin = new App.Views.AdminProjectEdit({
 						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	/*
+	 * Public routes
+	 */
+	
+	publicProjects: function (){
+		this.navActive("projects");
+		Data.Views.public = new App.Views.PublicProjects({el: "#wrapper"});
+	},
+	
+	publicProject: function (id){
+		this.navActive("projects");
+		if (id != undefined){
+			project = new App.Models.Project();
+			project.id = id;
+			project.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.AdminProject({
+						el: "#wrapper",
 						model: model
 					});
 				},
