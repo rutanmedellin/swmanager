@@ -49,6 +49,8 @@ factory_boy
 
 #utilities
 django-extensions
+django-heroku-postgresify
+south
 
 # user invitation
 django-guardian
