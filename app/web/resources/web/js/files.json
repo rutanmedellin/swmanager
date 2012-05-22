@@ -24,6 +24,7 @@
 		"/media/web/js/collections/projects.js",		
 		"/media/web/js/views/auth.js",
 		"/media/web/js/views/admin.js",
+		"/media/web/js/views/public.js",
 		"/media/web/js/views/registration.js",
 		"/web/templates.js"
     ],
