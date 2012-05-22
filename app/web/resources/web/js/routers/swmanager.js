@@ -21,6 +21,9 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/ideas': "adminIdeas",
 		'!/admin/idea/:id': "adminIdea",
 		'!/admin/idea/:id/edit': "adminIdeaEdit",
+		'!/admin/projects': "adminProjects",
+		'!/admin/project/:id': "adminProject",
+		'!/admin/project/:id/edit': "adminProjectEdit",
 	},
 	
 	/*
@@ -139,6 +142,53 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 			idea.fetch({
 				success: function(model, response){
 					Data.Views.admin = new App.Views.AdminIdeaEdit({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	adminProjects: function (){
+		this.admin("projects");
+		Data.Views.admin = new App.Views.AdminProjects({el: ".admin-content"});
+	},
+	
+	adminProject: function (id){
+		this.admin("projects");
+		if (id != undefined){
+			project = new App.Models.Project();
+			project.id = id;
+			project.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.AdminProject({
+						el: ".admin-content",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	adminProjectEdit: function (id){
+		this.admin("projects");
+		if (id != undefined){
+			project = new App.Models.Project();
+			project.id = id;
+			project.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.AdminProjectEdit({
 						el: ".admin-content",
 						model: model
 					});

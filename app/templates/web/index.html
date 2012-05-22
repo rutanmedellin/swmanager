@@ -16,6 +16,8 @@
       }
     </style>
     <link href="/media/web/css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
+	
+	<link href="/media/web/css/jquery.tweet.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -45,9 +47,9 @@
           <a class="brand" href="#">SW Manager</a>
           <div class="nav-collapse">
             <ul class="nav" id="main-menu">
-              <li class="nav-item home"><a href="#">Home</a></li>			  
-              <li class="nav-item about"><a href="#about">About</a></li>
-              <li class="nav-item contact"><a href="#contact">Contact</a></li>
+              <li class="visible-desktop nav-item home"><a href="#">Home</a></li>			  
+              <li class="nav-item about visible-desktop"><a href="#about">About</a></li>
+              <li class="nav-item contact visible-desktop"><a href="#contact">Contact</a></li>
             </ul>
 			<ul class="nav pull-right">
 				<li id="login">
@@ -71,6 +73,10 @@
 		<footer>
 		    <p>
 		        &copy; Company 2012
+				<a href="http://twitter.com/share" class="twitter-share-button"
+         data-url="http://www.mysite.com"
+         data-text="example"
+         data-count="none">Tweet</a>
 		    </p>
 		</footer>
 	</div>
@@ -85,6 +91,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="/media/web/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 	<script type="text/javascript" src="/media/web/js/libs/jquery.mediaqueries.js"></script>
+	<script type="text/javascript" src="/media/web/js/libs/jquery.tweet.js"></script>
 
 	<!-- utilies -->
 	<script type="text/javascript" src="/media/web/js/plugins.js"></script>
@@ -121,12 +128,14 @@
 	<script src="/media/web/js/models/invitation.js"></script>
 	<script src="/media/web/js/models/user.js"></script>
 	<script src="/media/web/js/models/idea.js"></script>
+	<script src="/media/web/js/models/project.js"></script>
 	<script src="/media/web/js/models/vote.js"></script>
 	
 	<!-- collections -->
 	<script src="/media/web/js/collections/invitations.js"></script>
 	<script src="/media/web/js/collections/users.js"></script>
 	<script src="/media/web/js/collections/ideas.js"></script>
+	<script src="/media/web/js/collections/projects.js"></script>
 	
 	<!-- views -->
 	<script src="/media/web/js/views/auth.js"></script>
@@ -148,6 +157,14 @@
 			App.init();
 		});
 	</script>
+
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script type="text/javascript">
+      twttr.events.bind('tweet', function(event) {
+      alert("Lottery Entry Successful");
+       window.location = "http://www.mysite.com"
+      });
+    </script>
 
   </body>
 </html>

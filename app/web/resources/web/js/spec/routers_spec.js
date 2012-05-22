@@ -43,6 +43,12 @@ describe("AppRouter routes", function() {
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
+  it("fires the admin route with a #!/admin/projects hash", function (){
+  	this.router.bind("route:adminProjects", this.routeSpy);
+    this.router.navigate("/#!/admin/projects", true); 
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
   it("fires the admin route with a #!/admin/account hash", function (){
   	this.router.bind("route:adminAccount", this.routeSpy);
     this.router.navigate("/#!/admin/account", true);

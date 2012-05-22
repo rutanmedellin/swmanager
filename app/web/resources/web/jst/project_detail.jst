@@ -1,0 +1,56 @@
+<h1><%= model.escape("name") %></h1>
+<h3><a href="<%= model.escape("url") %>"><%= model.escape("url") %></a></h3>
+
+<div class="row">
+	<div class="span8">
+		<p>
+		<small>Votes </small> <span class="badge badge-inverse">   <%= model.get("votes") %></span>
+		</p>
+	</div>
+</div>
+
+<hr />
+<div class="row">
+	<div class="span2">
+		<img src="<%= model.get('image') %>" width="100px" />
+	</div>
+	<div class="span6 description">
+		<p>
+			<%= model.escape("description") %>
+		</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span8">
+		<div class="btn-group">
+			<% if (model.canEdit) { %>
+				<a class="edit" href="#!/admin/project/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+				<a class="remove"><i class="icon-trash"></i>delete</a>
+			<% }else{ %>  
+				<a class="btn btn-primary vote">Vote</a>
+			<% } %> 
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span8">
+		<h2>Team</h2>
+		<div class="team btn-toolbar">
+			<div class="btn-group member"><a href="#!/admin/user/<%= model.get('owner').id %>"><img src="<%= Gravatar(model.get('owner').email) %>?size=40" title="<%= model.get('owner').name %>"/></a></div>
+			<% _.each(model.get("team"),function (member){ %>
+					<div class="btn-group member"><a href="#!/admin/user/<%= member.id %>"><img src="<%= Gravatar(member.email) %>?size=40" title="<%= member.name %>"/></a></div>
+			<% }); %>	
+		</div>	
+	</div>
+</div>
+
+<div class="row">
+	<div class="span8">
+		<h2>Twitter @<%= model.get("twitter") %></h2>
+		<div class="tweets">
+			
+		</div>
+	</div>
+</div>

@@ -8,6 +8,11 @@ App.Collections.Users = App.Collections.BaseCollection.extend({
 		this.previous = response.meta.previous;
 		this.total_count = response.meta.total_count;
 		
+		objects = _.map(response.objects, function(user){
+			user.name = user.first_name + " " + user.last_name;
+			return user
+		});
+		
 		return response.objects;
 	},
 	limit: 0,

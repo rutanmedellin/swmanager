@@ -439,6 +439,7 @@ App.Views.Idea = Backbone.View.extend({
 	
 	events: {
 		"click": 	"detail",
+		"click .name":	"profile",
 		"click .vote": "vote",
 		"click .edit": "edit",		
 		"click .remove":	"remove",
@@ -598,7 +599,7 @@ App.Views.AdminIdeas = Backbone.View.extend({
 		 */
 		var cache = {},lastXhr;
 		$('input[name=search-participant]', this.el).typeahead({
-			property: ["email", "first_name"],
+			property: ["email", "name"],
 		    source: function (typeahead, query) {
 
                 var term = query;
@@ -825,6 +826,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 	events: {
 		"click .vote":	"vote",
 		"click .remove": "remove",
+		"click .create-project": "createProject"
 	},
 	
 	render: function(){				
@@ -847,6 +849,36 @@ App.Views.AdminIdea = Backbone.View.extend({
 		}else{
 			this.model.canEdit = false;
 		}
+	},
+	
+	createProject: function (){
+		var view = this;
+		var project = new App.Models.Project();
+		project.save({
+			owner: {
+				id: this.model.get("participant").id
+			},
+			name: this.model.get("name"),
+			description: this.model.get("description"),
+		},{
+			success: function (model, response){
+				log("project created");
+				view.model.save({
+					isProject: true
+					},{
+					success: function (model, response){
+						
+					},
+					error: function (model, response){
+						
+					}
+							
+				});		
+			},
+			error: function (model, response) {
+				log("error creating project");
+			}
+		});
 	},
 	
 	vote: function (){
@@ -917,7 +949,7 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
         var cache = {},lastXhr;
 		
 		$('input[name=search-participant]', this.el).typeahead({
-			property: ["email", "first_name"],
+			property: ["email", "name"],
 		    source: function (typeahead, query) {
 
                 var term = query;
@@ -1123,6 +1155,877 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
 			$(".description", view.el).addClass("error");
 		}else{
 			$(".description", view.el).removeClass("error");
+		}
+	}
+}); 
+
+
+
+/*
+ * 
+ * Projects views
+ * 
+ */
+
+App.Views.Project = Backbone.View.extend({
+	tagName: "tr",
+	className: "project",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'detail', 'remove');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
+		this.render();	
+	},
+	
+	events: {
+		"click": 	"detail",
+		"click .name":	"profile",
+		"click .vote": "vote",
+		"click .edit": "edit",		
+		"click .remove":	"remove",
+	},
+
+	render: function(){
+		this.checkUser();
+		$(this.el).html(JST.project_row({model: this.model}));
+		return this;
+	},
+	
+	avatar: function (email){
+		gravatar_url = Gravatar(email);
+		return gravatar_url;
+	},
+	
+	checkUser: function (){
+		var view = this;
+		if (this.loggedUser != undefined) {
+			team_member = $.grep(this.model.get("team"), function (item){if(item.id == view.loggedUser.id) return item;});			
+			if (team_member.length >= 1 || this.loggedUser.id == this.model.get("owner").id || this.loggedUser.get("role") == "admins") {
+				this.model.canEdit = true;
+			}
+			else {
+				this.model.canEdit = false;	
+			}
+		}else{
+			this.model.canEdit = false;
+		}
+	},
+	
+	vote: function (){
+		var view = this;
+		Data.Models.vote = new App.Models.Vote();
+		Data.Models.vote.save({
+			user: Data.Models.account.id,
+			type: "project",
+			type_id: this.model.id
+		},{
+			success: function (model, response){
+				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
+				view.render();
+				$("#vote-success").modal("show");
+			},
+			error: function (model, response){
+				$("#vote-error").modal("show");
+			}
+		});
+	},
+	
+	detail: function (e){
+		if($(".edit", this.el).is(':visible') || $(".vote", this.el).is(':visible') ){
+			log("entro");
+			e.preventDefault();
+			return;	
+		}else{
+			this.profile();
+		}
+	},
+	
+	edit: function (){
+		location = "/#!/admin/project/" + this.model.id + "/edit";	
+	},
+	
+	profile: function (){
+		location = "/#!/admin/project/" + this.model.id;
+	},
+	
+	remove: function (){
+		log('remove');
+	}
+	
+}); 
+
+
+
+App.Views.Projects = Backbone.View.extend({
+	tagName: "div",
+	className: "participants-projects",
+	
+	initialize: function (){
+		_.bindAll(this, 'render', 'addOne', 'addAll');
+		this.render();	
+	},
+	
+	events: {
+		"click .refresh":	"render",
+	},
+	
+	render: function(){				
+		$(this.el).html(JST.admin_projects_list());
+		this.addAll();
+	},
+	
+	addOne: function (project){
+		var view = new App.Views.Project({model: project});
+		$('table', this.el).append(view.render().el);
+	},
+	
+	addAll: function (){
+		this.collection.each(this.addOne);	
+	}
+	
+});
+
+
+App.Views.AdminProjects = Backbone.View.extend({
+
+	initialize: function (){
+		_.bindAll(this, 'render');
+		this.render();	
+	},
+	
+	events: {
+		"click .create":	"create",
+	},
+	
+	render: function(){				
+		var view = this;
+		$(this.el).html(JST.admin_projects());
+		
+		/*
+		 * Load form and projects list
+		 */
+		
+		$(".project-form", this.el).html(JST.project_create_form());
+							
+		Data.Collections.projects = new App.Collections.Projects();
+		Data.Collections.projects.fetch(
+			{
+				success: function (collection, response){
+					view.projects = new App.Views.Projects({el: ".participants-projects", collection: collection});
+				},
+				error: function (collection, response){
+					
+				}
+			}
+		);	
+
+		/*
+		 * This autocomplete was the result of the modification of 
+		 * https://github.com/twitter/bootstrap/issues/1336
+		 * 
+		 * http://stackoverflow.com/questions/9232748/twitter-bootstrap-typeahead-ajax-example
+		 * 
+		 * This can be add to bootstrap-typehead.js wiht a little bit of work :P
+		 * 
+		 * This autocomplete allows:
+		 * 		- custom items layout
+		 *  	- search matches result in more the one field when array you have of objes as response
+		 *      - cache querys
+		 * 
+		 */
+		var cache = {},lastXhr;
+		$('input[name=search-owner]', this.el).typeahead({
+			property: ["email", "name"],
+		    source: function (typeahead, query) {
+
+                var term = query;
+                if ( term in cache ) {
+                    typeahead.process( cache[ term ] );
+                    return;
+                }
+                var result = [];
+
+                var users = new App.Collections.Users();
+                users.fetch({
+					data: {
+						q: term,
+					},
+                    success: function (collection, data){
+                        cache[ term ] = data.objects;
+						lastXhr = data;						                        
+                        typeahead.process(data.objects);
+                    },
+                });
+    		},
+			select: function () {
+			      var val = JSON.parse(this.$menu.find('.active').attr('data-value'))
+			        , text
+			
+			      if (!this.strings) {
+				  	  if (typeof this.options.property != "string") {
+					  	text = val[val["match"]]
+					  }
+					  else {
+					  	text = val[this.options.property]
+					  }
+			      }else {text = val}
+			
+			      this.$element.val(text)
+				  this.$element.attr('data-value', JSON.stringify(val))
+				  avatar = Gravatar(val["email"])
+				  $(".gravatar", view.el).attr("src", avatar)
+				  $("input[name=owner]", view.el).val(val["id"])
+			      if (typeof this.onselect == "function")
+			          this.onselect(val)
+			
+			      return this.hide()
+      
+	     	},
+			process: function (results) {
+				var that = this
+					, items
+					, q
+				
+				if (results.length && typeof results[0] != "string")
+					this.strings = false
+				
+				this.query = this.$element.val()
+				
+				if (!this.query) {
+					return this.shown ? this.hide() : this
+				}
+				
+				items = _.map(results, function (item) {
+					if (!that.strings) 
+						if (typeof that.options.property != "string") {
+							match = _.find(that.options.property, function(property){
+								text = item[property]
+								if (that.matcher(text)) 
+									return text
+							})
+							if (match) {
+								item.match = match
+								return item
+							}
+						}
+						else {
+							text = item[that.options.property]
+							if (that.matcher(text)) 
+								return item
+						}
+				})
+				
+				items = _.filter(items, function (item){
+					return item != undefined;
+				})
+				
+				items = this.sorter(items)
+				
+				if (!items.length) {
+					return this.shown ? this.hide() : this
+				}
+				
+				return this.render(items.slice(0, this.options.items)).show()
+		    },
+			
+			sorter: function (items) {
+			    var beginswith = []
+			        , caseSensitive = []
+			        , caseInsensitive = []
+			        , item
+			        , sortby
+			
+			    while (item = items.shift()) {
+			        if (this.strings) 
+						sortby = item
+			        else
+						if (typeof this.options.property == "object")
+							sortby = item[item.match]
+						else 
+							sortby = item[this.options.property]
+			
+			        if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+			        else if (~sortby.indexOf(this.query)) caseSensitive.push(item)
+			        else caseInsensitive.push(item)
+			    }
+			
+			    return beginswith.concat(caseSensitive, caseInsensitive)
+			},
+			
+			render: function (items) {
+      			var that = this
+				
+				items = $(items).map(function (i, item) {
+					i = $(that.options.item).attr('data-value', JSON.stringify(item))
+					if (!that.strings)
+						if (typeof that.options.property == "object")
+							text = item[item.match]
+						else
+					    	text = item[that.options.property]
+					avatar = Gravatar(item.email)
+					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
+					log(i)
+					return i[0]
+				})
+				
+				items.first().addClass('active')
+				this.$menu.html(items)
+				return this
+		    }
+		});
+
+		
+			
+	},
+	
+	create: function (e){
+		var view = this;
+		try{
+			e.preventDefault();	
+		}catch (e){}
+		var name = $("input[name=name]", this.el).val();
+		var participant = $("input[name=owner]", this.el).val();;
+		var description = $("textarea[name=description]", this.el).val();;
+		var project = new App.Models.Project();
+		project.save({
+				name: name,
+				owner: participant, 
+				description: description	
+			},{
+				success: function(model, response){
+					$('#send-success').modal('show');
+					view.clean_fields();
+					view.validate({});
+					view.projects.addOne(model);
+				},
+				error: function(model, response){			
+					if (response.status != undefined){
+						errors = response.ideas;
+						if (response.status != 400){
+							$('#send-error').modal('show');
+						}
+					}else{
+						errors = response;
+					}
+					view.validate(errors);
+				}
+		});
+	},
+	
+	clean_fields: function (){		
+		var name = $("input[name=name]", this.el).val("");
+		var participant = $("input[name=owner]", this.el).val("");
+		var description = $("textarea[name=description]", this.el).val("");
+	},
+	
+	validate: function (errors){
+		var view = this;
+		if (errors.name != undefined){
+			$(".name", view.el).addClass("error");
+		}else{
+			$(".name", view.el).removeClass("error");
+		}
+		if (errors.participant != undefined){
+			$(".owner", view.el).addClass("error");
+		}else{
+			$(".owner", view.el).removeClass("error");
+		}
+	}
+}); 
+
+App.Views.AdminProject = Backbone.View.extend({
+	tagName: "div",
+	className: "admin-content",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'checkUser', 'vote');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser;	
+		}
+		this.render();	
+	},
+	
+	events: {
+		"click .vote":	"vote",
+		"click .remove": "remove",
+	},
+	
+	render: function(){				
+		var view = this;
+		this.checkUser();
+		$(this.el).html(JST.project_detail({model: this.model}));
+		$(".tweets", this.el).tweet({
+			join_text: "auto",
+			username: this.model.get("twitter"),
+			avatar_size: 48,
+			count: 5,
+			auto_join_text_default: "we said,",
+			auto_join_text_ed: "we",
+			auto_join_text_ing: "we were",
+			auto_join_text_reply: "we replied",
+			auto_join_text_url: "we were checking out",
+			loading_text: "loading tweets..."
+       });
+	},
+	
+	checkUser: function (){
+		var view = this;
+		if (this.loggedUser != undefined) {
+			team_member = $.grep(this.model.get("team"), function (item){if(item.id == view.loggedUser.id) return item;});			
+			if (team_member.length >= 1 || this.loggedUser.id == this.model.get("owner").id || this.loggedUser.get("role") == "admins") {
+				this.model.canEdit = true;
+			}
+			else {
+				this.model.canEdit = false;	
+			}
+		}else{
+			this.model.canEdit = false;
+		}
+	},
+	
+	vote: function (){
+		var view = this;
+		Data.Models.vote = new App.Models.Vote();
+		Data.Models.vote.save({
+			user: Data.Models.account.id,
+			type: "project",
+			type_id: this.model.id
+		},{
+			success: function (model, response){
+				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
+				view.render();
+				$("#vote-success").modal("show");
+				
+				
+			},
+			error: function (model, response){
+				$("#vote-error").modal("show");
+			}
+		});
+	},	
+	
+	
+	remove: function (){
+		this.model.destroy({
+			success: function (model, response){
+				Data.Routers.router.navigate("/#!/admin/projects", true);
+			},
+			error: function (model, response){
+				alert("Error deleting idea.\n Try again later.");
+			}
+		});
+	}
+});
+
+
+App.Views.AdminProjectEdit = Backbone.View.extend({
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'addMember');
+		this.render();	
+	},
+	
+	events: {
+		"click .save":	"save",
+		"click .cancel":	"cancel",
+		"click .add-member": "addMember",
+	},
+	
+	addMember: function (){
+		var view = this;
+		var member_id = $("input[name=possible-member]", view.el).val();
+		if (member_id != ""){
+			var val = JSON.parse($('input[name=search-member]', this.el).attr("data-value"));			
+			$(".team .members", view.el).append(JST.project_edit_member({model: val}));
+		}
+	},
+	
+	projectImage: function (){
+		var twitter = $("input[name=twitter]", this.el).val();
+		if(twitter != ""){
+			$(".project-img", this.el).attr("src", "https://api.twitter.com/1/users/profile_image?size=bigger&screen_name=" + twitter);
+		}
+	},
+	
+	render: function(){				
+		var view = this;
+		this.model.get("owner").avatar = this.avatar(this.model.get("owner").email);		
+		$(this.el).html(JST.project_edit({model: this.model}));
+					
+		this.projectImage();
+					
+		_.each(this.model.get('team'), function (member){
+			$(".team .members", view.el).append(JST.project_edit_member({model: member}));
+		});
+		
+		/*
+		 * This autocomplete was the result of the modification of 
+		 * https://github.com/twitter/bootstrap/issues/1336
+		 * 
+		 * http://stackoverflow.com/questions/9232748/twitter-bootstrap-typeahead-ajax-example
+		 * 
+		 * This can be add to bootstrap-typehead.js wiht a little bit of work :P
+		 * 
+		 * This autocomplete allows:
+		 * 		- custom items layout
+		 *  	- search matches result in more the one field when array you have of objes as response
+		 *      - cache querys
+		 * 
+		 */
+        var cache = {},lastXhr;
+		
+		$('input[name=search-owner]', this.el).typeahead({
+			property: ["email", "name"],
+		    source: function (typeahead, query) {
+
+                var term = query;
+                if ( term in cache ) {
+                    typeahead.process( cache[ term ] );
+                    return;
+                }
+                var result = [];
+
+                var users = new App.Collections.Users();
+                users.fetch({
+					data: {
+						q: term,
+					},
+                    success: function (collection, data){
+                        cache[ term ] = data.objects;
+						lastXhr = data;						                        
+                        typeahead.process(data.objects);
+                    },
+                });
+    		},
+			select: function () {
+			      var val = JSON.parse(this.$menu.find('.active').attr('data-value'))
+			        , text
+			
+			      if (!this.strings) {
+				  	  if (typeof this.options.property != "string") {
+					  	text = val[val["match"]]
+					  }
+					  else {
+					  	text = val[this.options.property]
+					  }
+			      }else {text = val}
+			
+			      this.$element.val(text)
+				  this.$element.attr('data-value', JSON.stringify(val))
+				  avatar = Gravatar(val["email"])
+				  $(".gravatar", view.el).attr("src", avatar)
+				  $("input[name=owner]", view.el).val(val["id"])
+			      if (typeof this.onselect == "function")
+			          this.onselect(val)
+			
+			      return this.hide()
+      
+	     	},
+			process: function (results) {
+				var that = this
+					, items
+					, q
+				
+				if (results.length && typeof results[0] != "string")
+					this.strings = false
+				
+				this.query = this.$element.val()
+				
+				if (!this.query) {
+					return this.shown ? this.hide() : this
+				}
+				
+				items = _.map(results, function (item) {
+					if (!that.strings) 
+						if (typeof that.options.property != "string") {
+							match = _.find(that.options.property, function(property){
+								text = item[property]
+								if (that.matcher(text)) 
+									return text
+							})
+							if (match) {
+								item.match = match
+								return item
+							}
+						}
+						else {
+							text = item[that.options.property]
+							if (that.matcher(text)) 
+								return item
+						}
+				})
+				
+				items = _.filter(items, function (item){
+					return item != undefined;
+				})
+				
+				items = this.sorter(items)
+				
+				if (!items.length) {
+					return this.shown ? this.hide() : this
+				}
+				
+				return this.render(items.slice(0, this.options.items)).show()
+		    },
+			
+			sorter: function (items) {
+			    var beginswith = []
+			        , caseSensitive = []
+			        , caseInsensitive = []
+			        , item
+			        , sortby
+			
+			    while (item = items.shift()) {
+			        if (this.strings) 
+						sortby = item
+			        else
+						if (typeof this.options.property == "object")
+							sortby = item[item.match]
+						else 
+							sortby = item[this.options.property]
+			
+			        if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+			        else if (~sortby.indexOf(this.query)) caseSensitive.push(item)
+			        else caseInsensitive.push(item)
+			    }
+			
+			    return beginswith.concat(caseSensitive, caseInsensitive)
+			},
+			
+			render: function (items) {
+      			var that = this
+				
+				items = $(items).map(function (i, item) {
+					i = $(that.options.item).attr('data-value', JSON.stringify(item))
+					if (!that.strings)
+						if (typeof that.options.property == "object")
+							text = item[item.match]
+						else
+					    	text = item[that.options.property]
+					avatar = Gravatar(item.email)
+					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
+					log(i)
+					return i[0]
+				})
+				
+				items.first().addClass('active')
+				this.$menu.html(items)
+				return this
+		    }
+		});
+		
+		/*
+		 * add new member to project
+		 */
+		$('input[name=search-member]', this.el).typeahead({
+			property: ["email", "name"],
+		    source: function (typeahead, query) {
+
+                var term = query;
+                if ( term in cache ) {
+                    typeahead.process( cache[ term ] );
+                    return;
+                }
+                var result = [];
+
+                var users = new App.Collections.Users();
+                users.fetch({
+					data: {
+						q: term,
+					},
+                    success: function (collection, data){
+                        cache[ term ] = data.objects;
+						lastXhr = data;						                        
+                        typeahead.process(data.objects);
+                    },
+                });
+    		},
+			select: function () {
+			      var val = JSON.parse(this.$menu.find('.active').attr('data-value'))
+			        , text
+			
+			      if (!this.strings) {
+				  	  if (typeof this.options.property != "string") {
+					  	text = val[val["match"]]
+					  }
+					  else {
+					  	text = val[this.options.property]
+					  }
+			      }else {text = val}
+			
+			      this.$element.val(text)
+				  this.$element.attr('data-value', JSON.stringify(val))
+				  avatar = Gravatar(val["email"])
+				  $(".gravatar", view.el).attr("src", avatar + "?size=40")
+				  $("input[name=possible-member]", view.el).val(val["id"])
+			      if (typeof this.onselect == "function")
+			          this.onselect(val)
+			
+			      return this.hide()
+      
+	     	},
+			process: function (results) {
+				var that = this
+					, items
+					, q
+				
+				if (results.length && typeof results[0] != "string")
+					this.strings = false
+				
+				this.query = this.$element.val()
+				
+				if (!this.query) {
+					return this.shown ? this.hide() : this
+				}
+				
+				items = _.map(results, function (item) {
+					if (!that.strings) 
+						if (typeof that.options.property != "string") {
+							match = _.find(that.options.property, function(property){
+								text = item[property]
+								if (that.matcher(text)) 
+									return text
+							})
+							if (match) {
+								item.match = match
+								return item
+							}
+						}
+						else {
+							text = item[that.options.property]
+							if (that.matcher(text)) 
+								return item
+						}
+				})
+				
+				items = _.filter(items, function (item){
+					return item != undefined;
+				})
+				
+				items = this.sorter(items)
+				
+				if (!items.length) {
+					return this.shown ? this.hide() : this
+				}
+				
+				return this.render(items.slice(0, this.options.items)).show()
+		    },
+			
+			sorter: function (items) {
+			    var beginswith = []
+			        , caseSensitive = []
+			        , caseInsensitive = []
+			        , item
+			        , sortby
+			
+			    while (item = items.shift()) {
+			        if (this.strings) 
+						sortby = item
+			        else
+						if (typeof this.options.property == "object")
+							sortby = item[item.match]
+						else 
+							sortby = item[this.options.property]
+			
+			        if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+			        else if (~sortby.indexOf(this.query)) caseSensitive.push(item)
+			        else caseInsensitive.push(item)
+			    }
+			
+			    return beginswith.concat(caseSensitive, caseInsensitive)
+			},
+			
+			render: function (items) {
+      			var that = this
+				
+				items = $(items).map(function (i, item) {
+					i = $(that.options.item).attr('data-value', JSON.stringify(item))
+					if (!that.strings)
+						if (typeof that.options.property == "object")
+							text = item[item.match]
+						else
+					    	text = item[that.options.property]
+					avatar = Gravatar(item.email)
+					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
+					log(i)
+					return i[0]
+				})
+				
+				items.first().addClass('active')
+				this.$menu.html(items)
+				return this
+		    }
+		});
+		
+	},
+	
+	// get the gravatar url
+	avatar: function (email){
+		gravatar_url = Gravatar(email);
+		return gravatar_url;
+	},	
+	
+	save: function (e){
+		var view = this;
+		try{
+			e.preventDefault();	
+		}catch (e){}
+		var name = $("input[name=name]", this.el).val();
+		var participant = $("input[name=owner]", this.el).val();;
+		var description = $("textarea[name=description]", this.el).val();;
+		
+		this.model.save({
+				name: name,
+				owner: participant, 
+				description: description	
+			},{
+				success: function(model, response){
+					Data.Routers.router.navigate("/#!/admin/project/" + model.id, true);
+				},
+				error: function(model, response){			
+					if (response.status != undefined){
+						errors = response.ideas;
+						if (response.status != 400){
+							$('#send-error').modal('show');
+						}
+					}else{
+						errors = response;
+					}
+					view.validate(errors);
+				}
+		});
+	},
+	
+	cancel: function (e){
+		try{
+			e.preventDefault();	
+		}catch (e){}
+		Data.Routers.router.navigate("/#!/admin/project/" + this.model.id, true);
+	},
+	
+	clean_fields: function (){		
+		var name = $("input[name=name]", this.el).val("");
+		var participant = $("input[name=owner]", this.el).val("");
+		var description = $("textarea[name=description]", this.el).val("");
+	},
+	
+	validate: function (errors){
+		var view = this;
+		if (errors.name != undefined){
+			$(".name", view.el).addClass("error");
+		}else{
+			$(".name", view.el).removeClass("error");
+		}
+		if (errors.participant != undefined){
+			$(".owner", view.el).addClass("error");
+		}else{
+			$(".owner", view.el).removeClass("error");
 		}
 	}
 }); 

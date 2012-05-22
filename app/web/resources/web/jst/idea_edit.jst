@@ -20,7 +20,7 @@
           </label>
           <div class="controls">
         	<img src="<%= model.avatar %>" class="gravatar"/> <input type="text" name="search-participant" autocomplete="off" value="<%= model.get('participant').first_name %> <%= model.get('participant').last_name %>" placeholder="Type participant's name or email">
-			<input type="hidden" name="participant"value="<%= model.id %>">						
+			<input type="hidden" name="participant" value="<%= model.get('participant').id %>">						
           </div>
       </div>
      
