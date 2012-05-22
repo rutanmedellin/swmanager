@@ -20,17 +20,21 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
+from postgresify import postgresify
+DATABASES = postgresify()
+
 # mongodb://heroku_app3483318:ug5hcm372e901qrq3u696hi7ls@ds031647.mongolab.com:31647/heroku_app3483318
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': 'heroku_app3483318',
-        'USER': 'swmanager',
-        'PASSWORD': 'diepafeimo7ooRuidee0',
-        'HOST': 'ds031647.mongolab.com',
-        'PORT': 31647,
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django_mongodb_engine',
+#        'NAME': 'heroku_app3483318',
+#        'USER': 'swmanager',
+#        'PASSWORD': 'diepafeimo7ooRuidee0',
+#        'HOST': 'ds031647.mongolab.com',
+#        'PORT': 31647,
+#    }
+#}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -136,6 +140,7 @@ INSTALLED_APPS = (
     #'django_mongodb_engine',
     #'djangotoolbox',
     #'permission_backend_nonrel',
+    'south',
     'guardian',
     'activation',
     'tastypie',
