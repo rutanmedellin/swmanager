@@ -1,5 +1,11 @@
 <td>
-<h2 class="name"><a href="#!/admin/project/<%= model.id %>"><%= model.escape("name") %></a></h2> 
+<h2 class="name">
+	<% if (model.anonymous) { %>
+		<a href="#!/public/project/<%= model.id %>"><%= model.escape("name") %></a>
+	<% }else{ %>
+		<a href="#!/admin/project/<%= model.id %>"><%= model.escape("name") %></a>
+	<% } %> 		
+</h2> 
 
 <% if (model.get('image') != undefined) { %>
 	<div>

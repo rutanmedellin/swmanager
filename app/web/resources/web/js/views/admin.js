@@ -1210,7 +1210,13 @@ App.Views.Project = Backbone.View.extend({
 			else {
 				this.model.canEdit = false;	
 			}
+			if(this.loggedUser.isNew()){
+				this.model.anonymous = true;	
+			}else{
+				this.model.anonymous = false;
+			} 
 		}else{
+			this.model.anonymous = true;
 			this.model.canEdit = false;
 		}
 	},
@@ -1245,11 +1251,15 @@ App.Views.Project = Backbone.View.extend({
 	},
 	
 	edit: function (){
-		location = "/#!/admin/project/" + this.model.id + "/edit";	
+		location = "/#!/admin/project/" + this.model.id + "/edit";
 	},
 	
 	profile: function (){
-		location = "/#!/admin/project/" + this.model.id;
+		if(this.model.anonymous){
+			location = "/#!/public/project/" + this.model.id;
+		}else{
+			location = "/#!/admin/project/" + this.model.id;	
+		}			
 	},
 	
 	remove: function (){
