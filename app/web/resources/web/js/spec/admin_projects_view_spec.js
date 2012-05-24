@@ -96,7 +96,7 @@ describe("Admin Projects view", function (){
 			expect(this.projectStub.calledOnce).toEqual(true);
 			expect(this.spy_save.calledOnce).toEqual(true);
 			expect(this.spy_save.getCall(0).args[0].name).toEqual("test");
-			expect(this.spy_save.getCall(0).args[0].owner).toEqual("1");
+			expect(this.spy_save.getCall(0).args[0].owner).toEqual({id: "1"});
 			expect(this.spy_save.getCall(0).args[0].description).toEqual("test");			
 		});
 	});
