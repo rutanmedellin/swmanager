@@ -23,6 +23,7 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/idea/:id/edit': "adminIdeaEdit",
 		'!/admin/projects': "adminProjects",
 		'!/admin/project/:id': "adminProject",
+		'!/admin/event': "adminEvent",
 		'!/admin/project/:id/edit': "adminProjectEdit",
 		'!/public/projects': "publicProjects",
 		'!/public/project/:id': "publicProject"
@@ -196,6 +197,30 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 					});
 				},
 				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+	
+	adminEvent: function () {
+		this.admin("event");
+		if (Data.Models.account.get("role") == "admins"){
+			events = new App.Collections.Events();
+			events.fetch({
+				success: function(collection, response){
+					/*
+					 * There only one event :P, but we need the ID
+					 */
+					event = (collection.length < 1 ? new App.Models.Event() : collection.pop()); 
+					Data.Views.admin = new App.Views.AdminEvent({
+						el: ".admin-content",
+						model: event
+					});
+				},
+				error: function(collection, response){
 				
 				}
 			});
