@@ -95,6 +95,20 @@ $.ajax = function ajaxMock(params) {
 				"type_id": d.type_id, 
  				"resource_uri": "/api/v1/votes/4f84b22ade94e65caf000011/",
 			};
+		}else if (params.url.match('.*events/$') != null) {
+			var d = $.parseJSON(params.data);
+			data = {
+				"id": "4f84b22ade94e65caf000011",
+				'resource_uri': "/api/v1/events/4f84b22ade94e65caf000011",
+				'name': d.name,
+				'email': d.email,
+				'twitter': d.twitter,
+				'description': d.description,
+				'url': d.url,
+				'start_date': d.start_date,
+				'end_date': d.end_date,
+				'cover': d.cover,
+			};
 		}
 	}else if (params.type == 'GET' || params.type == 'get') {
 		if (params.url.match('.*users/$') != null) {
@@ -411,6 +425,42 @@ $.ajax = function ajaxMock(params) {
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
 						};
+				}else if (params.url.match('.*events/$') != null) {
+					data = {
+						"meta": {
+							"limit": 20,
+							"next": null,
+							"offset": 0,
+							"previous": null,
+							"total_count": 0
+						},
+						"objects": [
+						{
+							'id': 1,
+							'resource_uri': "/api/v1/events/1",
+							'name': "Startup Weekend Medellín",
+							'email': "medellin@startupweekend.org",
+							'twitter': "SWCol",
+							'description': "Hola mundo",
+							'url': 'http://medellin.startupweekend.org',
+							'start_date': "2012-06-08T17:30:00",
+							'end_date': "2012-06-10T19:30:00",
+							'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
+						}]
+					};
+				}else if (params.url.match('.*events/[A-Za-z0-9]+/$') != null) {
+					data = {
+							'id': 1,
+							'resource_uri': "/api/v1/events/1",
+							'name': "Startup Weekend Medellín",
+							'email': "medellin@startupweekend.org",
+							'twitter': "SWCol",
+							'description': "Hola mundo",
+							'url': 'http://medellin.startupweekend.org',
+							'start_date': "2012-06-08T17:30:00",
+							'end_date': "2012-06-10T19:30:00",
+							'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
+						};
 				}
 		}
 		else if (params.type == 'PUT' || params.type == 'put') {
@@ -478,6 +528,20 @@ $.ajax = function ajaxMock(params) {
 								"description": d.description, 
 								"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000010/",	
 							};
+					}else if (params.url.match('.*events/[A-Za-z0-9]+/$') != null) {
+						var d = $.parseJSON(params.data);
+						data = {
+							"id": "4f84b22ade94e65caf000011",
+							'resource_uri': "/api/v1/events/4f84b22ade94e65caf000011",
+							'name': d.name,
+							'email': d.email,
+							'twitter': d.twitter,
+							'description': d.description,
+							'url': d.url,
+							'start_date': d.start_date,
+							'end_date': d.end_date,
+							'cover': d.cover,
+						};
 					}
 
 		}

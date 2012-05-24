@@ -470,9 +470,9 @@ App.Views.Idea = Backbone.View.extend({
 		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
-			user: Data.Models.account.id,
-			type: "idea",
-			type_id: this.model.id
+			user: Data.Models.account.url(),
+			vote_type: "idea",
+			type_id: this.model.url()
 		},{
 			success: function (model, response){
 				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
@@ -748,8 +748,8 @@ App.Views.AdminIdeas = Backbone.View.extend({
 			e.preventDefault();	
 		}catch (e){}
 		var name = $("input[name=name]", this.el).val();
-		var participant = $("input[name=participant]", this.el).val();;
-		var description = $("textarea[name=description]", this.el).val();;
+		var participant = {id: $("input[name=participant]", this.el).val()};
+		var description = $("textarea[name=description]", this.el).val();
 		var idea = new App.Models.Idea();
 		idea.save({
 				name: name,
@@ -885,9 +885,9 @@ App.Views.AdminIdea = Backbone.View.extend({
 		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
-			user: Data.Models.account.id,
-			type: "idea",
-			type_id: this.model.id
+			user: Data.Models.account.url(),
+			vote_type: "idea",
+			type_id: this.model.url()
 		},{
 			success: function (model, response){
 				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
@@ -1225,9 +1225,9 @@ App.Views.Project = Backbone.View.extend({
 		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
-			user: Data.Models.account.id,
-			type: "project",
-			type_id: this.model.id
+			user: Data.Models.account.url(),
+			vote_type: "project",
+			type_id: this.model.url()
 		},{
 			success: function (model, response){
 				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
@@ -1498,8 +1498,10 @@ App.Views.AdminProjects = Backbone.View.extend({
 			e.preventDefault();	
 		}catch (e){}
 		var name = $("input[name=name]", this.el).val();
-		var participant = $("input[name=owner]", this.el).val();;
-		var description = $("textarea[name=description]", this.el).val();;
+		var participant = {
+			id: $("input[name=owner]", this.el).val()
+		};
+		var description = $("textarea[name=description]", this.el).val();
 		var project = new App.Models.Project();
 		project.save({
 				name: name,
@@ -1603,9 +1605,9 @@ App.Views.AdminProject = Backbone.View.extend({
 		var view = this;
 		Data.Models.vote = new App.Models.Vote();
 		Data.Models.vote.save({
-			user: Data.Models.account.id,
-			type: "project",
-			type_id: this.model.id
+			user: Data.Models.account.url(),
+			vote_type: "project",
+			type_id: this.model.url()
 		},{
 			success: function (model, response){
 				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
@@ -1987,13 +1989,22 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 			e.preventDefault();	
 		}catch (e){}
 		var name = $("input[name=name]", this.el).val();
-		var participant = $("input[name=owner]", this.el).val();;
-		var description = $("textarea[name=description]", this.el).val();;
+		var owner = $("input[name=owner]", this.el).val();
+		var description = $("textarea[name=description]", this.el).val();
+		var twitter = $("input[name=twitter]", this.el).val();
+		var url = $("input[name=url]", this.el).val();
+
+		var team = [];
+		var userModel = new App.Models.User();
+		_.each($("input[name=team]:checked", this.el), function (member){team.push( userModel.url() + $(member).val() + "/")}) 
 		
 		this.model.save({
 				name: name,
-				owner: participant, 
-				description: description	
+				owner: owner, 
+				description: description,
+				team: team,
+				url: url,
+				twitter: twitter,
 			},{
 				success: function(model, response){
 					Data.Routers.router.navigate("/#!/admin/project/" + model.id, true);
@@ -2038,4 +2049,250 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 			$(".owner", view.el).removeClass("error");
 		}
 	}
+}); 
+
+
+// site settings edit view
+
+App.Views.AdminEvent = Backbone.View.extend({
+	tagName: "div",
+	className: "admin-content",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'save', 'cancel', 'loadDatePicker', 'setDateFormat');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
+		this.render();	
+	},
+	
+	events: {
+		"click .save":	"save",
+		"click .cancel":	"cancel",
+	},
+
+	render: function(){
+		this.checkUser();
+		$(this.el).html(JST.site_settings_edit({model: this.model}));
+		this.loadDatePicker();
+		return this;
+	},
+	
+	checkUser: function (){
+		if (this.loggedUser.get("role") == "admins"){
+			this.model.canEdit = true;
+		}else{
+			this.model.canEdit = false;
+		}
+	},
+	
+	loadDatePicker: function (){
+		if (this.model.isNew()){
+			var start_date = new Date();
+			var end_date = new Date();
+		}else{
+			var start_date = new Date(this.model.get("start_date"));
+			var end_date = new Date(this.model.get("end_date"));			
+		}
+			
+		
+		/*
+		 * fill inputs
+		 */
+		start_date = this.setDateFormat(start_date);
+		end_date = this.setDateFormat(end_date);
+		$('input[name=start_date]', this.el).val(start_date.year + "/" + start_date.month + "/" + start_date.day );
+		
+		$('select[name=start_hours]', this.el).val(start_date.hours);
+		$('select[name=start_minutes]', this.el).val(start_date.minutes);
+		$('select[name=start_meridian]', this.el).val(start_date.meridian);
+		
+		$('input[name=end_date]', this.el).val(end_date.year + "/" + end_date.month + "/" + end_date.day );
+		$('select[name=end_hours]', this.el).val(end_date.hours);
+		$('select[name=end_minutes]', this.el).val(end_date.minutes);
+		$('select[name=end_meridian]', this.el).val(end_date.meridian);
+		
+		/*
+		 * set bootstrap datepicker input
+		 */
+		start_datepicker = $('input[name=start_date]', this.el).datepicker({
+			format: 'yyyy/mm/dd'
+		});
+		
+		end_datepicker = $('input[name=end_date]', this.el).datepicker({
+			format: 'yyyy/mm/dd'
+		});
+		
+		
+	},
+	
+	setDateFormat: function (date){
+		var djson = date.toJSON();
+		date = djson.split('T')[0];
+		date = date.split("-");
+		time = djson.split('T')[1];
+		time = time.split('Z')[0];		
+		time = time.split(':');		
+		hours = Math.abs(parseInt(time[0]) - 12);
+		hours = (hours < 10 ? "0" + hours : hours + "");
+		meridian = ((parseInt(time[0]) - 12) >= 0 ? "PM" : "AM");
+		var formated_date = {
+			year: date[0],
+			month: date[1],
+			day: date[2],
+			hours: hours,
+			minutes: time[1],
+			meridian: meridian
+		};
+			
+		return formated_date 
+	},
+	
+	getDate: function (type){
+		var datetime = "";
+		var date = $('input[name=' + type + '_date]', this.el).val();
+		var hours = $('select[name=' + type + '_hours]', this.el).val();
+		var minutes = $('select[name=' + type + '_minutes]', this.el).val();
+		var meridian = $('select[name=' + type + '_meridian]', this.el).val();
+
+		if (meridian == "PM"){
+			hours = Math.abs(parseInt(hours) + 12);
+		}		
+		datetime = date.replace(/\//g,'-') + "T" + hours + ":" + minutes + ":00";
+		
+		return datetime;
+	},
+	
+	save: function (e){
+		var view = this;
+		try{
+			e.preventDefault();
+		}catch(e){}
+		
+		if (this.validate()){
+			return;
+		}
+		
+		start_date = this.getDate('start');
+		end_date = this.getDate('end');
+		
+		var data = {
+			name: $("input[name=name]", this.el).val(),
+			url: $("input[name=url]", this.el).val(),
+			twitter: $("input[name=twitter]", this.el).val(),
+			description: $("textarea[name=description]", this.el).val(),
+			email: $("input[name=email]", this.el).val(),
+			cover: $("input[name=cover]", this.el).val(),
+			start_date: start_date, 
+			end_date: end_date,
+		};
+		
+		log(data);
+		
+		this.model.save(data, {
+			success: function (model, response){
+				$("#save-success").modal("show");
+			},
+			error: function (model, response) {
+				if (response.status != undefined){
+					errors = response.events;
+					if (response.status != 400){
+						$("#save-error").modal("show");
+					}
+				}else{
+					data = response;
+				}
+				if (data.name == undefined || data.name == ""){
+					$(".help-block", ".name").removeClass("hide");
+					$(".name").addClass("error");
+					errors +=1;			
+				}else{
+					$(".help-block", ".name").addClass("hide");
+					$(".name").removeClass("error");
+				}
+				if (data.url == undefined || data.url == ""){
+					$(".help-block", ".url").removeClass("hide");
+					$(".url").addClass("error");
+					errors +=1;
+				}else{
+					$(".help-block", ".url").addClass("hide");
+					$(".url").removeClass("error");
+				}
+				if (data.start_date == undefined || data.start_date == ""){
+					$(".help-block", ".start").removeClass("hide");
+					$(".start").addClass("error");
+					errors +=1;
+				}else{
+					$(".help-block", ".start_date").addClass("hide");
+					$(".start").removeClass("error");
+				}
+				if (data.end_date == undefined || data.end_date == ""){
+					$(".help-block", ".end").removeClass("hide");
+					$(".end").addClass("error");
+					errors +=1;
+				}else{
+					$(".help-block", ".start").addClass("hide");
+					$(".end").removeClass("error");			
+				}
+			}
+		}); 	
+	},
+
+	validate: function (){
+		var errors = 0;
+		var data = {
+			name: $("input[name=name]", this.el).val(),
+			url: $("input[name=url]", this.el).val(),
+			twitter: $("input[name=twitter]", this.el).val(),
+			description: $("textarea[name=description]", this.el).val(),
+			email: $("input[name=email]", this.el).val(),
+			cover: $("input[name=cover]", this.el).val(),
+			start_date: $("input[name=start_date]", this.el).val(), 
+			end_date: $("input[name=end_date]", this.el).val(),
+		};
+		
+		if (data.name == undefined || data.name == ""){
+			$(".help-block", ".name").removeClass("hide");
+			$(".name").addClass("error");
+			errors +=1;			
+		}else{
+			$(".help-block", ".name").addClass("hide");
+			$(".name").removeClass("error");
+		}
+		if (data.url == undefined || data.url == ""){
+			$(".help-block", ".url").removeClass("hide");
+			$(".url").addClass("error");
+			errors +=1;
+		}else{
+			$(".help-block", ".url").addClass("hide");
+			$(".url").removeClass("error");
+		}
+		if (data.start_date == undefined || data.start_date == ""){
+			$(".help-block", ".start").removeClass("hide");
+			$(".start").addClass("error");
+			errors +=1;
+		}else{
+			$(".help-block", ".start_date").addClass("hide");
+			$(".start").removeClass("error");
+		}
+		if (data.end_date == undefined || data.end_date == ""){
+			$(".help-block", ".end").removeClass("hide");
+			$(".end").addClass("error");
+			errors +=1;
+		}else{
+			$(".help-block", ".start").addClass("hide");
+			$(".end").removeClass("error");			
+		}		
+		return errors;
+	},
+	
+	cancel: function (e){
+		try{
+			e.preventDefault();
+		}catch(e){}
+		Data.Routers.router.navigate("/#!/admin/user/" + this.model.id, true);
+	}	
+	
 }); 

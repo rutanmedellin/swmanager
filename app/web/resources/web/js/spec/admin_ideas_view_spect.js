@@ -89,7 +89,9 @@ describe("Admin Ideas view", function (){
 			expect(this.ideaStub.calledOnce).toEqual(true);
 			expect(this.spy_save.calledOnce).toEqual(true);
 			expect(this.spy_save.getCall(0).args[0].name).toEqual("test");
-			expect(this.spy_save.getCall(0).args[0].participant).toEqual("1");
+			expect(this.spy_save.getCall(0).args[0].participant).toEqual({
+				id: "1"
+			});
 			expect(this.spy_save.getCall(0).args[0].description).toEqual("test");			
 		});
 	});
@@ -227,9 +229,9 @@ describe("Admin Ideas view", function (){
 				
 				it("should create a vote model and save it", function (){
 					expect(this.voteStub.calledOnce).toEqual(true);
-					expect(this.spy_vote.getCall(0).args[0].user).toEqual(Data.Models.account.id);
-					expect(this.spy_vote.getCall(0).args[0].type).toEqual("idea");
-					expect(this.spy_vote.getCall(0).args[0].type_id).toEqual(this.idea.id);
+					expect(this.spy_vote.getCall(0).args[0].user).toEqual(Data.Models.account.url());
+					expect(this.spy_vote.getCall(0).args[0].vote_type).toEqual("idea");
+					expect(this.spy_vote.getCall(0).args[0].type_id).toEqual(this.idea.url());
 					
 				});
 			});

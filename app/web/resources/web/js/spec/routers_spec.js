@@ -79,6 +79,12 @@ describe("AppRouter routes", function() {
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
+  it("fires the admin route with a #!/admin/event hash", function (){
+  	this.router.bind("route:adminEvent", this.routeSpy);
+    this.router.navigate("/#!/admin/event", true);
+    expect(this.routeSpy.calledOnce).toBeTruthy();
+  });
+
   it("fires the public project route with a #!/public/projects hash", function (){
   	this.router.bind("route:publicProjects", this.routeSpy);
     this.router.navigate("/#!/public/projects", true);
