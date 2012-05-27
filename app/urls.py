@@ -9,6 +9,7 @@ from api.resources import InvitationResource
 from api.resources import IdeaResource
 from api.resources import EventResource
 from api.resources import VoteResource
+from api.resources import ProjectResource
 
 swm_api = Api(api_name='v1')
 swm_api.register(UserResource())
@@ -17,7 +18,7 @@ swm_api.register(InvitationResource())
 swm_api.register(IdeaResource())
 swm_api.register(EventResource())
 swm_api.register(VoteResource())
-
+swm_api.register(ProjectResource())
 
 urlpatterns = patterns(
     '',

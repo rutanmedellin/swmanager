@@ -5,3 +5,4 @@ from invitation_resource import InvitationResource
 from idea_resource import IdeaResource
 from event_resource import EventResource
 from vote_resource import VoteResource
+from project_resource import ProjectResource
