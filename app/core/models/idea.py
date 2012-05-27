@@ -19,4 +19,4 @@ class Idea(models.Model):
     class Meta:
         app_label = 'core'
         verbose_name_plural = 'Ideas'
-        
+    
