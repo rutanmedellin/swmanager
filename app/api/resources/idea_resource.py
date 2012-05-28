@@ -18,7 +18,7 @@ class IdeaResource(ModelResource):
         authorization = Authorization()
         #authentication = ApiKeyAuthentication()
         always_return_data = True
-        allowed_methods = ['post', 'get']
+        allowed_methods = ['post', 'get', 'put']
 
     def dehydrate(self, bundle):
         bundle.data['votes'] = Vote.objects.filter(vote_type='idea',

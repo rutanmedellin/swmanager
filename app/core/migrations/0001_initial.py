@@ -33,6 +33,43 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('core', ['Idea'])
 
+        # Adding model 'Event'
+        db.create_table('core_event', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=512)),
+            ('description', self.gf('django.db.models.fields.TextField')()),
+            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('start_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end_date', self.gf('django.db.models.fields.DateTimeField')()),
+        ))
+        db.send_create_signal('core', ['Event'])
+
+        # Adding model 'Vote'
+        db.create_table('core_vote', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('type_id', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('vote_type', self.gf('django.db.models.fields.CharField')(max_length=64)),
+        ))
+        db.send_create_signal('core', ['Vote'])
+
+        # Adding M2M table for field user on 'Vote'
+        db.create_table('core_vote_user', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('vote', models.ForeignKey(orm['core.vote'], null=False)),
+            ('user', models.ForeignKey(orm['auth.user'], null=False))
+        ))
+        db.create_unique('core_vote_user', ['vote_id', 'user_id'])
+
+        # Adding model 'Project'
+        db.create_table('core_project', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='project', to=orm['auth.User'])),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=512)),
+            ('description', self.gf('django.db.models.fields.TextField')()),
+        ))
+        db.send_create_signal('core', ['Project'])
+
 
     def backwards(self, orm):
         # Deleting model 'UserProfile'
@@ -43,6 +80,18 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Idea'
         db.delete_table('core_idea')
+
+        # Deleting model 'Event'
+        db.delete_table('core_event')
+
+        # Deleting model 'Vote'
+        db.delete_table('core_vote')
+
+        # Removing M2M table for field user on 'Vote'
+        db.delete_table('core_vote_user')
+
+        # Deleting model 'Project'
+        db.delete_table('core_project')
 
 
     models = {
@@ -82,12 +131,29 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        'core.event': {
+            'Meta': {'object_name': 'Event'},
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'end_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
+            'start_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
+        },
         'core.idea': {
             'Meta': {'object_name': 'Idea'},
             'description': ('django.db.models.fields.TextField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
             'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'idea'", 'null': 'True', 'to': "orm['auth.User']"})
+        },
+        'core.project': {
+            'Meta': {'object_name': 'Project'},
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'project'", 'to': "orm['auth.User']"})
         },
         'core.session': {
             'Meta': {'object_name': 'Session'},
@@ -100,6 +166,13 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+        },
+        'core.vote': {
+            'Meta': {'object_name': 'Vote'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'type_id': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'user': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'votes'", 'symmetrical': 'False', 'to': "orm['auth.User']"}),
+            'vote_type': ('django.db.models.fields.CharField', [], {'max_length': '64'})
         }
     }
 
