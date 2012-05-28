@@ -7,12 +7,17 @@ from tastypie.authorization import Authorization
 from tastypie.validation import Validation
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
+from tastypie.constants import ALL
 
 
 from activation.models import Invitation
 
 from core.models import UserProfile
 from api.fields import ListField
+from api.resources import GroupResource
+
+import logging
+log = logging.getLogger(__name__)
 
 class UserResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -30,10 +35,9 @@ class UserResourceValidation(Validation):
 
 
 class UserResource(ModelResource):
-#TODO: public user
+    #TODO: public user
 
-    # Workaround for non-rel ListField
-    roles = ListField()
+    #role = fields.ToManyField(GroupResource, attribute='groups')
     
     class Meta:
         queryset = User.objects.all()
@@ -45,10 +49,10 @@ class UserResource(ModelResource):
         throttle = CacheThrottle(throttle_at=200)
         validation = UserResourceValidation()
         authorization = Authorization()
+
         filtering = {"first_name": ALL,
                      "last_name": ALL,
-                     "username": ALL,
-                     }
+                     'role': ALL_WITH_RELATIONS}
 
     def obj_create(self, bundle, request=None, **kwargs):
         print "obj_create"
@@ -59,13 +63,12 @@ class UserResource(ModelResource):
                                                  invitation=bundle.data['invitation'])
         return bundle
 
-    def dehydrate_roles(self, bundle):
-        return bundle.obj.groups.all()
 
     def apply_filters(self, request, applicable_filters):
         base_object_list = super(UserResource, self).apply_filters(
             request, applicable_filters)
-    
+
+        #: Query filter
         q = request.GET.get('q', None)
         if q:
             qset = (
@@ -75,5 +78,37 @@ class UserResource(ModelResource):
                 Q(email__icontains=q)
                 )
             base_object_list = base_object_list.filter(qset).distinct()
+
+        #: Role filter
+        role = request.GET.get('role', None)
+        if role:
+            qset = Q(groups__name=role)
+            base_object_list = base_object_list.filter(qset)
+            
     
         return base_object_list
+
+    def build_role_filter(self, filters):
+        if not "role" in filters:
+            return {}
+
+    def _build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
+        orm_filters = super(UserResource, self).build_filters(filters)
+        orm_filters.update(self.build_role_filter(filters))
+        return orm_filters
+
+    #def hydrate_role(self, bundle):
+    #    bundle.data['role'] = 'participant'
+    #    return bundle
+            
+    def dehydrate(self, bundle):
+        print "asfasgagasgasg"
+        if bundle.obj.groups.all().count() > 0:
+            role = bundle.obj.groups.all()[0].name
+        else:
+            role = 'anonymous'
+        bundle.data['role'] = role
+        return bundle
+            

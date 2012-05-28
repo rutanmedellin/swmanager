@@ -23,7 +23,7 @@ class InvitationResource(ModelResource):
         queryset = Invitation.objects.all()
         resource_name = 'invitations'
         authorization = Authorization()
-        authentication = ApiKeyAuthentication()
+        #authentication = ApiKeyAuthentication()
         always_return_data = True
     
     def obj_create(self, bundle, request=None, **kwargs):
