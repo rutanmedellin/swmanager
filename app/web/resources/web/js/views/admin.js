@@ -316,7 +316,39 @@ App.Views.UserProfileView = Backbone.View.extend({
 		this.avatar()
 		this.checkUser();				
 		$(this.el).html(JST.user_profile_view({model: this.model}));
+		this.loadUserIdeas();
+		this.loadUserProjects();
 		return this;
+	},
+	
+	loadUserIdeas: function (){
+		var user_ideas = new App.Collections.Ideas();
+		user_ideas.fetch({
+			data: {
+				participant__id: this.model.id
+			},
+			success: function (collection, response){
+				new App.Views.UserIdeas({el: ".user-ideas", collection: collection});
+			},
+			error: function (collection, response){
+				
+			}
+		});
+	},
+	
+	loadUserProjects: function () {
+		var user_projects = new App.Collections.Projects();
+		user_projects.fetch({
+			data: {
+				member: this.model.id
+			},
+			success: function (collection, response){
+				new App.Views.UserProjects({el: ".user-projects", collection: collection});
+			},
+			error: function (collection, response){
+				
+			}
+		});
 	},
 	
 	// get the gravatar url
@@ -349,6 +381,97 @@ App.Views.UserProfileView = Backbone.View.extend({
 	},
 	
 }); 
+
+App.Views.UserProjects = Backbone.View.extend({
+	tagName: "div",
+	className: "user-projects",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'addOne', 'addAll');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
+		this.render();	
+	},
+	
+
+	render: function(){
+		this.checkUser();
+		$(this.el).html("<table class='table table-striped'></table>");
+		this.addAll();				
+	},
+	
+	addOne: function (project){
+		project.anonymous = this.collection.anonymous; 
+		$("table", this.el).append(JST.project_profile_row({model: project}));
+	},
+	
+	addAll: function (){
+		this.collection.each(this.addOne);
+	},
+	
+	checkUser: function (){
+		if (this.loggedUser != undefined){
+			this.collection.canEdit = true;
+			if(this.loggedUser.isNew()){
+				this.collection.anonymous = true;
+			}else{
+				this.collection.anonymous = false;
+			}
+		}else{
+			this.collection.anonymous = true;
+			this.collection.canEdit = false;
+		}
+	}
+}); 
+
+App.Views.UserIdeas = Backbone.View.extend({
+	tagName: "div",
+	className: "user-ideas",
+
+	initialize: function (){
+		_.bindAll(this, 'render', 'addOne', 'addAll');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
+		this.render();	
+	},
+	
+
+	render: function(){
+		this.checkUser();
+		$(this.el).html("<table class='table table-striped'></table>");
+		this.addAll();				
+	},
+	
+	addOne: function (idea){
+		idea.anonymous = this.collection.anonymous; 
+		$("table", this.el).append(JST.idea_profile_row({model: idea}));
+	},
+	
+	addAll: function (){
+		this.collection.each(this.addOne);
+	},
+	
+	checkUser: function (){
+		if (this.loggedUser != undefined){
+			this.collection.canEdit = true;
+			if(this.loggedUser.isNew()){
+				this.collection.anonymous = true;
+			}else{
+				this.collection.anonymous = false;
+			}
+		}else{
+			this.collection.anonymous = true;
+			this.collection.canEdit = false;
+		}
+	}
+}); 
+ 
 
 
 // user profile edit view
