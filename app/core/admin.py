@@ -7,6 +7,7 @@ from core.models import Vote
 from core.models import Idea
 from core.models import Project
 from core.models import Session
+from activation.models import Invitation
 
 admin.site.register(UserProfile)
 admin.site.register(Event)
@@ -14,3 +15,4 @@ admin.site.register(Vote)
 admin.site.register(Idea)
 admin.site.register(Project)
 admin.site.register(Session)
+admin.site.register(Invitation)
