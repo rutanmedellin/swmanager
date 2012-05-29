@@ -52,7 +52,8 @@ class UserResource(ModelResource):
 
         filtering = {"first_name": ALL,
                      "last_name": ALL,
-                     'role': ALL_WITH_RELATIONS}
+                     'role': ALL_WITH_RELATIONS,
+                     'id': ALL}
 
     def obj_create(self, bundle, request=None, **kwargs):
         print "obj_create"
