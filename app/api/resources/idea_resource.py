@@ -2,6 +2,7 @@ from tastypie.resources import ModelResource
 from tastypie.models import ApiKey
 from tastypie.authorization import Authorization
 from tastypie.authentication import ApiKeyAuthentication
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
 from core.models import Idea, Vote
@@ -19,6 +20,9 @@ class IdeaResource(ModelResource):
         #authentication = ApiKeyAuthentication()
         always_return_data = True
         allowed_methods = ['post', 'get', 'put']
+        filtering = {
+            'participant': ALL_WITH_RELATIONS
+        }
 
     def dehydrate(self, bundle):
         bundle.data['votes'] = Vote.objects.filter(vote_type='idea',
