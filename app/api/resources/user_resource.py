@@ -13,11 +13,11 @@ from tastypie.constants import ALL
 from activation.models import Invitation
 
 from core.models import UserProfile
-from api.fields import ListField
 from api.resources import GroupResource
 
 import logging
 log = logging.getLogger(__name__)
+
 
 class UserResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
@@ -57,12 +57,15 @@ class UserResource(ModelResource):
     def obj_create(self, bundle, request=None, **kwargs):
         print "obj_create"
         self.is_valid(bundle, request=request)
+
+        if bundle.errors:
+            self.error_response(bundle.errors, request)
+        
         bundle.obj = UserProfile.objects.sign_up(username=bundle.data['username'],
                                                  email=bundle.data['email'],
                                                  password=bundle.data['password'],
                                                  invitation=bundle.data['invitation'])
         return bundle
-
 
     def apply_filters(self, request, applicable_filters):
         base_object_list = super(UserResource, self).apply_filters(
@@ -84,25 +87,9 @@ class UserResource(ModelResource):
         if role:
             qset = Q(groups__name=role)
             base_object_list = base_object_list.filter(qset)
-            
-    
+
         return base_object_list
 
-    def build_role_filter(self, filters):
-        if not "role" in filters:
-            return {}
-
-    def _build_filters(self, filters=None):
-        if filters is None:
-            filters = {}
-        orm_filters = super(UserResource, self).build_filters(filters)
-        orm_filters.update(self.build_role_filter(filters))
-        return orm_filters
-
-    #def hydrate_role(self, bundle):
-    #    bundle.data['role'] = 'participant'
-    #    return bundle
-            
     def dehydrate(self, bundle):
         print "asfasgagasgasg"
         if bundle.obj.groups.all().count() > 0:
@@ -111,4 +98,3 @@ class UserResource(ModelResource):
             role = 'anonymous'
         bundle.data['role'] = role
         return bundle
-            
