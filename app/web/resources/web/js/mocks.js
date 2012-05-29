@@ -178,6 +178,7 @@ $.ajax = function ajaxMock(params) {
 					'twitter': "juanpgaviria", 
 					'role': "admins",
 					'bio': "hola mundo",
+					'participant_type': 'non-tech',
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				};

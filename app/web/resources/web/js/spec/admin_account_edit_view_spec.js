@@ -67,6 +67,10 @@ beforeEach(function (){
 		
 		it("should be the name(first and last)", function (){
 			expect($(".name", this.view.el).length).toEqual(1);
+		});
+		
+		it("should be the participant type", function (){
+			expect($(".participant_type", this.view.el).length).toEqual(1);
 		});		
 		
 		describe("When admin user is seen the user profile edit form", function (){
