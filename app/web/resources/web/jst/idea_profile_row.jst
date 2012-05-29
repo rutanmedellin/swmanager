@@ -1,0 +1,13 @@
+<tr>
+    <td>
+	    <h2><a class="name" href="#!/admin/idea/<%= model.id %>"><%= model.escape("name") %></a></h2>
+		<p>
+	    	<%= model.escape("description") %>
+	    </p>
+	    <div class="btn-group visible-desktop">
+	        <% if (model.canEdit) { %>
+	        <a class="edit" href="#!/admin/idea/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+	        <% } %>
+	    </div>
+	</td>
+</tr>

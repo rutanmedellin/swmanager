@@ -30,14 +30,16 @@
 <div class="row">
     <div class="span9">
         <div class="row">
-            <div class="span4">
-            	<h1>Ideas</h1>
-				<div class="user-ideas">
-					<p>
-						No ideas registered for user
-					</p>
-				</div>
-            </div>
+	        <% if(!model.anonymous) { %>	
+	            <div class="span4">
+	            	<h1>Ideas</h1>
+					<div class="user-ideas">
+						<p>
+							No ideas registered for user
+						</p>
+					</div>
+	            </div>
+			<% } %>
             <div class="span5">
                 <h1>Projects</h1>
 				<div class="user-projects">
