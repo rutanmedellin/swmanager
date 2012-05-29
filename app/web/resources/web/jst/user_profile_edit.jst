@@ -45,6 +45,21 @@
 			  <p class="help-block hide">Last name required</p>
           </div>
       </div>
+	  
+	  <div class="control-group participant_type">
+          <label class="control-label">
+              Profile
+          </label>
+          <div class="controls">
+              <select name="participant_type">
+              		<option value=""></option>
+					<option value="developer" <% if (model.escape("participant_type") == "developer"){ %>selected<% } %> >Developer</option>
+					<option value="designer" <% if (model.escape("participant_type") == "designer"){ %>selected<% } %>>Designer</option>				
+					<option value="non-Tech" <% if (model.escape("participant_type") == "non-tech"){ %>selected<% } %>>Non-Tech</option>
+              </select>
+          </div>
+      </div>
+	  
       <div class="control-group twitter">
           <label class="control-label">
               Twitter
