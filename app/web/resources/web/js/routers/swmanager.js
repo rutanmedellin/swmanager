@@ -26,7 +26,9 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/event': "adminEvent",
 		'!/admin/project/:id/edit': "adminProjectEdit",
 		'!/public/projects': "publicProjects",
-		'!/public/project/:id': "publicProject"
+		'!/public/project/:id': "publicProject",
+		'!/public/participants': "publicParticipants",
+		'!/public/participant/:id': "publicParticipant",
 	},
 	
 	/*
@@ -246,6 +248,33 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	 * Public routes
 	 */
 	
+	publicParticipants: function (){
+		this.navActive("participants");
+		Data.Views.publicView = new App.Views.PublicParticipants({el: "#wrapper"});
+	},
+
+	publicParticipant: function (id){
+		this.navActive("participants");
+		$("#wrapper").html(JST.public_list());
+		if (id != undefined){
+			participant = new App.Models.User();
+			participant.id = id;
+			participant.fetch({
+				success: function(model, response){
+					Data.Views.admin = new App.Views.UserProfileView({
+						el: "#list",
+						model: model
+					});
+				},
+				error: function(model, response){
+				
+				}
+			});
+		}else{
+			$(".admin-content").html(JST.permission_denied());
+		}
+	},
+
 	publicProjects: function (){
 		this.navActive("projects");
 		Data.Views.publicView = new App.Views.PublicProjects({el: "#wrapper"});
@@ -253,13 +282,14 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	publicProject: function (id){
 		this.navActive("projects");
+		$("#wrapper").html(JST.public_list());
 		if (id != undefined){
 			project = new App.Models.Project();
 			project.id = id;
 			project.fetch({
 				success: function(model, response){
 					Data.Views.admin = new App.Views.AdminProject({
-						el: "#wrapper",
+						el: "#list",
 						model: model
 					});
 				},
