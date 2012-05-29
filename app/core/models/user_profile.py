@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 #from django_mongodb_engine.contrib import MongoDBManager
 #from djangotoolbox.fields import ListField, DictField
 
-from tastypie.models import create_api_key
+from tastypie.models import ApiKey
 
 from activation.models import Activation, Invitation
 from activation.signals import activation_created
@@ -49,17 +49,23 @@ class UserProfile(models.Model):
 #: Signals
 
 #: Create apikey for each user_profile created
-models.signals.post_save.connect(create_api_key, sender=User)
-
+#models.signals.post_save.connect(create_api_key, sender=UserProfile)
+@receiver(post_save, sender=UserProfile)
+def create_api_key(sender, **kwargs):
+        """
+        A signal for hooking up automatic ``ApiKey`` creation from a user_profile
+        """
+        if kwargs.get('created') is True:
+            ApiKey.objects.get_or_create(user=kwargs.get('instance').user)
 
 #: Create a user_profile for each user created
-@receiver(post_save, sender=User, dispatch_uid='create_profile')
-def create_profile(sender, instance, created, **kwargs):
-    " Create an user profile after an user is created."
-    
-    if created:
-        log.debug("Create an user profile for user: %s" % (instance.email, ))
-        UserProfile.objects.create(user=instance)
+#@receiver(post_save, sender=User, dispatch_uid='create_profile')
+#def create_profile(sender, instance, created, **kwargs):
+#    " Create an user profile after an user is created."
+#    
+#    if created:
+#        log.debug("Create an user profile for user: %s" % (instance.email, ))
+#        UserProfile.objects.create(user=instance)
 
 
 #: Activation signals
