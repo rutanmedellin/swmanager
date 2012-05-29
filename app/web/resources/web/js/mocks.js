@@ -130,6 +130,9 @@ $.ajax = function ajaxMock(params) {
 								last_name: "gaviria",
 								ideas: "/api/v1/ideas/?user=5", 
 								projects: "/api/v1/projects/?user=5",
+								twitter: "juanpgaviria",
+								participant_type: "",
+								'bio': "hola mundo",
 								"resource_uri": "/api/v1/users/5/"			
 							},
 							{
@@ -141,6 +144,9 @@ $.ajax = function ajaxMock(params) {
 								last_name: "Doctor",
 								ideas: "/api/v1/ideas/?user=6", 
 								projects: "/api/v1/projects/?user=6",
+								twitter: "scastillo",
+								participant_type: "developer",
+								'bio': "hola mundo",
 								"resource_uri": "/api/v1/users/6/"
 							},							
 							{
@@ -152,6 +158,9 @@ $.ajax = function ajaxMock(params) {
 								last_name: "Castillo",
 								ideas: "/api/v1/ideas/?user=6", 
 								projects: "/api/v1/projects/?user=6",
+								twitter: "scastillo",
+								participant_type: "non-tech",
+								'bio': "hola mundo",
 								"resource_uri": "/api/v1/users/6/"
 							}
 					]
