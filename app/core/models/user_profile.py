@@ -72,7 +72,34 @@ def create_api_key(sender, **kwargs):
 #TODO: add expiration invitation signal to django-activation
 @receiver(invitation_created, sender=Invitation, dispatch_uid='send_invitation_key')
 def send_invitation_key(sender, invitation, **kwargs):
+    from django.core.mail import EmailMessage
+    body = """
+    Hello there,
+
+    This is an invitation to be part of the {group_name} group on a StartupWeekend event.
+
+    Click on the following link to activate your Startup Weekend Manager account:
+    
+    http://localhost:8000/#!/user/registration?email={email}&code={code}
+    
+
+    Best of lucks on th event, and remember: Stop talk, more action!
+
+
+    --
+    Startup Weekend Team
+    """.format(group_name=invitation.to.name, email=invitation.email, code=invitation.key)
+
+    print body
+    
+    msg = EmailMessage(subject="[swmanager] Invitation to an swmanager event",
+                         body=body,
+                         to=[invitation.email])
+                         #bcc=medellin@startupweekend.org)
+    print "msg : %s" % msg
+    print msg.send()
     print "######## Invitation key: %s" % invitation.key
+    
 
 
 @receiver(invitation_accepted, sender=Invitation, dispatch_uid='add_role')
