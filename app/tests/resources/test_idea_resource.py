@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from django.utils import simplejson as json
 
+
 from core.tests import SWManagerTestCase
 from core.models import Idea
 

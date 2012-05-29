@@ -25,6 +25,7 @@ class InvitationResource(ModelResource):
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
         always_return_data = True
+        
     
     def obj_create(self, bundle, request=None, **kwargs):
         " Create a new invitation using the default manager "

@@ -1,6 +1,9 @@
 from core.tests import SWManagerTestCase
+
 from django.contrib.auth.models import User, Group
 from django.utils import simplejson as json
+
+from tastypie.models import ApiKey
 
 import logging
 log = logging.getLogger(__name__)
@@ -8,8 +11,11 @@ log = logging.getLogger(__name__)
 
 class TestInvitationResource(SWManagerTestCase):
     def setUp(self):
+        #        self.user = User.objects.create_user(username="tony2", password="123", email="tony@afasf.com")
+        #ApiKey.objects.create(user=self.user)
         self.user = User.Factory()
         self.auth_header = {'HTTP_AUTHORIZATION': 'Apikey %s:%s' % (self.user.username, self.user.api_key.key)}
+        print self.auth_header
         self.groups = {
             'admins': Group.Factory(name='admins'),
             'participants': Group.Factory(name='participants'),
