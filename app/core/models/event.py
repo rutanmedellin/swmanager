@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Event(models.Model):
     name = models.CharField(max_length=512)
     description = models.TextField()
+    streaming_url = models.URLField(default="")
     url = models.URLField()
     email = models.EmailField()
     start_date = models.DateTimeField()
