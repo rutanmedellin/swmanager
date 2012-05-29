@@ -192,6 +192,9 @@ JASMINE_TEST_DIRECTORY = path.join(SITE_ROOT, 'web/resources/web/js/')
 # Mock for javascript 
 MOCK_API_FOR_JS = False
 
+# email to console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # This should go last
 try:
     from local_settings import *

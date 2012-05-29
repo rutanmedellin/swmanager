@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.utils import simplejson as json
 
-
 from core.tests import SWManagerTestCase
 from core.models import Idea
 
@@ -32,4 +31,3 @@ class TestIdeaResource(SWManagerTestCase):
         self.assertEqual(response.json['name'], data['name'])
         idea = User.objects.get(id=self.user.id).idea.get()
         self.assertEqual(idea.name, data['name'])
-        

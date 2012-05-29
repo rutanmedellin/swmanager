@@ -25,13 +25,14 @@ class InvitationResource(ModelResource):
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
         always_return_data = True
-        
+        allowed_methods = ['get', 'post']
     
     def obj_create(self, bundle, request=None, **kwargs):
         " Create a new invitation using the default manager "
         
         self.is_valid(bundle, request=request)
         group = Group.objects.get(name=bundle.data['role'])
+        print "#### create invitation"
         bundle.obj = Invitation.objects.create_invitation(request.user, 
                                                           to=group,
                                                           email=bundle.data['email'])
@@ -39,4 +40,3 @@ class InvitationResource(ModelResource):
 
     def dehydrate_to_object_id(self, bundle):
         return int(bundle.obj.to_object_id)
-    
