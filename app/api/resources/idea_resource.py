@@ -22,6 +22,5 @@ class IdeaResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['votes'] = Vote.objects.filter(vote_type='idea',
-                                                    type_id=bundle.obj.id).count()
-                                                    
+                                                   type_id="/api/v1/ideas/%s/" % bundle.obj.id).count()
         return bundle
