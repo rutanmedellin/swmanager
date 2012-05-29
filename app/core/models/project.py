@@ -6,7 +6,7 @@ class Project(models.Model):
     owner = models.ForeignKey(User, related_name='my_project')
     name = models.CharField(max_length=512)
     description = models.TextField()
-    team = models.ManyToManyField(User, related_name='projects')
+    team = models.ManyToManyField(User, related_name='projects', blank=True, null=True)
     
     class Meta:
         app_label = 'core'
