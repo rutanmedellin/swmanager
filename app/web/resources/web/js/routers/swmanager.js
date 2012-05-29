@@ -46,8 +46,21 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	 * index route
 	 */
 	index: function (){
-		$("#wrapper").html(JST.index());
 		this.navActive("home");
+		
+		events_collection = new App.Collections.Events();
+		events_collection.fetch({
+			success: function(collection, response){
+				/*
+				 * There only one event :P, but we need the ID
+				 */
+				event_model = (collection.length < 1 ? new App.Models.Event() : collection.pop());
+				Data.Views.publicView = new App.Views.Home({ el: "#wrapper", model: event_model});
+			},
+			error: function(collection, response){
+			
+			}
+		});
 	},
 	
 	/*
@@ -214,10 +227,10 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 					/*
 					 * There only one event :P, but we need the ID
 					 */
-					event = (collection.length < 1 ? new App.Models.Event() : collection.pop()); 
+					event_model = (collection.length < 1 ? new App.Models.Event() : collection.pop()); 
 					Data.Views.admin = new App.Views.AdminEvent({
 						el: ".admin-content",
-						model: event
+						model: event_model
 					});
 				},
 				error: function(collection, response){
@@ -235,7 +248,7 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	publicProjects: function (){
 		this.navActive("projects");
-		Data.Views.public = new App.Views.PublicProjects({el: "#wrapper"});
+		Data.Views.publicView = new App.Views.PublicProjects({el: "#wrapper"});
 	},
 	
 	publicProject: function (id){

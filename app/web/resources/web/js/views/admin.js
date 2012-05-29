@@ -2075,9 +2075,8 @@ App.Views.AdminEvent = Backbone.View.extend({
 
 	render: function(){
 		this.checkUser();
-		$(this.el).html(JST.site_settings_edit({model: this.model}));
+		$(this.el).html(JST.event_settings_edit({model: this.model}));
 		this.loadDatePicker();
-		return this;
 	},
 	
 	checkUser: function (){
@@ -2092,12 +2091,13 @@ App.Views.AdminEvent = Backbone.View.extend({
 		if (this.model.isNew()){
 			var start_date = new Date();
 			var end_date = new Date();
+			start_date = start_date.toJSON(); 
+			end_date = end_date.toJSON();
 		}else{
-			var start_date = new Date(this.model.get("start_date"));
-			var end_date = new Date(this.model.get("end_date"));			
+			var start_date = this.model.get("start_date");
+			var end_date = this.model.get("end_date");		
 		}
 			
-		
 		/*
 		 * fill inputs
 		 */
@@ -2129,7 +2129,9 @@ App.Views.AdminEvent = Backbone.View.extend({
 	},
 	
 	setDateFormat: function (date){
-		var djson = date.toJSON();
+		//var djson = date.toJSON();
+		var djson = date
+
 		date = djson.split('T')[0];
 		date = date.split("-");
 		time = djson.split('T')[1];
@@ -2181,6 +2183,7 @@ App.Views.AdminEvent = Backbone.View.extend({
 		var data = {
 			name: $("input[name=name]", this.el).val(),
 			url: $("input[name=url]", this.el).val(),
+			streaming_url: $("input[name=streaming_url]", this.el).val(),
 			twitter: $("input[name=twitter]", this.el).val(),
 			description: $("textarea[name=description]", this.el).val(),
 			email: $("input[name=email]", this.el).val(),
