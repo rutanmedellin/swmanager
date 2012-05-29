@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import get_model
 
+
 class UserFactory(factory.Factory):
     FACTORY_FOR = User
     username = "tony"
@@ -14,7 +15,6 @@ User.Factory = UserFactory
 
 
 def user_create(cls, **kwargs):
-    print "CREATING USER &&&&&&&&&&&&&&&&"
     # figure out the profile's related name and strip profile's kwargs
     profile_model, profile_kwargs = None, {}
     try:
@@ -48,7 +48,7 @@ def user_create(cls, **kwargs):
             user=user, defaults=profile_kwargs)
         if not created:
             print "not created"
-            for k,v in profile_kwargs.items():
+            for k, v in profile_kwargs.items():
                 setattr(profile, k, v)
             profile.save()
         setattr(user, related_name, profile)
@@ -56,6 +56,7 @@ def user_create(cls, **kwargs):
     print "user: %s" % user
     return user
 UserFactory.set_creation_function(user_create)
+
 
 class ParticipantFactory(UserFactory):
     pass

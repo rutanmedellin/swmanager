@@ -15,4 +15,3 @@ class GroupResource(ModelResource):
         filtering = {
             "name": ALL
         }
-        
