@@ -27,3 +27,19 @@ class TestUserResource(SWManagerTestCase):
         response.json = json.loads(response.content)
         print response.json
         self.assertEqual('participants', response.json.get('role'))
+
+    def test_participant_signup_with_invaild_invitation(self):
+        data = {'invitation': None,
+                'username': 'invited_montana',
+                'email': 'invited@montana.com',
+                'password': 'secrect'}
+
+        response = self.client.post('/api/v1/users/', data=json.dumps(data), content_type='application/json')
+        logging.info(response)
+        self.assertEqual(response.status_code, 400)
+
+    def test_user_query(self):
+        response = self.client.get('/api/v1/users/', {'q': 'user'})
+
+    def test_get_user_by_role(self):
+        response = self.client.get('/api/v1/users/', {'role': 'participants'})
