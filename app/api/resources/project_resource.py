@@ -7,7 +7,7 @@ from core.models import Project
 
 class ProjectResource(ModelResource):
     owner = fields.ToOneField('api.resources.UserResource', 'owner', full=True)
-    
+    team = fields.ToManyField('api.resources.UserResource', 'team')
     
     class Meta:
         queryset = Project.objects.all()
