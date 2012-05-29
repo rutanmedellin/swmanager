@@ -108,7 +108,7 @@ describe("Public Projects view", function (){
 			this.projects.fetch();
 			this.server.respond();
 						
-			this.view.projects = new App.Views.Projects({el: ".participants-projects", collection: this.projects});				
+			this.view.projects = new App.Views.Projects({el: "#list", collection: this.projects});				
 		});
 		
 		afterEach(function (){

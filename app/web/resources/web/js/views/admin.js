@@ -114,6 +114,11 @@ App.Views.AdminUserView = Backbone.View.extend({
 
 	initialize: function (){
 		_.bindAll(this, 'render', 'detail', 'profile', 'remove');
+		if (this.options.loggedUser == undefined){
+			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
+		}else{
+			this.loggedUser = this.options.loggedUser	
+		}	
 		this.render();	
 	},
 	
@@ -124,7 +129,8 @@ App.Views.AdminUserView = Backbone.View.extend({
 	},
 
 	render: function(){
-		this.avatar()				
+		this.avatar();
+		this.checkUser();				
 		$(this.el).html(JST.user_row({model: this.model}));
 		return this;
 	},
@@ -133,6 +139,19 @@ App.Views.AdminUserView = Backbone.View.extend({
 	avatar: function (){
 		gravatar_url = Gravatar(this.model.escape("email"));
 		this.model.avatar = gravatar_url;
+	},	
+	
+	checkUser: function (){
+		var view = this;
+		if (this.loggedUser != undefined) {
+			if(this.loggedUser.isNew()){
+				this.model.anonymous = true;	
+			}else{
+				this.model.anonymous = false;
+			} 
+		}else{
+			this.model.anonymous = true;
+		}
 	},	
 	
 	detail: function (e){
@@ -145,7 +164,11 @@ App.Views.AdminUserView = Backbone.View.extend({
 	},
 	
 	profile: function (){
-		location = "/#!/admin/user/" + this.model.id;
+		if (this.model.anonymous){
+			location = "/#!/public/participant/" + this.model.id;
+		}else{
+			location = "/#!/admin/user/" + this.model.id;			
+		}
 	},
 	
 	remove: function (){
@@ -303,14 +326,21 @@ App.Views.UserProfileView = Backbone.View.extend({
 	},	
 	
 	checkUser: function (){
+			
 		if ((this.loggedUser != undefined && this.loggedUser.id == this.model.id) || this.loggedUser.get("role") == "admins"){
 			this.model.canEdit = true;
+			if(this.loggedUser.isNew()){
+				this.model.anonymous = true;	
+			}else{
+				this.model.anonymous = false;
+			} 
 		}else{
+			this.model.anonymous = true;
 			this.model.canEdit = false;
 		}
 	},
 	
-	edit: function (){
+	edit: function (){		
 		location = "/#!/admin/user/" + this.model.id + "/edit";	
 	},
 	
