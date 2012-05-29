@@ -1,0 +1,186 @@
+<form class="well form-horizontal">
+  <p>
+  	<h1>
+  		Event Settings
+	</h1>  	
+  </p>
+	
+  <fieldset>
+	  <div class="control-group name">
+	      <label class="control-label">
+	          Name
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="name" value="<%= model.escape('name') %>" placeholder="Name of the event ex. Startup Weekend Medellin">
+			  <p class="help-block hide">Event name required</p>
+	      </div>
+	  </div>  	
+  	  
+	  <div class="control-group email">
+	      <label class="control-label">
+	          Event Email
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="email" value="<%= model.escape('email') %>" placeholder="Event email ex. medellin@startupweekend.org">
+	      </div>
+	  </div>  	
+	  	  
+	  <div class="control-group twitter">
+          <label class="control-label">
+              Twitter
+          </label>
+          <div class="controls">
+          	<div class="input-prepend">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.escape('twitter') %>" placeholder="Event Twitter account ex. SWCol">
+			  <p class="help-block">Twitter username without @</p>
+			</div>
+          </div>
+      </div>	  
+	  
+	  <div class="control-group url">
+	      <label class="control-label">
+	          Event URL
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="url" value="<%= model.escape('url') %>" placeholder="Event URL ex. http://medellin.startupweekend.org">
+			  <p class="help-block hide">Event url required</p>
+	      </div>
+	  </div>
+	  
+	  <div class="control-group cover">
+	      <label class="control-label">
+	          Cover Image URL
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="cover" value="<%= model.escape('cover') %>" placeholder="Event cover image">
+	      </div>
+	  </div>  	  	
+     
+	  <div class="control-group streaming">
+	      <label class="control-label">
+	          Streaming URL
+	      </label>
+	      <div class="controls">
+	          <input type="text" name="streaming_url" value="<%= model.escape('streaming_url') %>" placeholder="Event streaming url">
+	      </div>
+	  </div>  	  	
+     	 
+	 
+      <div class="control-group description">
+          <label class="control-label">
+              Description
+          </label>
+          <div class="controls">
+              <textarea rows="5" name="description" placeholder="A little resume of the event"><%= model.escape("description") %></textarea>
+          </div>
+      </div>
+	  
+	  <div class="control-group start">
+	      <label class="control-label">
+	          Start date-time
+	      </label>
+	      <div class="controls">
+	          <input class="input-small" type="text" name="start_date" value="" placeholder="Start date" data-date-format="yyyy/mm/dd"> at 
+			  <select name="start_hours" class="input-mini">
+			  	<option value="01">01</option>
+				<option value="02">02</option>
+				<option value="03">03</option>
+				<option value="04">04</option>
+				<option value="05">05</option>
+				<option value="06">06</option>
+				<option value="07">07</option>
+				<option value="08">08</option>
+				<option value="09">09</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			  </select> : 
+			  <select name="start_minutes" class="input-mini">
+			  	<option value="00">00</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option value="40">40</option>
+				<option value="50">50</option>
+			  </select>
+			  <select name="start_meridian" class="input-mini">
+			  	<option value="AM">AM</option>
+				<option value="PM">PM</option>
+			  </select> 			   
+			  <p class="help-block hide">Event start date required</p>
+	      </div>
+	  </div>  	
+	  
+	  <div class="control-group end">
+	      <label class="control-label">
+	          End date-time
+	      </label>
+	      <div class="controls">
+	          <input class="input-small" type="text" name="end_date" value="" placeholder="End date" data-date-format="yyyy/mm/dd"> at 
+			  <select name="end_hours" class="input-mini">
+			  	<option>01</option>
+				<option>02</option>
+				<option>03</option>
+				<option>04</option>
+				<option>05</option>
+				<option>06</option>
+				<option>07</option>
+				<option>08</option>
+				<option>09</option>
+				<option>10</option>
+				<option>11</option>
+				<option>12</option>
+			  </select> : 
+			  <select name="end_minutes" class="input-mini">
+			  	<option>00</option>
+				<option>10</option>
+				<option>20</option>
+				<option>30</option>
+				<option>40</option>
+				<option>50</option>
+			  </select> 
+			  <select name="end_meridian" class="input-mini">
+			  	<option >AM</option>
+				<option>PM</option>
+			  </select>
+			  <p class="help-block hide">Event end date required</p> 
+	      </div>
+	  </div> 
+	  
+
+	  <div class="form-actions">
+          <button class="btn btn-primary save">Save</button>
+          <button class="btn cancel">
+              Cancel
+          </button>
+      </div>		  
+	  
+  </fieldset>
+  
+</form>
+
+<div class="modal hide fade" id="save-success">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Saving event settings</h3>
+  </div>
+  <div class="modal-body">
+    <p>Complete</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
+<div class="modal hide fade" id="save-error">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Saving event settings Error</h3>
+  </div>
+  <div class="modal-body">
+    <p>Try again later.</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
