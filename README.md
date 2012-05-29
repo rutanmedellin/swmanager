@@ -31,7 +31,7 @@ This project runs django and tastypie specific version to work with mongodb. See
 This project uses unittest2 with nose as runner trough TOX.
 
 ### Running tests
-```
+```bash
 $ cd /path/to/project/root/
 $ tox
 ```
