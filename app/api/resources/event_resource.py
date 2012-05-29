@@ -11,4 +11,4 @@ class EventResource(ModelResource):
         queryset = Event.objects.all()
         authorization = Authorization()
         always_return_data = True
-        allowed_methods = ['post', 'get']
+        allowed_methods = ['post', 'get', 'put']
