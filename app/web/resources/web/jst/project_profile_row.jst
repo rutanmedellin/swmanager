@@ -1,0 +1,12 @@
+<tr>
+    <td>
+    	<% if (model.anonymous) { %>
+	    	<h2><a class="name" href="#!/public/project/<%= model.id %>"><%= model.escape("name") %></a></h2>
+		<% }else{ %>
+			<h2><a class="name" href="#!/admin/project/<%= model.id %>"><%= model.escape("name") %></a></h2>
+		<% } %>		
+		<p>
+	    	<%= model.escape("description") %>
+	    </p>
+	</td>
+</tr>
