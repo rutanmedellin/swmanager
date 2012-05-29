@@ -7,7 +7,7 @@ from group_factory import GroupFactory
 
 class InvitationFactory(factory.Factory):
     FACTORY_FOR = Invitation
-    host = factory.SubFactory(UserFactory)
+    host = factory.SubFactory(UserFactory, username="thehost")
     key = factory.LazyAttribute(lambda a: str(randint(1, 100000)))
     to = factory.SubFactory(GroupFactory)
 Invitation.Factory = InvitationFactory

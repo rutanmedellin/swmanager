@@ -5,6 +5,8 @@ from activation.models import Invitation
 from django.contrib.auth.models import User, Group
 from django.utils import simplejson as json
 
+from core import factories
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -24,4 +26,4 @@ class TestUserResource(SWManagerTestCase):
         self.assertEqual(response.status_code, 201)
         response.json = json.loads(response.content)
         print response.json
-        self.assertIn('participants', response.json.get('roles'))
+        self.assertEqual('participants', response.json.get('role'))
