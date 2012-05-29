@@ -162,7 +162,7 @@ App.Views.PublicProjects = Backbone.View.extend({
 	
 	render: function (){
 		var view = this;
-		$(this.el).html(JST.public_projects());
+		$(this.el).html(JST.public_list());
 		
 		Data.Collections.projects = new App.Collections.Projects();
 		Data.Collections.projects.fetch(
@@ -171,7 +171,7 @@ App.Views.PublicProjects = Backbone.View.extend({
 					/*
 					 * the App.Views.Projects is taken from the admin view
 					 */
-					view.projects = new App.Views.Projects({el: ".participants-projects", collection: collection});
+					view.projects = new App.Views.Projects({el: "#list", collection: collection});
 				},
 				error: function (collection, response){
 					
@@ -183,4 +183,42 @@ App.Views.PublicProjects = Backbone.View.extend({
 	
 });
 
+/*
+ * Public Participants
+ */
 
+App.Views.PublicParticipants = Backbone.View.extend({
+	tagName: "div",
+	className: "container",
+	initialize: function (){
+		_.bindAll(this, 'render');
+		this.render();		
+	},
+	
+	events: {
+		
+	},
+	
+	render: function (){
+		var view = this;
+		$(this.el).html(JST.public_list());
+		
+		Data.Collections.participants = new App.Collections.Users();
+		Data.Collections.participants.fetch(
+			{				
+				data: {
+					role: "participants"
+				},
+				success: function (collection, response){
+					participants = new App.Views.AdminUsersList({el: "#list", collection: collection, role: "participants"});
+				},
+				error: function (collection, response){
+					
+				}
+			}
+		);	
+
+	},
+	
+});
+ 
