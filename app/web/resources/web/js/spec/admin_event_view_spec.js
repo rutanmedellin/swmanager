@@ -1,6 +1,10 @@
 describe("Event settings View", function (){
 beforeEach(function (){
 		// set dom fixture
+		
+		$.fn.modal = function (options) {};
+		$.fn.datepicker = function (options) {};
+		
 		setFixtures('<div class="admin-content"></div>');
 		
 		this.event_data = {
@@ -11,12 +15,12 @@ beforeEach(function (){
 					'twitter': "SWCol",
 					'description': "Hola mundo",
 					'url': 'http://medellin.startupweekend.org',
-					'start_date': 23345342334,
-					'end_date': 23345342334,
+					'start_date': "2012-06-08T17:30:00",
+					'end_date': "2012-06-10T21:30:00",
 					'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
 				};
 		
-		Data.Models.event = new App.Models.Event(this.event_data);
+		this.event_model = new App.Models.Event(this.event_data);
 		
 		Data.Models.account = new App.Models.Account({
 					'id': 1,
@@ -33,7 +37,7 @@ beforeEach(function (){
 		});
 		Data.Models.account.id = 1;
 		
-		this.view = new App.Views.AdminEvent({el: ".admin-content", model: Data.Models.event});
+		this.view = new App.Views.AdminEvent({el: ".admin-content", model: this.event_model});
 	});
 	
 	afterEach(function (){
@@ -71,6 +75,10 @@ beforeEach(function (){
 			expect($(".url", this.view.el).length).toEqual(1);
 		});
 		
+		it("should be the streaming_url of the event", function (){
+			expect($(".streaming", this.view.el).length).toEqual(1);
+		});
+		
 		it("should be the description of the event", function (){
 			expect($(".description", this.view.el).length).toEqual(1);
 		});
@@ -104,7 +112,7 @@ beforeEach(function (){
 
 				}
 				
-				this.eventStub = sinon.stub(Data.Models.event, "save").returns(Data.Models.event);
+				this.eventStub = sinon.stub(this.event_model, "save").returns(this.event_model);
 				this.view.save();
 			});
 			

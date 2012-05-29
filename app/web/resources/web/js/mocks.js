@@ -437,8 +437,9 @@ $.ajax = function ajaxMock(params) {
 							'twitter': "SWCol",
 							'description': "Hola mundo",
 							'url': 'http://medellin.startupweekend.org',
-							'start_date': "2012-06-08T17:30:00",
-							'end_date': "2012-06-10T19:30:00",
+							'streaming_url': 'http://medellin.startupweekend.org',
+							'start_date': "2012-05-26T17:30:00",
+							'end_date': "2012-05-28T19:15:00",
 							'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
 						}]
 					};
@@ -451,6 +452,7 @@ $.ajax = function ajaxMock(params) {
 							'twitter': "SWCol",
 							'description': "Hola mundo",
 							'url': 'http://medellin.startupweekend.org',
+							'streaming_url': 'http://medellin.startupweekend.org',
 							'start_date': "2012-06-08T17:30:00",
 							'end_date': "2012-06-10T19:30:00",
 							'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
