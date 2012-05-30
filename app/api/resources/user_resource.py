@@ -89,13 +89,25 @@ class UserResource(ModelResource):
             qset = Q(groups__name=role)
             base_object_list = base_object_list.filter(qset)
 
+        #: Participant type
+        ptype = request.GET.get('participant_type', None)
+        if ptype:
+            qset = Q(userprofile__participant_type=ptype)
+            base_object_list = base_object_list.filter(qset)
+
         return base_object_list
 
     def dehydrate(self, bundle):
-        print "asfasgagasgasg"
+        #: Set role
         if bundle.obj.groups.all().count() > 0:
             role = bundle.obj.groups.all()[0].name
         else:
             role = 'anonymous'
         bundle.data['role'] = role
+
+        #: Set participant type
+        try:
+            bundle.data['participant_type'] = bundle.obj.get_profile().participant_type
+        except UserProfile.DoesNotExist:
+            bundle.data['participant_type'] = ''
         return bundle

@@ -43,3 +43,6 @@ class TestUserResource(SWManagerTestCase):
 
     def test_get_user_by_role(self):
         response = self.client.get('/api/v1/users/', {'role': 'participants'})
+
+    def test_get_user_by_participant_type(self):
+        response = self.client.get('/api/v1/users/', {'participant_type': 'developer'})
