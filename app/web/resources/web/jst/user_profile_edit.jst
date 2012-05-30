@@ -8,8 +8,9 @@
   		<% } %>		  		
 	</h1>  	
   </p>
-	
+    
   <fieldset>
+  	  
 	  <div class="control-group email">
 	      <label class="control-label">
 	          Email
@@ -32,7 +33,7 @@
               First Name
           </label>
           <div class="controls">
-              <input type="text" name="first_name" value="<%= model.escape('first_name') %>"><span class="help-inline">*</span>
+              <input type="text" name="first_name" value="<%= model.escape('first_name') %>" placeholder="First name"><span class="help-inline">*</span>
 			  <p class="help-block hide">First name required</p>
           </div>
       </div>
@@ -41,7 +42,7 @@
               Last Name
           </label>
           <div class="controls">
-              <input type="text" name="last_name" value="<%= model.escape('last_name') %>"><span class="help-inline">*</span>
+              <input type="text" name="last_name" value="<%= model.escape('last_name') %>" placeholder="Last name"><span class="help-inline">*</span>
 			  <p class="help-block hide">Last name required</p>
           </div>
       </div>
@@ -66,7 +67,7 @@
           </label>
           <div class="controls">
           	<div class="input-prepend">
-          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.escape('twitter') %>">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.escape('twitter') %>" placeholder="Your twitter account">
 			  <p class="help-block">Twitter username without @</p>
 			</div>
           </div>
@@ -113,7 +114,31 @@
 	              </select>
 	          </div>
 	 <% } %>
-      
+      <span class="btn" data-toggle="collapse" data-target="#demo">
+				Change password
+	  </span>
+	  <div class="collapse out password" id="demo">
+	  	<div class="form-actions">
+	  	  <div class="control-group">  	
+		      <label class="control-label">
+		          Current password
+		      </label>
+		      <div class="controls">
+		          <input type="password" name="old_password" placeholder="Password" value="">
+		      </div>
+		  </div>
+	      <div class="control-group">
+			  <label class="control-label">
+		          New password
+		      </label>
+		      <div class="controls">
+		          <input type="password" name="password" placeholder="New password" value="">
+		      </div>
+		  </div>
+		 </div>
+	  </div>
+	
+	  
       <div class="form-actions">
           <button class="btn btn-primary save">
               Save changes
