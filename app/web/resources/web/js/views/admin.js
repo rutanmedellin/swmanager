@@ -528,6 +528,8 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 			bio: $("input[name=bio]", this.el).val(),
 			role: $("select[name=role]", this.el).val(),
 			participant_type: $("select[name=participant_type]", this.el).val(),
+			old_password: $("input[name=old_password]", this.el).val(),
+			password: $("input[name=password]", this.el).val(),
 		};
 		this.model.save(data, {
 			success: function (model, response){
