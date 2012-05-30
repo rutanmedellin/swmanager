@@ -38,6 +38,9 @@ class UserProfile(models.Model):
     #: Is a public profile.
     is_public = models.BooleanField("Public", default=True)
 
+    #: Designer, Non tech or Developer
+    participant_type = models.CharField(max_length=254)
+    
     #: Custom Objects.
     objects = UserProfileManager()
 
