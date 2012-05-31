@@ -75,15 +75,12 @@
 		<hr>
 		<footer>
 		    <p>
-		        &copy; Company 2012
-				<a href="http://twitter.com/share" class="twitter-share-button"
-         data-url="http://www.mysite.com"
-         data-text="example"
-         data-count="none">Tweet</a>
+		        &copy; Company 2012				
 		    </p>
 		</footer>
 	</div>
 
+	<div id="fb-root"></div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -167,12 +164,27 @@
 		});
 	</script>
 
-	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <script type="text/javascript">
-      twttr.events.bind('tweet', function(event) {
-      alert("Lottery Entry Successful");
-       window.location = "http://www.mysite.com"
-      });
+	window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '184632058330005', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true,  // parse XFBML
+      oauth		 : true
+    });
+	
+    // Additional initialization code here
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));	     
     </script>
 
   </body>
