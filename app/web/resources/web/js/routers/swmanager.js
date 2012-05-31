@@ -15,20 +15,20 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 		'!/admin/admin-users': "adminUsers",
 		'!/admin/participants': "adminParticipants",
 		'!/admin/account': "adminAccount",
-		'!/admin/user/:id': "adminAccount",
+		'!/admin/users/:id': "adminAccount",
 		'!/user/registration?:params': "registration",
-		'!/admin/user/:id/edit': "adminEditProfile",
+		'!/admin/users/:id/edit': "adminEditProfile",
 		'!/admin/ideas': "adminIdeas",
-		'!/admin/idea/:id': "adminIdea",
-		'!/admin/idea/:id/edit': "adminIdeaEdit",
+		'!/admin/ideas/:id': "adminIdea",
+		'!/admin/ideas/:id/edit': "adminIdeaEdit",
 		'!/admin/projects': "adminProjects",
-		'!/admin/project/:id': "adminProject",
+		'!/admin/projects/:id': "adminProject",
 		'!/admin/event': "adminEvent",
-		'!/admin/project/:id/edit': "adminProjectEdit",
+		'!/admin/projects/:id/edit': "adminProjectEdit",
 		'!/public/projects': "publicProjects",
-		'!/public/project/:id': "publicProject",
+		'!/public/projects/:id': "publicProject",
 		'!/public/participants': "publicParticipants",
-		'!/public/participant/:id': "publicParticipant",
+		'!/public/participants/:id': "publicParticipant",
 	},
 	
 	/*
@@ -292,6 +292,7 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 						el: "#list",
 						model: model
 					});
+					FB.XFBML.parse();
 				},
 				error: function(model, response){
 				

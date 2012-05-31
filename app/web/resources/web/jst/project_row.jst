@@ -1,9 +1,9 @@
 <td>
 <h2 class="name">
 	<% if (model.anonymous) { %>
-		<a href="#!/public/project/<%= model.id %>"><%= model.escape("name") %></a>
+		<a href="#!/public/projects/<%= model.id %>"><%= model.escape("name") %></a>
 	<% }else{ %>
-		<a href="#!/admin/project/<%= model.id %>"><%= model.escape("name") %></a>
+		<a href="#!/admin/projects/<%= model.id %>"><%= model.escape("name") %></a>
 	<% } %> 		
 </h2> 
 
@@ -15,15 +15,19 @@
 <p>
 <%= model.escape("description") %>	
 </p>
-<p>
-<small>Votes </small> <span class="badge badge-inverse">	<%= model.get("votes") %></span>
-</p>
 
 <div class="btn-group visible-desktop">
 	<% if (model.canEdit) { %>
-		<a class="edit" href="#!/admin/project/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
-	<% }else{ %>
-		<a class="btn btn-primary vote">Vote</a>
+		<a class="edit" href="#!/admin/projects/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+	<% }else{ %>		
+		<div class="fb-like" 
+			data-href="<%= location.href %>" 
+			data-send="false" 
+			data-layout="button_count" 
+			data-width="450" 
+			data-show-faces="true" 
+			data-font="tahoma"></div>
+		<div class="edit"></div>
 	<% } %> 
 </div>
 </td>

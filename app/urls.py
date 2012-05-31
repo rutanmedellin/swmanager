@@ -29,4 +29,10 @@ urlpatterns = patterns(
     
     # jasmine testings urls
     url(r'^jasmine/', include('django_jasmine.urls')),
+    
+)
+
+    # redirect to dinami url from canonical url
+urlpatterns += patterns('django.views.generic.simple',
+    ('^hash/(?P<org_url>[A-Za-z0-9/]+)$', 'redirect_to', {'url': '/#!/%(org_url)s'}),
 )

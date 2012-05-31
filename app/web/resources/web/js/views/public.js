@@ -172,6 +172,7 @@ App.Views.PublicProjects = Backbone.View.extend({
 					 * the App.Views.Projects is taken from the admin view
 					 */
 					view.projects = new App.Views.Projects({el: "#list", collection: collection});
+					FB.XFBML.parse();
 				},
 				error: function (collection, response){
 					

@@ -102,3 +102,22 @@ $('.login-btn', view.el).popover({
 		location = "/";
 	}
 })
+
+
+
+/*
+ * Facebook login 
+ */
+var FBLogin = function(){
+	FB.login(function(response){
+		if (response.authResponse) {
+			log('Welcome!  Fetching your information.... ');
+			FB.api('/me', function(response){
+				console.log('Good to see you, ' + response.name + '.');
+			});
+		}
+		else {
+			log('User cancelled login or did not fully authorize.');
+		}
+	});
+}
