@@ -24,11 +24,11 @@ MANAGERS = ADMINS
 #from postgresify import postgresify
 #DATABASES = postgresify()
 
-from dj_database_url import config as database_config
+#from dj_database_url import config as database_config
 
-DATABASES = {
-    'default': database_config()
-}
+#DATABASES = {
+#    'default': database_config()
+#}
 
 
 
