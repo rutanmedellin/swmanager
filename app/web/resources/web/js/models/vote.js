@@ -16,7 +16,7 @@ App.Models.Vote = App.Models.BaseModel.extend({
 			errors.name = "User ID required";
 			errors_count +=1;
 		}
-		if(attrs.type == undefined || attrs.type == ""){		
+		if(attrs.vote_type == undefined || attrs.vote_type == ""){		
 			errors.participant = "Type of vote required";
 			errors_count +=1;
 		}
