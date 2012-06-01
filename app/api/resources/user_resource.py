@@ -41,7 +41,6 @@ class UserResource(ModelResource):
 
     #role = fields.ToManyField(GroupResource, attribute='groups')
 
-    #votes = fields.ToOneField(VoteResource, 'votes')
     
     class Meta:
         queryset = User.objects.all()

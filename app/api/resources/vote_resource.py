@@ -38,6 +38,6 @@ class VoteResource(ModelResource):
         }
         
         always_return_data = True
-        allowed_methods = ['post', 'get']
+        allowed_methods = ['post', 'get', 'delete']
         
         
