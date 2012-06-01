@@ -222,9 +222,6 @@ describe("Admin Projects view", function (){
 				this.view.projects.project.render();
 			});			
 			
-			it("should has a vote button", function (){
-				expect($(".vote", this.view.projects.project.el).length).toEqual(1);
-			});
 			
 			describe("When projects vote method is call", function (){
 				

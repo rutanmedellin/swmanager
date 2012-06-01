@@ -55,27 +55,27 @@ describe("AppRouter routes", function() {
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
-  it("fires the admin route with a #!/admin/user/:id hash", function (){
+  it("fires the admin route with a #!/admin/users/:id hash", function (){
   	this.router.bind("route:adminAccount", this.routeSpy);
-    this.router.navigate("/#!/admin/user/1", true);
+    this.router.navigate("/#!/admin/users/1", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
-  it("fires the admin route with a #!/admin/user/:id/edit hash", function (){
+  it("fires the admin route with a #!/admin/users/:id/edit hash", function (){
   	this.router.bind("route:adminEditProfile", this.routeSpy);
-    this.router.navigate("/#!/admin/user/1/edit", true);
+    this.router.navigate("/#!/admin/users/1/edit", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
-  it("fires the admin route with a #!/admin/idea/:id hash", function (){
+  it("fires the admin route with a #!/admin/ideas/:id hash", function (){
   	this.router.bind("route:adminIdea", this.routeSpy);
-    this.router.navigate("/#!/admin/idea/1", true);
+    this.router.navigate("/#!/admin/ideas/1", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 
-  it("fires the admin route with a #!/admin/idea/:id/edit hash", function (){
+  it("fires the admin route with a #!/admin/ideas/:id/edit hash", function (){
   	this.router.bind("route:adminIdeaEdit", this.routeSpy);
-    this.router.navigate("/#!/admin/idea/1/edit", true);
+    this.router.navigate("/#!/admin/ideas/1/edit", true);
     expect(this.routeSpy.calledOnce).toBeTruthy();
   });
 

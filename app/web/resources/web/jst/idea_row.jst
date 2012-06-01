@@ -13,7 +13,11 @@
 	<% if (model.canEdit) { %>
 		<a class="edit" href="#!/admin/ideas/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
 	<% }else{ %>
-		<a class="btn btn-primary vote">Vote</a>
+		<% if (model.canVote) { %>
+			<a class="btn btn-primary vote">Vote</a>
+		<% }else{ %>
+			<a class="btn disabled unvote">Remove Vote</a>
+		<% } %>
 	<% } %> 
 </div>
 </td>

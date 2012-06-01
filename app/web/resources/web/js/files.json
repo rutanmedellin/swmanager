@@ -2,8 +2,10 @@
     "name": "Main Test Suite",
     "js_files": [	
 		"/media/web/js/libs/jquery-1.7.1.min.js",
-		"/media/web/bootstrap/bootstrap.js",
-		"/media/web/bootstrap/bootstrap-modal.js",		
+		"/media/web/js/bootstrap/bootstrap.js",
+		"/media/web/js/bootstrap/bootstrap-modal.js",
+		"/media/web/js/libs/spin.min.js",
+		"/media/web/js/libs/jquery.spin.js",		
 		"/media/web/js/plugins.js",
 		"/media/web/js/utils.js",
 		"/media/web/js/cookies.js",

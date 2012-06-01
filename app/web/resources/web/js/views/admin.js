@@ -383,7 +383,14 @@ App.Views.UserProfileView = Backbone.View.extend({
 	},
 	
 	remove: function (){
-		log('remove');
+		try{
+			e.preventDefault();
+		}catch(e){}
+		this.undelegateEvents();
+		this.model.destroy();
+		this.remove();
+		Data.Routers.router.navigate("#!/admin/users", true);		
+		return false;
 	},
 	
 }); 
@@ -455,7 +462,8 @@ App.Views.UserIdeas = Backbone.View.extend({
 	},
 	
 	addOne: function (idea){
-		idea.anonymous = this.collection.anonymous; 
+		idea.anonymous = this.collection.anonymous;
+		idea.validateVoting(); 
 		$("table", this.el).append(JST.idea_profile_row({model: idea}));
 	},
 	
@@ -531,7 +539,7 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 			first_name: $("input[name=first_name]", this.el).val(),
 			last_name: $("input[name=last_name]", this.el).val(),
 			twitter: $("input[name=twitter]", this.el).val(),
-			bio: $("input[name=bio]", this.el).val(),
+			bio: $("textarea[name=bio]", this.el).val(),
 			role: $("select[name=role]", this.el).val(),
 			participant_type: $("select[name=participant_type]", this.el).val(),
 			old_password: $("input[name=old_password]", this.el).val(),
@@ -554,6 +562,9 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 					}
 					else {
 						errors = response;
+					}
+					if (errors == undefined){
+						return;
 					}
 					if (errors.first_name != undefined) {
 						$(".help-block", ".first-name").removeClass("hide");
@@ -631,13 +642,15 @@ App.Views.Idea = Backbone.View.extend({
 		"click": 	"detail",
 		"click .name":	"profile",
 		"click .vote": "vote",
+		"click .unvote": "unvote",
 		"click .edit": "edit",		
 		"click .remove":	"remove",
 	},
 
 	render: function(){
 		this.avatar();
-		this.checkUser();				
+		this.checkUser();
+		this.model.validateVoting();				
 		$(this.el).html(JST.idea_row({model: this.model}));
 		return this;
 	},
@@ -658,28 +671,55 @@ App.Views.Idea = Backbone.View.extend({
 	
 	vote: function (){
 		var view = this;
-		Data.Models.vote = new App.Models.Vote();
-		Data.Models.vote.save({
-			user: Data.Models.account.url(),
-			vote_type: "idea",
-			type_id: this.model.url()
-		},{
-			success: function (model, response){
-				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
+		view.model.validateVoting();
+		if (view.model.canVote) {
+			Data.Models.vote = new App.Models.Vote();
+			Data.Models.vote.save({
+				user: Data.Models.account.url(),
+				vote_type: "idea",
+				type_id: this.model.url()
+			}, {
+				success: function(model, response){
+					view.model.set({
+						"votes": view.model.get("votes") + 1
+					}, {
+						silent: true
+					});
+					view.model.addVote(model);
+					
+					view.render();
+					$("#vote-success").modal("show");
+				},
+				error: function(model, response){
+					$("#vote-error").modal("show");
+				}
+			});
+		}else{
+			$("#vote-error").modal("show");
+		}
+		return false;
+	},
+	
+	unvote: function (){
+		var view = this;
+		this.model.user_vote.destroy({
+			success: function (model, respond){
+				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
+				view.model.removeVote();
 				view.render();
-				$("#vote-success").modal("show");
 			},
 			error: function (model, response){
-				$("#vote-error").modal("show");
+				
 			}
 		});
+		return false;
 	},
 	
 	detail: function (e){
-		if($(".edit", this.el).is(':visible') || $(".vote", this.el).is(':visible') ){
+		if($(".edit", this.el).is(':visible') || $(".vote", this.el).is(':visible') || $(".unvote", this.el).is(':visible')){
 			log("entro");
 			e.preventDefault();
-			return;	
+			return false;	
 		}else{
 			this.profile();
 		}
@@ -1024,6 +1064,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 		var view = this;
 		this.avatar();
 		this.checkUser();
+		this.model.validateVoting();
 		$(this.el).html(JST.idea_detail({model: this.model}));
 
 	},
@@ -1055,10 +1096,15 @@ App.Views.AdminIdea = Backbone.View.extend({
 			success: function (model, response){
 				log("project created");
 				view.new_project = model;
-				view.model.save({
+				var idea = view.model;			
+				idea.save({
+					participant: {
+						id: view.model.get("participant").id
+					},
 					isProject: true
 					},{
 					success: function (model, response){
+						view.model.set({isProject: true}, {silent: true});
 						$(".go-project", view.el).attr('href', "#!/admin/projects/" + view.new_project.id);
 						$("#save-success").modal();	
 					},

@@ -19,7 +19,22 @@ describe("Admin Idea view", function (){
 			"description": "test",
 			"resource_uri": "/api/v1/ideas/123"
 		};
-	  
+		
+		Data.Models.account = new App.Models.Account({
+					'id': 1,
+					'resource_uri': "/api/v1/users/1",
+					'username': "juanpgaviria",
+					'first_name': "juan",
+					'last_name': "gaviria",
+					'email': "juanpgaviria@gmail.com",
+					'twitter': "@juanpgaviria",
+					'role': "admins",
+					'bio': "hola mundo",
+					'votes': [],
+					'ideas': "/api/v1/ideas/?user=1",
+					'projects': "/api/v1/projects/?user=1"
+				});
+			  
 	  	this.idea = new App.Models.Idea();
 		this.idea.set(this.idea_data);
 		this.idea.id = this.idea_data.id;
@@ -64,6 +79,7 @@ describe("Admin Idea view", function (){
 					'twitter': "@juanpgaviria",
 					'role': "admins",
 					'bio': "hola mundo",
+					'votes': [],
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				});
@@ -88,6 +104,7 @@ describe("Admin Idea view", function (){
 					'twitter': "@juanpgaviria",
 					'role': "participants",
 					'bio': "hola mundo",
+					'votes': [],
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				});

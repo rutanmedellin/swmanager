@@ -133,7 +133,8 @@ $.ajax = function ajaxMock(params) {
 								twitter: "juanpgaviria",
 								participant_type: "",
 								'bio': "hola mundo",
-								"resource_uri": "/api/v1/users/5/"			
+								"resource_uri": "/api/v1/users/5/",
+								votes: []			
 							},
 							{
 						  		id: 6, 
@@ -146,6 +147,7 @@ $.ajax = function ajaxMock(params) {
 								projects: "/api/v1/projects/?user=6",
 								twitter: "scastillo",
 								participant_type: "developer",
+								votes: [],
 								'bio': "hola mundo",
 								"resource_uri": "/api/v1/users/6/"
 							},							
@@ -160,6 +162,7 @@ $.ajax = function ajaxMock(params) {
 								projects: "/api/v1/projects/?user=6",
 								twitter: "scastillo",
 								participant_type: "non-tech",
+								votes: [],
 								'bio': "hola mundo",
 								"resource_uri": "/api/v1/users/6/"
 							}
@@ -176,9 +179,23 @@ $.ajax = function ajaxMock(params) {
 					'last_name': "",
 					'email': "juanpgaviria@gmail.com",
 					'twitter': "juanpgaviria", 
-					'role': "admins",
+					'role': "participants",
 					'bio': "hola mundo",
 					'participant_type': 'non-tech',
+					'votes': [
+						{
+							id: "4f84b22ade94e65caf000010",
+							type_id: "/api/v1/ideas/4f84b22ade94e65caf000010/",
+							user_id: 2,
+							vote_type: "idea"
+						},
+						{
+							id: "4f84b22ade94e65caf000011",
+							type_id: "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							user_id: 2,
+							vote_type: "idea"
+						}
+					],
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				};
@@ -269,7 +286,7 @@ $.ajax = function ajaxMock(params) {
 							"name": "test",
 							"votes": 15,
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000012/",
 						}, {
 							"id": "4f84b22ade94e65caf000013",
 							"participant": {
@@ -284,7 +301,7 @@ $.ajax = function ajaxMock(params) {
 							"name": "test",
 							"votes": 2,
 							"description": "test",
-							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/ideas/4f84b22ade94e65caf000013/",
 						}]
 					};
 					response = data;
@@ -381,7 +398,7 @@ $.ajax = function ajaxMock(params) {
 							"twitter": "juanpgaviria",
 							"image": "http://graph.facebook.com/StartupWeekendColombia/picture?type=normal",
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000013/",
 						}, {
 							"id": "4f84b22ade94e65caf000013",
 							"owner": {
@@ -399,7 +416,7 @@ $.ajax = function ajaxMock(params) {
 							"image": "http://graph.facebook.com/StartupWeekendColombia/picture?type=normal",
 							"description": "test",
 							"twitter": "juanpgaviria",
-							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000013/",
 						}]
 					};
 				}else if (params.url.match('.*projects/[A-Za-z0-9]+/$') != null) {
@@ -437,7 +454,7 @@ $.ajax = function ajaxMock(params) {
 									"resource_uri": "/api/v1/users/3/",	
 								}],
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
-							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
+							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000013/",
 						};
 				}else if (params.url.match('.*events/$') != null) {
 					data = {
@@ -477,7 +494,92 @@ $.ajax = function ajaxMock(params) {
 							'end_date': "2012-06-10T19:30:00",
 							'cover': "http://medellin.startupweekend.org/files/2012/05/cabezote-SWMed1.jpg",
 						};
-				}
+				}else if (params.url.match('.*votes/$') != null) {
+					data = {
+						"meta": {
+							"limit": 20,
+							"next": null,
+							"offset": 0,
+							"previous": null,
+							"total_count": 4
+						},
+						"objects": [{
+							"id": "4f84b22ade94e65caf000010",
+							"user": {
+									id: "1",
+									email: "manuelzs@gmail.com",
+									username: "manuelzs@gmail.com",
+									first_name: "Manuel",
+									last_name: "Zapata",
+									name: "Manuel Zaapta",
+									"resource_uri": "/api/v1/users/3/",	
+								},
+							"vote_type": "idea",
+							"type_id": "4f84b22ade94e65caf000010",
+							"resource_uri": "/api/v1/votes/4f84b22ade94e65caf000010/",
+						}, {
+							"id": "4f84b22ade94e65caf000011",
+							"user": {
+									id: "1",
+									email: "manuelzs@gmail.com",
+									username: "manuelzs@gmail.com",
+									first_name: "Manuel",
+									last_name: "Zapata",
+									name: "Manuel Zaapta",
+									"resource_uri": "/api/v1/users/3/",	
+								},
+							"vote_type": "idea",
+							"type_id": "4f84b22ade94e65caf000011",
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000011/",
+						}, {
+							"id": "4f84b22ade94e65caf000012",
+							"user": {
+									id: "1",
+									email: "manuelzs@gmail.com",
+									username: "manuelzs@gmail.com",
+									first_name: "Manuel",
+									last_name: "Zapata",
+									name: "Manuel Zaapta",
+									"resource_uri": "/api/v1/users/3/",	
+								},
+							"vote_type": "idea",
+							"type_id": "4f84b22ade94e65caf000012",
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000012/",
+						}, {
+							"id": "4f84b22ade94e65caf000013",
+							"user": {
+									id: "1",
+									email: "manuelzs@gmail.com",
+									username: "manuelzs@gmail.com",
+									first_name: "Manuel",
+									last_name: "Zapata",
+									name: "Manuel Zaapta",
+									"resource_uri": "/api/v1/users/3/",	
+								},
+							"vote_type": "idea",
+							"type_id": "4f84b22ade94e65caf000013",
+							"resource_uri": "/api/v1/users/4f84b22ade94e65caf000013/",
+						}]
+					};
+					response = data;
+			}else if (params.url.match('.*votes/[A-Za-z0-9]$') != null) {
+					data = {
+							"id": "4f84b22ade94e65caf000010",
+							"user": {
+									id: "1",
+									email: "manuelzs@gmail.com",
+									username: "manuelzs@gmail.com",
+									first_name: "Manuel",
+									last_name: "Zapata",
+									name: "Manuel Zaapta",
+									"resource_uri": "/api/v1/users/3/",	
+								},
+							"vote_type": "idea",
+							"type_id": "4f84b22ade94e65caf000010",
+							"resource_uri": "/api/v1/votes/4f84b22ade94e65caf000010/",
+					};
+					response = data;
+			}
 		}
 		else if (params.type == 'PUT' || params.type == 'put') {
 				if (params.url.match('.*invitations/[A-Za-z0-9]+/$') != null) {
@@ -563,6 +665,10 @@ $.ajax = function ajaxMock(params) {
 		}
 		else if (params.type == 'DELETE' || params.type == 'delete') {
 			if (params.url.match('.*invitations/[A-Za-z0-9]+/$') != null) {
+				data = {
+				};
+				response = data;
+			}else if (params.url.match('.*votes/[A-Za-z0-9]+/$') != null) {
 				data = {
 				};
 				response = data;

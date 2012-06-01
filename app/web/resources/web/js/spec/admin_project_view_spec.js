@@ -94,7 +94,7 @@ describe("Admin Project view", function (){
 			});
 		});
 		
-		describe("When participant is seen the idea", function (){
+		describe("When participant is seen the project", function (){
 			beforeEach(function (){
 				Data.Models.account = new App.Models.Account({
 					'id': 1,
@@ -106,6 +106,7 @@ describe("Admin Project view", function (){
 					'twitter': "@juanpgaviria",
 					'role': "participants",
 					'bio': "hola mundo",
+					'votes': [],
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				});
@@ -113,9 +114,6 @@ describe("Admin Project view", function (){
 				this.view = new App.Views.AdminProject({el: ".admin-content", model: this.project});
 			});
 			
-			it("Should render the vote button", function (){
-				expect($(".vote", this.view.el).length).toEqual(1);
-			});	
 		})
 		
 	});		

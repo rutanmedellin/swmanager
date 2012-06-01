@@ -4,6 +4,16 @@ describe("Admin Ideas view", function (){
 		$.fn.modal = function (options){};
 		$.fn.typeahead = function (options){};
 		
+		Data.Models.account = new App.Models.Account({
+			id: "1",
+			first_name: "juan",
+			last_name: "gaviria",
+			email: "juanpgaviria@gmail.com",
+			role: "participants",
+			'votes': [],						
+		});
+		Data.Models.account.id = 1;
+		
 		this.view = new App.Views.AdminIdeas({el: ".admin-content"});		
 	});
 	
@@ -210,7 +220,8 @@ describe("Admin Ideas view", function (){
 						first_name: "juan",
 						last_name: "gaviria",
 						email: "juanpgaviria@gmail.com",
-						role: "participants",						
+						role: "participants",
+						'votes': [],						
 					});
 					Data.Models.account.id = 1;
 					

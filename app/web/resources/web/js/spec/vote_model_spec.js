@@ -45,7 +45,7 @@ describe("Vote Model", function (){
 			
 			// set empty fields to trigger error
 			data = {
-				type: "idea",
+				vote_type: "idea",
 				type_id: "1",
 			}
 			Data.Models.vote.set(data);
@@ -80,7 +80,7 @@ describe("Vote Model", function (){
 			// set empty fields to trigger error
 			data = {
 				user: "1",
-				type: "idea",
+				vote_type: "idea",
 			};
 			Data.Models.vote.set(data);
 			expect(spy.called).toBeTruthy();
@@ -96,7 +96,7 @@ describe("Vote Model", function (){
 			// set with required fields
 			data = {
 				user: "1",
-				type: "idea",
+				vote_type: "idea",
 				type_id: "1"
 			};
 			Data.Models.vote.set(data); 
@@ -111,7 +111,7 @@ describe("Vote Model", function (){
 			// session data
 			this.vote_data = {
 				"id":123, 
-				"type": "idea",
+				"vote_type": "idea",
 				"user": {
 								id: "1",
 								email: "juanpgaviria@gmail.com",
@@ -137,7 +137,7 @@ describe("Vote Model", function (){
 			
 			data = {
 				user: "1",
-				type: "idea",
+				vote_type: "idea",
 				type_id: "1"
 			};
 			Data.Models.vote.set(data);
