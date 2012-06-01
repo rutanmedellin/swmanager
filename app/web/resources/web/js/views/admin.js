@@ -540,7 +540,10 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 		if (this.validate(data)) {
 			this.model.save(data, {
 				success: function(model, response){
-					Data.Routers.router.navigate("/#!/admin/user/" + model.id, true);
+					if(model.id == Data.Models.account.id){
+						Data.Models.account = model;
+					}
+					Data.Routers.router.navigate("/#!/admin/users/" + model.id, true);
 				},
 				error: function(model, response){
 					if (response.status != undefined) {
