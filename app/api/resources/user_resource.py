@@ -13,7 +13,7 @@ from tastypie.constants import ALL
 from activation.models import Invitation
 
 from core.models import UserProfile
-from api.resources import GroupResource
+from api.resources import VoteResource
 
 import logging
 log = logging.getLogger(__name__)
@@ -22,6 +22,9 @@ log = logging.getLogger(__name__)
 class UserResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
         errors = super(UserResourceValidation, self).is_valid(bundle, request)
+
+        if request and request.method == 'PUT':
+            return errors
         
         if not bundle.data or 'invitation' not in bundle.data:
             return {'invitation': 'You need an invitation'}
@@ -38,6 +41,8 @@ class UserResource(ModelResource):
     #TODO: public user
 
     #role = fields.ToManyField(GroupResource, attribute='groups')
+
+    #votes = fields.ToOneField(VoteResource, 'votes')
     
     class Meta:
         queryset = User.objects.all()
@@ -67,6 +72,8 @@ class UserResource(ModelResource):
                                                  password=bundle.data['password'],
                                                  invitation=bundle.data['invitation'])
         return bundle
+
+    
 
     def apply_filters(self, request, applicable_filters):
         base_object_list = super(UserResource, self).apply_filters(
@@ -110,4 +117,10 @@ class UserResource(ModelResource):
             bundle.data['participant_type'] = bundle.obj.get_profile().participant_type
         except UserProfile.DoesNotExist:
             bundle.data['participant_type'] = ''
+
+        #: Set votes
+        bundle.data['votes'] = [int(v.type_id) for v in bundle.obj.votes.all()]
+            
         return bundle
+
+
