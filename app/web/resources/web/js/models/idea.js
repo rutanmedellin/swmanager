@@ -32,17 +32,16 @@ App.Models.Idea = App.Models.BaseModel.extend({
     
     validateVoting: function(){
         var user = Data.Models.account;
-        if (user.get('votes').length < 3) {
-            for (var i = 0; i < user.get('votes').length; i++) {
-                if (this.url() == user.get('votes')[i].type_id) {
-					this.user_vote = new App.Models.Vote(user.get('votes')[i]);
-					this.user_vote.id = user.get('votes')[i].id;
-                    this.canVote = false;
-                    return
-                }
+		this.alreadyVote = false;
+		for (var i = 0; i < user.get('votes').length; i++) {
+            if (this.url() == user.get('votes')[i].type_id) {
+				this.user_vote = new App.Models.Vote(user.get('votes')[i]);
+				this.user_vote.id = user.get('votes')[i].id;
+                this.alreadyVote = true;
             }
+        }
+        if (user.get('votes').length < 3) {
             this.canVote = true;
-			return;
         }else{
 			this.canVote = false;
 		}

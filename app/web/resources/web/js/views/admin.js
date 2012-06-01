@@ -688,7 +688,8 @@ App.Views.Idea = Backbone.View.extend({
 					view.model.addVote(model);
 					
 					view.render();
-					$("#vote-success").modal("show");
+					Data.Views.admin.render();
+					//$("#vote-success").modal("show");
 				},
 				error: function(model, response){
 					$("#vote-error").modal("show");
@@ -707,6 +708,7 @@ App.Views.Idea = Backbone.View.extend({
 				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
 				view.model.removeVote();
 				view.render();
+				Data.Views.admin.render();
 			},
 			error: function (model, response){
 				

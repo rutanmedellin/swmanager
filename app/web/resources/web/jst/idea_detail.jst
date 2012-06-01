@@ -16,9 +16,9 @@
 		<a class="edit" href="#!/admin/ideas/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
 		<a class="remove"><i class="icon-trash"></i>delete</a>
 	<% }else{ %>
-		<% if (model.canVote) { %>
+		<% if (model.canVote && !model.alreadyVote) { %>
 			<a class="btn btn-primary vote">Vote</a>
-		<% }else{ %>
+		<% }else if (model.alreadyVote){ %>
 			<a class="btn disabled unvote">Remove Vote</a>
 		<% } %>
 	<% } %> 
