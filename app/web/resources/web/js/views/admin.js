@@ -113,7 +113,7 @@ App.Views.AdminUserView = Backbone.View.extend({
 	className: "user",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'detail', 'profile', 'remove');
+		_.bindAll(this, 'render', 'detail', 'profile', 'destroy');
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -125,7 +125,7 @@ App.Views.AdminUserView = Backbone.View.extend({
 	events: {
 		"click": 	"detail",
 		"click .profile":	"profile",
-		"click .remove":	"remove",
+		"click .remove":	"destroy",
 	},
 
 	render: function(){
@@ -171,8 +171,14 @@ App.Views.AdminUserView = Backbone.View.extend({
 		}
 	},
 	
-	remove: function (){
-		log('remove');
+	destroy: function (e){
+		try{
+			e.preventDefault();
+		}catch(e){}
+		this.undelegateEvents();
+		this.model.destroy();
+		this.remove();
+		return false;
 	}
 	
 }); 
@@ -1294,7 +1300,9 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
 		
 		this.model.save({
 				name: name,
-				participant: participant, 
+				participant: {
+					id: participant
+				}, 
 				description: description	
 			},{
 				success: function(model, response){
@@ -2190,11 +2198,16 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 
 		var team = [];
 		var userModel = new App.Models.User();
-		_.each($("input[name=team]:checked", this.el), function (member){team.push( userModel.url() + $(member).val() + "/")}) 
+		_.each($("input[name=team]:checked", this.el), function (member){team.push( {
+				id: $(member).val()
+			} 
+		)}) 
 		
 		this.model.save({
 				name: name,
-				owner: owner, 
+				owner: {
+					id: owner
+				}, 
 				description: description,
 				team: team,
 				url: url,
