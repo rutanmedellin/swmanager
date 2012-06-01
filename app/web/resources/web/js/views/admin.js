@@ -531,39 +531,65 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 			old_password: $("input[name=old_password]", this.el).val(),
 			password: $("input[name=password]", this.el).val(),
 		};
-		this.model.save(data, {
-			success: function (model, response){
-				Data.Routers.router.navigate("/#!/admin/users/" + model.id, true);
-			},
-			error: function (model, response) {
-				if (response.status != undefined){
-					errors = response.users;
-					if (response.status != 400){
-						$("#save-error").modal("show");
+		if (this.validate(data)) {
+			this.model.save(data, {
+				success: function(model, response){
+					Data.Routers.router.navigate("/#!/admin/user/" + model.id, true);
+				},
+				error: function(model, response){
+					if (response.status != undefined) {
+						errors = response.users;
+						if (response.status != 400) {
+							$("#save-error").modal("show");
+						}
 					}
-				}else{
-					errors = response;
+					else {
+						errors = response;
+					}
+					if (errors.first_name != undefined) {
+						$(".help-block", ".first-name").removeClass("hide");
+						$(".first-name").addClass("error");
+					}
+					else {
+						$(".help-block", ".first-name").addClass("hide");
+						$(".first-name").removeClass("error");
+					}
+					if (errors.last_name != undefined) {
+						$(".help-block", ".last-name").removeClass("hide");
+						$(".last-name").addClass("error");
+					}
+					else {
+						$(".help-block", ".last-name").addClass("hide");
+						$(".last-name").removeClass("error");
+					}
 				}
-				if (errors.first_name != undefined){
-					$(".help-block", ".first-name").removeClass("hide");
-					$(".first-name").addClass("error");
-				}else{
-					$(".help-block", ".first-name").addClass("hide");
-					$(".first-name").removeClass("error");
-				}
-				if (errors.last_name != undefined){
-					$(".help-block", ".last-name").removeClass("hide");
-					$(".last-name").addClass("error");
-				}else{
-					$(".help-block", ".last-name").addClass("hide");
-					$(".last-name").removeClass("error");
-				}				
-			}
-		}); 	
+			});
+		}	
 	},
 
-	validate: function (){
-		
+	validate: function (errors){
+		errors_count = 0;
+		if (errors.first_name == undefined || errors.first_name == ""){
+			$(".help-block", ".first-name").removeClass("hide");
+			$(".first-name").addClass("error");		
+			errors_count += 1;	
+		}else{
+			$(".help-block", ".first-name").addClass("hide");
+			$(".first-name").removeClass("error");			
+		}
+		if (errors.last_name == undefined || errors.last_name == ""){
+			$(".help-block", ".last-name").removeClass("hide");
+			$(".last-name").addClass("error");
+			errors_count += 1;
+		}else{
+			$(".help-block", ".last-name").addClass("hide");
+			$(".last-name").removeClass("error");			
+		}
+		if(errors_count > 0){
+			return false;
+		}else{
+			return true;
+		}	
 	},
 	
 	cancel: function (e){
