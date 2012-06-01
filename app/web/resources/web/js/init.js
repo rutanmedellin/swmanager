@@ -36,28 +36,38 @@ var Data = {
  */
 
  var SWMSync = function (method, model, options) {
- 	$("#loading").modal({
-		backdrop: "static"
-	});
-	$(".modal-backdrop").css("width", "100%");
-	$(".modal-backdrop").css("height", "100%");
-	$(".modal-backdrop").spin({
-		lines: 17, // The number of lines to draw
-		length: 30, // The length of each line
-		width: 5, // The line thickness
-		radius: 2, // The radius of the inner circle
-		rotate: 33, // The rotation offset
-		color: '#FFF', // #rgb or #rrggbb
-		speed: 1.3, // Rounds per second
-		trail: 42, // Afterglow percentage
-		shadow: true, // Whether to render a shadow
-		hwaccel: true, // Whether to use hardware acceleration
-		className: 'spinner', // The CSS class to assign to the spinner
-		zIndex: 2e9, // The z-index (defaults to 2000000000)
-		top: 'auto', // Top position relative to parent in px
-		left: 'auto' // Left position relative to parent in px
-	});
-
+ 	if (model.spin == undefined || model.spin == true) {
+		$("#loading").modal({
+			backdrop: "static"
+		});
+		$(".modal-backdrop").css("width", "100%");
+		$(".modal-backdrop").css("height", "100%");
+		$(".modal-backdrop").spin({
+			lines: 17, // The number of lines to draw
+			length: 30, // The length of each line
+			width: 5, // The line thickness
+			radius: 2, // The radius of the inner circle
+			rotate: 33, // The rotation offset
+			color: '#FFF', // #rgb or #rrggbb
+			speed: 1.3, // Rounds per second
+			trail: 42, // Afterglow percentage
+			shadow: true, // Whether to render a shadow
+			hwaccel: true, // Whether to use hardware acceleration
+			className: 'spinner', // The CSS class to assign to the spinner
+			zIndex: 2e9, // The z-index (defaults to 2000000000)
+			top: 'auto', // Top position relative to parent in px
+			left: 'auto' // Left position relative to parent in px
+		});
+		options.complete = function (){
+			
+			setTimeout(function (){
+				$(".modal-backdrop").spin(false);
+				$("#loading").modal("hide");
+				log("ajax complete");			
+			}, 1300);		
+	
+		};
+	}
 	var token = Get_Cookie('Token');
 	var user = Get_Cookie('username');
 	if(token && user){
@@ -75,16 +85,7 @@ var Data = {
 			}; 	
 		}		
 	}
-	log("loadign complete");
-	options.complete = function (){
-		
-		setTimeout(function (){
-			$(".modal-backdrop").spin(false);
-			$("#loading").modal("hide");
-			log("ajax complete");			
-		}, 1300);		
 
-	};
 	Syncoptions = options;
 	return Backbone.sync(method, model, options);
 };

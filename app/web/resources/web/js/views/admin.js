@@ -846,6 +846,7 @@ App.Views.AdminIdeas = Backbone.View.extend({
                 var result = [];
 
                 var users = new App.Collections.Users();
+				users.spin = false;
                 users.fetch({
 					data: {
 						q: term,
@@ -1209,6 +1210,7 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
                 var result = [];
 
                 var users = new App.Collections.Users();
+				users.spin = false;
                 users.fetch({
 					data: {
 						q: term,
@@ -1611,6 +1613,7 @@ App.Views.AdminProjects = Backbone.View.extend({
                 var result = [];
 
                 var users = new App.Collections.Users();
+				users.spin = false;
                 users.fetch({
 					data: {
 						q: term,
@@ -1961,6 +1964,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
                 var result = [];
 
                 var users = new App.Collections.Users();
+				users.spin = false;
                 users.fetch({
 					data: {
 						q: term,
@@ -2104,6 +2108,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
                 var result = [];
 
                 var users = new App.Collections.Users();
+				users.spin = false;
                 users.fetch({
 					data: {
 						q: term,
