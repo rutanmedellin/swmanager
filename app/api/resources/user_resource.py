@@ -131,22 +131,17 @@ class UserResource(ModelResource):
             role = 'anonymous'
         bundle.data['role'] = role
 
-        #: Set participant type
         try:
             bundle.data['participant_type'] = bundle.obj.get_profile().participant_type
             bundle.data['twitter'] = bundle.obj.get_profile().twitter
             bundle.data['bio'] = bundle.obj.get_profile().bio
-            
+            bundle.data['votes'] = list(bundle.obj.votes.all().values())
         except UserProfile.DoesNotExist:
             bundle.data['participant_type'] = ''
             bundle.data['twitter'] = ''
             bundle.data['bio'] = ''
-
-        #: Set votes
-        # OMG this should not happen. Vote model have to change!
-        bundle.data['votes'] = [int(v.type_id.split("/")[-2]) for v in bundle.obj.votes.all()]
-
-        #: Set twitter
+        except Vote.DoesNotExist:
+            bundle.data['votes'] = None
         
         return bundle
 
