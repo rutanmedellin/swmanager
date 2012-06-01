@@ -13,7 +13,6 @@ from tastypie.constants import ALL
 from activation.models import Invitation
 
 from core.models import UserProfile
-from api.resources import VoteResource
 
 import logging
 log = logging.getLogger(__name__)
@@ -144,7 +143,8 @@ class UserResource(ModelResource):
             bundle.data['bio'] = ''
 
         #: Set votes
-        bundle.data['votes'] = [int(v.type_id) for v in bundle.obj.votes.all()]
+        # OMG this should not happen. Vote model have to change!
+        bundle.data['votes'] = [int(v.type_id.split("/")[-2]) for v in bundle.obj.votes.all()]
 
         #: Set twitter
         
