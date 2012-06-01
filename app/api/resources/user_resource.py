@@ -135,11 +135,13 @@ class UserResource(ModelResource):
             bundle.data['participant_type'] = bundle.obj.get_profile().participant_type
             bundle.data['twitter'] = bundle.obj.get_profile().twitter
             bundle.data['bio'] = bundle.obj.get_profile().bio
-            bundle.data['votes'] = list(bundle.obj.votes.all().values())
         except UserProfile.DoesNotExist:
             bundle.data['participant_type'] = ''
             bundle.data['twitter'] = ''
             bundle.data['bio'] = ''
+
+        try:
+            bundle.data['votes'] = list(bundle.obj.votes.all().values())
         except Vote.DoesNotExist:
             bundle.data['votes'] = None
 
