@@ -995,7 +995,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 	className: "admin-content",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'avatar', 'checkUser', 'vote');
+		_.bindAll(this, 'render', 'avatar', 'checkUser', 'vote', 'goNewProject');
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -1007,7 +1007,8 @@ App.Views.AdminIdea = Backbone.View.extend({
 	events: {
 		"click .vote":	"vote",
 		"click .remove": "remove",
-		"click .create-project": "createProject"
+		"click .create-project": "createProject",
+		"click .go-project": "goNewProject",
 	},
 	
 	render: function(){				
@@ -1044,14 +1045,16 @@ App.Views.AdminIdea = Backbone.View.extend({
 		},{
 			success: function (model, response){
 				log("project created");
+				view.new_project = model;
 				view.model.save({
 					isProject: true
 					},{
 					success: function (model, response){
-						
+						$(".go-project", view.el).attr('href', "#!/admin/projects/" + view.new_project.id);
+						$("#save-success").modal();	
 					},
 					error: function (model, response){
-						
+						$("#save-error").modal();
 					}
 							
 				});		
@@ -1060,6 +1063,10 @@ App.Views.AdminIdea = Backbone.View.extend({
 				log("error creating project");
 			}
 		});
+	},
+	
+	goNewProject: function (){
+		Data.Routers.router.navigate("#!/admin/projects/" + this.new_project.id, true);
 	},
 	
 	vote: function (){
@@ -1918,7 +1925,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 			      this.$element.val(text)
 				  this.$element.attr('data-value', JSON.stringify(val))
 				  avatar = Gravatar(val["email"])
-				  $(".gravatar", view.el).attr("src", avatar)
+				  $(".gravatar-owner", view.el).attr("src", avatar)
 				  $("input[name=owner]", view.el).val(val["id"])
 			      if (typeof this.onselect == "function")
 			          this.onselect(val)

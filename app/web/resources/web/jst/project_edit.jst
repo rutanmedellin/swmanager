@@ -19,7 +19,7 @@
           	  Owner
           </label>
           <div class="controls">
-        	<img src="<%= model.get('owner').avatar %>" class="gravatar"/> <input type="text" name="search-owner" autocomplete="off" value="<%= model.get('owner').first_name %> <%= model.get('owner').last_name %>" placeholder="Type participant's name or email">
+        	<img src="<%= model.get('owner').avatar %>" class="gravatar-owner"/> <input type="text" name="search-owner" autocomplete="off" value="<%= model.get('owner').first_name %> <%= model.get('owner').last_name %>" placeholder="Type participant's name or email">
 			<input type="hidden" name="owner" value="<%= model.get('owner').id %>">						
           </div>
       </div>

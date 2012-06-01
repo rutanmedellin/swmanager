@@ -49,7 +49,7 @@ class UserResource(ModelResource):
         resource_name = 'users'
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
         resource_uri_fieldname = 'username'
-        allowed_methods = ['get', 'put', 'post']
+        allowed_methods = ['get', 'put', 'post', 'delete']
         always_return_data = True
         throttle = CacheThrottle(throttle_at=200)
         validation = UserResourceValidation()

@@ -2,7 +2,7 @@ var ajax = $.ajax;
 var response;
 $.ajax = function ajaxMock(params) {
 	log('Mock Request\ntype: ' + params.type + '\nurl: ' + params.url);
-	
+	log(params.data);
 	var data = "";
 	
 	if (params.type == 'POST' || params.type == 'post') {
