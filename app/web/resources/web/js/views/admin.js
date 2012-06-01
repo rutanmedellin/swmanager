@@ -629,7 +629,7 @@ App.Views.Idea = Backbone.View.extend({
 	className: "idea",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'detail', 'remove');
+		_.bindAll(this, 'render', 'detail', 'remove', 'vote', 'unvote');
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -662,7 +662,7 @@ App.Views.Idea = Backbone.View.extend({
 	},	
 	
 	checkUser: function (){
-		if ((this.loggedUser != undefined && this.loggedUser.id == this.model.id) || this.loggedUser.get("role") == "admins"){
+		if (this.loggedUser.get("role") == "admins"){
 			this.model.canEdit = true;
 		}else{
 			this.model.canEdit = false;
@@ -671,6 +671,8 @@ App.Views.Idea = Backbone.View.extend({
 	
 	vote: function (){
 		var view = this;
+		log("vote");
+		log(view.model);
 		view.model.validateVoting();
 		if (view.model.canVote) {
 			Data.Models.vote = new App.Models.Vote();
@@ -703,6 +705,8 @@ App.Views.Idea = Backbone.View.extend({
 	
 	unvote: function (){
 		var view = this;
+		log("vote");
+		log(view.model);
 		this.model.user_vote.destroy({
 			success: function (model, respond){
 				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
