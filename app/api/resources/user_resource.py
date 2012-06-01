@@ -6,6 +6,7 @@ from tastypie.throttle import CacheThrottle
 from tastypie.authorization import Authorization
 from tastypie.validation import Validation
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
+from tastypie.models import ApiKey
 from tastypie import fields
 from tastypie.constants import ALL
 
@@ -141,7 +142,12 @@ class UserResource(ModelResource):
             bundle.data['bio'] = ''
         except Vote.DoesNotExist:
             bundle.data['votes'] = None
-        
+
+
+        if bundle.request.method == "POST":
+            apk, created = ApiKey.objects.get_or_create(user=bundle.obj)
+            bundle.data['key'] = apk.key
+
         return bundle
 
 
