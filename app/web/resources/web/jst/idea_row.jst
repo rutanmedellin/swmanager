@@ -1,5 +1,5 @@
 <td>
-<h2><a class="name" href="#!/admin/idea/<%= model.id %>"><%= model.escape("name") %></a></h2> 
+<h2><a class="name" href="#!/admin/ideas/<%= model.id %>"><%= model.escape("name") %></a></h2> 
 <h6>
 	<span>by <img src="<%= model.avatar %>" width="30px"> <%= model.get("participant").first_name %> <%= model.get("participant").last_name %></span>
 </h6>
@@ -11,7 +11,7 @@
 </p>
 <div class="btn-group visible-desktop">
 	<% if (model.canEdit) { %>
-		<a class="edit" href="#!/admin/idea/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
+		<a class="edit" href="#!/admin/ideas/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
 	<% }else{ %>
 		<a class="btn btn-primary vote">Vote</a>
 	<% } %> 

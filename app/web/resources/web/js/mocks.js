@@ -326,6 +326,7 @@ $.ajax = function ajaxMock(params) {
 							},
 							"name": "test",
 							"votes": 10,
+							"twitter": "project1",
 							"team": [{
 									id: "2",
 									email: "castillobuiles@gmail.com",
@@ -359,6 +360,7 @@ $.ajax = function ajaxMock(params) {
 							"votes": 20,
 							"team": [],
 							"url": "http://myprojeect.com",
+							"twitter": "juanpgaviria",
 							"image": "http://graph.facebook.com/StartupWeekendColombia/picture?type=normal",
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
@@ -376,6 +378,7 @@ $.ajax = function ajaxMock(params) {
 							"votes": 0,
 							"team": [],
 							"url": "http://myprojeect.com",
+							"twitter": "juanpgaviria",
 							"image": "http://graph.facebook.com/StartupWeekendColombia/picture?type=normal",
 							"description": "Augue! Et nisi dis rhoncus ultrices cras tincidunt! Eu quis et proin, rhoncus vel tempor pulvinar risus integer, ridiculus integer, urna scelerisque, porttitor placerat cursus tincidunt dolor facilisis mus habitasse. Hac cras amet dapibus, mattis in, placerat tincidunt, non! A sagittis integer facilisis vut augue odio, est ac eu, eros a dictumst, egestas aliquam aliquam cras magnis! Sit dapibus in? Et phasellus aenean!",
 							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
@@ -395,6 +398,7 @@ $.ajax = function ajaxMock(params) {
 							"team": [],
 							"image": "http://graph.facebook.com/StartupWeekendColombia/picture?type=normal",
 							"description": "test",
+							"twitter": "juanpgaviria",
 							"resource_uri": "/api/v1/projects/4f84b22ade94e65caf000011/",
 						}]
 					};

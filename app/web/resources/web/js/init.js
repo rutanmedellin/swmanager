@@ -41,7 +41,7 @@ var Data = {
 	if(token && user){
 		options.dataType = "json";
 		options.beforeSend = function (xhr) { 
-				xhr.setRequestHeader("Authorization", "API-KEY " + user + ":" + token); 
+				xhr.setRequestHeader("Authorization", "ApiKey " + user + ":" + token); 
 		};			
 	}else{
 		if (Data.Models.session instanceof App.Models.Session && method.toLocaleLowerCase() == "create"){

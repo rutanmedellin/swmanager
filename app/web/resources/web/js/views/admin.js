@@ -165,9 +165,9 @@ App.Views.AdminUserView = Backbone.View.extend({
 	
 	profile: function (){
 		if (this.model.anonymous){
-			location = "/#!/public/participant/" + this.model.id;
+			location = "/#!/public/participants/" + this.model.id;
 		}else{
-			location = "/#!/admin/user/" + this.model.id;			
+			location = "/#!/admin/users/" + this.model.id;			
 		}
 	},
 	
@@ -373,7 +373,7 @@ App.Views.UserProfileView = Backbone.View.extend({
 	},
 	
 	edit: function (){		
-		location = "/#!/admin/user/" + this.model.id + "/edit";	
+		location = "/#!/admin/users/" + this.model.id + "/edit";	
 	},
 	
 	remove: function (){
@@ -596,7 +596,7 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 		try{
 			e.preventDefault();
 		}catch(e){}
-		Data.Routers.router.navigate("/#!/admin/user/" + this.model.id, true);
+		Data.Routers.router.navigate("/#!/admin/users/" + this.model.id, true);
 	}	
 	
 }); 
@@ -677,11 +677,11 @@ App.Views.Idea = Backbone.View.extend({
 	},
 	
 	edit: function (){
-		location = "/#!/admin/idea/" + this.model.id + "/edit";	
+		location = "/#!/admin/ideas/" + this.model.id + "/edit";	
 	},
 	
 	profile: function (){
-		location = "/#!/admin/idea/" + this.model.id;
+		location = "/#!/admin/ideas/" + this.model.id;
 	},
 	
 	remove: function (){
@@ -1291,7 +1291,7 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
 				description: description	
 			},{
 				success: function(model, response){
-					Data.Routers.router.navigate("/#!/admin/idea/" + model.id, true);
+					Data.Routers.router.navigate("/#!/admin/ideas/" + model.id, true);
 				},
 				error: function(model, response){			
 					if (response.status != undefined){
@@ -1311,7 +1311,7 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
 		try{
 			e.preventDefault();	
 		}catch (e){}
-		Data.Routers.router.navigate("/#!/admin/idea/" + this.model.id, true);
+		Data.Routers.router.navigate("/#!/admin/ideas/" + this.model.id, true);
 	},
 	
 	clean_fields: function (){		
@@ -1432,14 +1432,14 @@ App.Views.Project = Backbone.View.extend({
 	},
 	
 	edit: function (){
-		location = "/#!/admin/project/" + this.model.id + "/edit";
+		location = "/#!/admin/projects/" + this.model.id + "/edit";
 	},
 	
 	profile: function (){
 		if(this.model.anonymous){
-			location = "/#!/public/project/" + this.model.id;
+			location = "/#!/public/projects/" + this.model.id;
 		}else{
-			location = "/#!/admin/project/" + this.model.id;	
+			location = "/#!/admin/projects/" + this.model.id;	
 		}			
 	},
 	
@@ -1777,7 +1777,13 @@ App.Views.AdminProject = Backbone.View.extend({
 			else {
 				this.model.canEdit = false;	
 			}
+			if (this.loggedUser.isNew()){
+				this.model.anonymous = true;
+			}else{
+				this.model.anonymous = false;
+			}
 		}else{
+			this.model.anonymous = true;
 			this.model.canEdit = false;
 		}
 	},
@@ -2188,7 +2194,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 				twitter: twitter,
 			},{
 				success: function(model, response){
-					Data.Routers.router.navigate("/#!/admin/project/" + model.id, true);
+					Data.Routers.router.navigate("/#!/admin/projects/" + model.id, true);
 				},
 				error: function(model, response){			
 					if (response.status != undefined){
@@ -2208,7 +2214,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 		try{
 			e.preventDefault();	
 		}catch (e){}
-		Data.Routers.router.navigate("/#!/admin/project/" + this.model.id, true);
+		Data.Routers.router.navigate("/#!/admin/projects/" + this.model.id, true);
 	},
 	
 	clean_fields: function (){		
@@ -2476,7 +2482,7 @@ App.Views.AdminEvent = Backbone.View.extend({
 		try{
 			e.preventDefault();
 		}catch(e){}
-		Data.Routers.router.navigate("/#!/admin/user/" + this.model.id, true);
+		Data.Routers.router.navigate("/#!/admin/users/" + this.model.id, true);
 	}	
 	
 }); 
