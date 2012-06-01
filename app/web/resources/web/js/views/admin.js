@@ -1925,7 +1925,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 			      this.$element.val(text)
 				  this.$element.attr('data-value', JSON.stringify(val))
 				  avatar = Gravatar(val["email"])
-				  $(".gravatar", view.el).attr("src", avatar)
+				  $(".gravatar-owner", view.el).attr("src", avatar)
 				  $("input[name=owner]", view.el).val(val["id"])
 			      if (typeof this.onselect == "function")
 			          this.onselect(val)
