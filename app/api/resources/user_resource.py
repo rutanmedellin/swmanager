@@ -119,7 +119,7 @@ class UserResource(ModelResource):
             bundle.data['participant_type'] = ''
 
         #: Set votes
-        bundle.data['votes'] = ['/api/v1/ideas/%s' % v.type_id for v in bundle.obj.votes.all()]
+        bundle.data['votes'] = [int(v.type_id) for v in bundle.obj.votes.all()]
             
         return bundle
 
