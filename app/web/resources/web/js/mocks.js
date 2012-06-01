@@ -572,7 +572,9 @@ $.ajax = function ajaxMock(params) {
 		if (data == ""){
 			log("fallback to $.ajax");
 			return ajax(params);
-		}
+		}			
 	params.success(data);
+	log("start complete");	
+	params.complete(data);
 };
   

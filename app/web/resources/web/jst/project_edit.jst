@@ -30,7 +30,7 @@
           </label>
           <div class="controls">
           	<div class="input-prepend">
-          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.get('twitter') %>">
+          	  <span class="add-on">@</span><input type="text" name="twitter" class="twitter-input" value="<%= model.escape('twitter') %>">
 			  <p class="help-block">Twitter username without @</p>
 			</div>
           </div>

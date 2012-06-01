@@ -3,7 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Startup Weekend Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -67,19 +72,27 @@
       </div>
     </div>
 
-    <div class="container" id="wrapper">
-
-    </div> <!-- /container -->
-
     <div class="container">
-		<hr>
-		<footer>
-		    <p>
-		        &copy; Company 2012				
-		    </p>
-		</footer>
+    	<div class="content">
+    		<div class="wrapper" >
+    			<div class="proper-content" id="wrapper">
+		      	</div><!-- /.proper-content -->
+		        <div class="push"></div>
+				
+    		</div>
+			<div class="footer-wrapper">				
+				<footer class="container">
+					<hr>
+				    <p>
+				        &copy; Company 2012				
+				    </p>
+				</footer>
+			</div>
+		</div>
+    </div> <!-- /container -->	
+	<div class="modal hide" id="loading">
+	  
 	</div>
-
 	<div id="fb-root"></div>
     <!-- Le javascript
     ================================================== -->
@@ -95,6 +108,13 @@
 	<!-- Countdown https://github.com/hilios/jQuery.countdown -->
 	<script type="text/javascript" src="/media/web/js/libs/jquery.countdown.js"></script>
 
+
+	<!-- loading spinner http://fgnass.github.com/spin.js/ -->
+	<script type="text/javascript" src="/media/web/js/libs/spin.min.js"></script>
+	<script type="text/javascript" src="/media/web/js/libs/jquery.spin.js"></script>
+
+	<!-- Facebook jsdk -->
+	<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
 	<!-- utilies -->
 	<script type="text/javascript" src="/media/web/js/plugins.js"></script>
 	<script type="text/javascript" src="/media/web/js/utils.js"></script>
@@ -151,6 +171,7 @@
 	<!-- templates -->
 	<script src="/web/templates.js"></script>	
 
+
 	{% if mocks %}
 	<!-- mocks -->
 		<script src="/media/web/js/spec/sinon-1.3.2.js"></script>
@@ -175,16 +196,7 @@
     });
 	
     // Additional initialization code here
-  };
-
-  // Load the SDK Asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));	     
+  };	     
     </script>
 
   </body>
