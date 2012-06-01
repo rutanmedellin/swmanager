@@ -26,13 +26,13 @@ class UserResourceValidation(Validation):
         if request and request.method == 'PUT':
             return errors
         
-        if not bundle.data or 'invitation' not in bundle.data:
-            return {'invitation': 'You need an invitation'}
+        if not bundle.data or 'code' not in bundle.data:
+            return {'code': 'You need an invitation code'}
 
         try:
-            bundle.data['invitation'] = Invitation.objects.get(key=bundle.data['invitation'])
+            bundle.data['invitation'] = Invitation.objects.get(key=bundle.data['code'])
         except Invitation.DoesNotExist:
-            errors['invitation'] = ["You get an invalid invitation. Contact support guys if you think we are wrong."]
+            errors['code'] = ["You get an invalid invitation. Contact support guys if you think we are wrong."]
 
         return errors
 
@@ -67,10 +67,14 @@ class UserResource(ModelResource):
         if bundle.errors:
             self.error_response(bundle.errors, request)
         
-        bundle.obj = UserProfile.objects.sign_up(username=bundle.data['username'],
+        bundle.obj = UserProfile.objects.sign_up(username=bundle.data['email'],
                                                  email=bundle.data['email'],
                                                  password=bundle.data['password'],
                                                  invitation=bundle.data['invitation'])
+        if not bundle.obj:
+            bundle.errors['email'] = 'Already taken'
+            self.error_response(bundle.errors, request)
+        
         return bundle
 
     

@@ -23,8 +23,13 @@ class UserProfileManager(models.Manager):
 
     def sign_up(self, username, email, password, invitation=None):
         " Signup an user to the system."
+       
+        if User.objects.filter(username=username).count() > 0:
+            return None
 
         user = User.objects.create_user(username, email, password)
+        UserProfile.objects.create(user=user)
+        
         if invitation:
             invitation.accept(user)
         return user
@@ -110,4 +115,5 @@ def add_role(sender, invitation, user, **kwargs):
     if isinstance(invitation.to, Group):
         user.groups.add(invitation.to)
         user.save()
+        invitation.delete()
         print "###### %s added to %s :)" % (user, invitation.to)
