@@ -17,7 +17,7 @@ class ProjectResource(ModelResource):
         resource_name = 'projects'
         authorization = Authorization()
         always_return_data = True
-        allowed_methods = ['get', 'post']
+        allowed_methods = ['get', 'post', 'put']
         filtering = {
             'owner': ALL_WITH_RELATIONS,
             'team': ALL_WITH_RELATIONS
