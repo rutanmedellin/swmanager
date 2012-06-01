@@ -45,6 +45,10 @@ class UserProfile(models.Model):
 
     #: Designer, Non tech or Developer
     participant_type = models.CharField(max_length=254)
+
+    twitter = models.CharField(max_length=128, default="")
+
+    bio = models.TextField(null=True)
     
     #: Custom Objects.
     objects = UserProfileManager()

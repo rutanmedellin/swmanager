@@ -13,7 +13,6 @@ from tastypie.constants import ALL
 from activation.models import Invitation
 
 from core.models import UserProfile
-from api.resources import VoteResource
 
 import logging
 log = logging.getLogger(__name__)
@@ -77,6 +76,18 @@ class UserResource(ModelResource):
         
         return bundle
 
+
+    def obj_update(self, bundle, request=None, skip_errors=False, **kwargs):
+        bundle = super(UserResource, self).obj_update(bundle, request, skip_errors, **kwargs)
+        try:
+            profile = bundle.obj.get_profile()
+            profile.twitter = bundle.data.get('twitter', profile.twitter)
+            profile.bio = bundle.data.get('bio', profile.bio)
+            profile.participant_type = bundle.data.get('participant_type', profile.participant_type)
+            profile.save()
+        except UserProfile.DoesNotExist:
+            pass
+        return bundle
     
 
     def apply_filters(self, request, applicable_filters):
@@ -109,6 +120,10 @@ class UserResource(ModelResource):
         return base_object_list
 
     def dehydrate(self, bundle):
+        # Here i set stuff the client needs but are outside the user model
+        # I know. the user profile stuff can be done with relations
+        # Lets do it in the next revision ;)
+        
         #: Set role
         if bundle.obj.groups.all().count() > 0:
             role = bundle.obj.groups.all()[0].name
@@ -116,15 +131,18 @@ class UserResource(ModelResource):
             role = 'anonymous'
         bundle.data['role'] = role
 
-        #: Set participant type
         try:
             bundle.data['participant_type'] = bundle.obj.get_profile().participant_type
+            bundle.data['twitter'] = bundle.obj.get_profile().twitter
+            bundle.data['bio'] = bundle.obj.get_profile().bio
+            bundle.data['votes'] = list(bundle.obj.votes.all().values())
         except UserProfile.DoesNotExist:
             bundle.data['participant_type'] = ''
-
-        #: Set votes
-        bundle.data['votes'] = [int(v.type_id) for v in bundle.obj.votes.all()]
-            
+            bundle.data['twitter'] = ''
+            bundle.data['bio'] = ''
+        except Vote.DoesNotExist:
+            bundle.data['votes'] = None
+        
         return bundle
 
 

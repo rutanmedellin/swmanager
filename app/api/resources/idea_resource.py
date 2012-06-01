@@ -19,7 +19,7 @@ class IdeaResource(ModelResource):
         authorization = Authorization()
         #authentication = ApiKeyAuthentication()
         always_return_data = True
-        allowed_methods = ['post', 'get', 'put']
+        allowed_methods = ['post', 'get', 'put', 'delete']
         filtering = {
             'participant': ALL_WITH_RELATIONS
         }

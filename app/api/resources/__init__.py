@@ -1,6 +1,6 @@
 from group_resource import GroupResource
-from vote_resource import VoteResource
 from user_resource import UserResource
+from vote_resource import VoteResource
 from session_resource import PublicSessionResource
 from invitation_resource import InvitationResource
 from idea_resource import IdeaResource

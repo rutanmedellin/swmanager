@@ -16,7 +16,7 @@ class TestUserResource(SWManagerTestCase):
         self.invitation = Invitation.Factory(to__name='participants')
 
     def test_participant_signup(self):
-        data = {'invitation': self.invitation.key,
+        data = {'code': self.invitation.key,
                 'username': 'invited_montana',
                 'email': 'invited@montana.com',
                 'password': 'secrect'}
@@ -29,7 +29,7 @@ class TestUserResource(SWManagerTestCase):
         self.assertEqual('participants', response.json.get('role'))
 
     def test_participant_signup_with_invaild_invitation(self):
-        data = {'invitation': None,
+        data = {'code': None,
                 'username': 'invited_montana',
                 'email': 'invited@montana.com',
                 'password': 'secrect'}

@@ -18,7 +18,7 @@ class TestVoteResource(SWManagerTestCase):
         self.auth_header = {'HTTP_AUTHORIZATION': 'Apikey %s:%s' % (self.user.username, self.user.api_key.key)}
 
     def test_create_vote(self):
-        data = {'user_id': self.user.id,
+        data = {'user': {'id': self.user.id},
                 'vote_type': 'idea',
                 'type_id': '/api/v1/ideas/%s/' % self.idea.id}
 
@@ -31,7 +31,7 @@ class TestVoteResource(SWManagerTestCase):
 
         print "votes: %s" % [v.type_id for v in Vote.objects.all()]
         response.json = json.loads(response.content)
-        self.assertEqual(response.json['user_id'], self.user.id)
+        self.assertEqual(response.json['user']['id'], self.user.id)
 
         votes = Vote.objects.filter(vote_type='idea', type_id='/api/v1/ideas/%s/' % self.idea.id).count()
 
