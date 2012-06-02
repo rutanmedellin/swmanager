@@ -58,14 +58,16 @@ var Data = {
 			top: 'auto', // Top position relative to parent in px
 			left: 'auto' // Left position relative to parent in px
 		});
-		options.complete = function (){
-			
+		var spinStop = function (mm){
 			setTimeout(function (){
 				$(".modal-backdrop").spin(false);
 				$("#loading").modal("hide");
 				log("ajax complete");			
-			}, 1300);		
-	
+			}, mm);
+		}
+		spinStop(10000);
+		options.complete = function (){							
+			spinStop(1300);
 		};
 	}
 	var token = Get_Cookie('Token');

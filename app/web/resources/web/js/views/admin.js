@@ -796,17 +796,17 @@ App.Views.AdminIdeas = Backbone.View.extend({
 		/*
 		 * Load form and admin user invitations
 		 */
-		
-		$(".idea-form", this.el).html(JST.idea_create_form());
-		
-		$('#create-idea', this.el).on('hidden', function (e) {
-  			$('.create-idea-twisty').html("Create new Idea");
-		});
-		
-		$('#create-idea', this.el).on('shown', function (e) {
-  			$('.create-idea-twisty').html("Hide form");
-		});
-							
+		if (Data.Models.account != undefined && Data.Models.account.get("role") == "admins") {
+			$(".idea-form", this.el).html(JST.idea_create_form());
+			
+			$('#create-idea', this.el).on('hidden', function(e){
+				$('.create-idea-twisty').html("Create new Idea");
+			});
+			
+			$('#create-idea', this.el).on('shown', function(e){
+				$('.create-idea-twisty').html("Hide form");
+			});
+		}						
 		Data.Collections.ideas = new App.Collections.Ideas();
 		Data.Collections.ideas.fetch(
 			{
@@ -1062,6 +1062,7 @@ App.Views.AdminIdea = Backbone.View.extend({
 	
 	events: {
 		"click .vote":	"vote",
+		"click .unvote":	"unvote",
 		"click .remove": "remove",
 		"click .create-project": "createProject",
 		"click .go-project": "goNewProject",
@@ -1151,6 +1152,25 @@ App.Views.AdminIdea = Backbone.View.extend({
 			}
 		});
 	},	
+	
+	unvote: function (){
+		var view = this;
+		log("vote");
+		log(view.model);
+		this.model.user_vote.destroy({
+			success: function (model, respond){
+				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
+				view.model.removeVote();
+				view.render();
+				Data.Views.admin.render();
+			},
+			error: function (model, response){
+				
+			}
+		});
+		return false;
+	},
+	
 	
 	remove: function (){
 		this.model.destroy({
@@ -1571,8 +1591,9 @@ App.Views.AdminProjects = Backbone.View.extend({
 		/*
 		 * Load form and projects list
 		 */
-		
-		$(".project-form", this.el).html(JST.project_create_form());
+		if (Data.Models.account != undefined && Data.Models.account.get("role") == "admins") {
+			$(".project-form", this.el).html(JST.project_create_form());
+		}
 							
 		Data.Collections.projects = new App.Collections.Projects();
 		Data.Collections.projects.fetch(
