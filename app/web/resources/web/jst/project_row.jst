@@ -21,7 +21,7 @@
 		<a class="edit" href="#!/admin/projects/<%= model.id %>/edit"><i class="icon-pencil"></i>edit</a>
 	<% }else{ %>		
 		<div class="fb-like" 
-			data-href="<%= location.href %>" 
+			data-href="<%= location.href.replace(/#!/g, 'hash') %>/<%= model.id %>" 
 			data-send="false" 
 			data-layout="button_count" 
 			data-width="450" 
