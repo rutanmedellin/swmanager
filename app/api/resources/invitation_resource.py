@@ -44,14 +44,14 @@ class InvitationResource(ModelResource):
     
     Participants can send invitations to team mates.
     """
-
+    
     class Meta:
         queryset = Invitation.objects.all()
         resource_name = 'invitations'
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
         always_return_data = True
-        allowed_methods = ['get', 'post']
+        allowed_methods = ['get', 'post', 'delete']
         validation = InvitationResourceValidation()
     
     def obj_create(self, bundle, request=None, **kwargs):
@@ -71,3 +71,7 @@ class InvitationResource(ModelResource):
 
     def dehydrate_to_object_id(self, bundle):
         return int(bundle.obj.to_object_id)
+
+    def dehydrate(self, bundle):
+        bundle.data['role'] = bundle.obj.to.name
+        return bundle
