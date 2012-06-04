@@ -106,7 +106,7 @@ def send_invitation_key(sender, invitation, **kwargs):
     
     msg = EmailMessage(subject="Invitation to an swmanager event",
                        body=body,
-                       to=[invitation.email])
+                       to=[invitation.email],
                        bcc=team@swmanager.co)
     print "msg : %s" % msg
     print msg.send()
