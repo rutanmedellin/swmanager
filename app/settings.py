@@ -192,10 +192,10 @@ MOCK_API_FOR_JS = False
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # This should go last
-#try:
-#    from local_settings import *
-#except:
-#    pass
+try:
+    from local_settings import *
+except:
+    pass
 
 
 
@@ -204,5 +204,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
+EMAIL_SUBJECT_PREFIX = "[swmanager]"
+DEFAULT_FROM_EMAIL = "Startup Weekend Manager <team@swmanager.org>"
+
 
 print EMAIL_HOST_USER

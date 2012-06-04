@@ -92,7 +92,7 @@ def send_invitation_key(sender, invitation, **kwargs):
 
     Click on the following link to activate your Startup Weekend Manager account:
     
-    http://localhost:8000/#!/user/registration?email={email}&code={code}
+    http://swmanager.co/#!/user/registration?email={email}&code={code}
     
 
     Best of lucks on th event, and remember: Stop talk, more action!
@@ -104,9 +104,9 @@ def send_invitation_key(sender, invitation, **kwargs):
 
     print body
     
-    msg = EmailMessage(subject="[swmanager] Invitation to an swmanager event",
-                         body=body,
-                         to=[invitation.email])
+    msg = EmailMessage(subject="Invitation to an swmanager event",
+                       body=body,
+                       to=[invitation.email])
                          #bcc=medellin@startupweekend.org)
     print "msg : %s" % msg
     print msg.send()
