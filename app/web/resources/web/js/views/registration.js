@@ -35,8 +35,9 @@ App.Views.UserRegistration = Backbone.View.extend({
 					Set_Cookie('Token', response.key, 1, '/', host);
 					Set_Cookie('username', response.username, 1, '/', host);
 					Set_Cookie('userID', response.id, 1, '/', host);
-					//location.search = "";
-					location = "/";					
+					//location = "/";
+					Data.Routers.router.auth();
+					Data.Routers.router.navigate("#!/admin/users/" + Data.Models.account.id + "/edit", true);										
 				},
 				error: function (model, response){
 					if (response.status != 200){

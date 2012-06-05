@@ -17,9 +17,9 @@
 		<a class="remove"><i class="icon-trash"></i>delete</a>
 	<% }else{ %>
 		<% if (model.canVote && !model.alreadyVote) { %>
-			<a class="btn btn-primary vote">Vote</a>
+			<a class="btn btn-primary vote" data-loading-text="sending vote...">Vote</a>
 		<% }else if (model.alreadyVote){ %>
-			<a class="btn disabled unvote">Remove Vote</a>
+			<a class="btn unvote" data-loading-text="removing vote...">Remove Vote</a>
 		<% } %>
 	<% } %> 
 </div>

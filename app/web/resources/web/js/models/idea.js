@@ -17,7 +17,7 @@ App.Models.Idea = App.Models.BaseModel.extend({
             errors.name = "Name required";
             errors_count += 1;
         }
-        if (attrs.participant == undefined || attrs.participant == "") {
+        if (attrs.participant == undefined || attrs.participant.id == "") {
             errors.participant = "Participant required";
             errors_count += 1;
         }
@@ -51,7 +51,8 @@ App.Models.Idea = App.Models.BaseModel.extend({
 		for (var i = 0; i < Data.Models.account.get('votes').length; i++){
 			if (this.user_vote.id == Data.Models.account.get('votes')[i].id){
 				Data.Models.account.get('votes').splice(i, 1)
-				this.user_vote = undefined;				
+				this.user_vote = undefined;
+				return;				
 			}
 		}
 	},

@@ -87,7 +87,13 @@ var Data = {
 			}; 	
 		}		
 	}
-
+	/*
+if (model.data != undefined){
+		options.data.limit = 0;
+	}else{
+		options.data = {limit: 0};
+	}
+*/
 	Syncoptions = options;
 	return Backbone.sync(method, model, options);
 };
