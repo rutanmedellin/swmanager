@@ -1,7 +1,7 @@
 var a;
 App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
-	initialize: function(){
+	initialize: function(options){
 		this.auth();
 	},
 	

@@ -13,6 +13,7 @@ App.Views.Auth = Backbone.View.extend({
 	},
 	
 	render: function (){
+		var view = this;
 		token = Get_Cookie('Token');
 		if (token == undefined){
 			$(this.el).html(JST.login());							
@@ -28,14 +29,40 @@ App.Views.Auth = Backbone.View.extend({
 				});
 			}
 			Data.Models.account = new App.Models.Account({id: Get_Cookie('userID')});
+			/*
+			 * It is necesary to load the user acount data with async=false in the 
+			 * $.ajax request and backbone does not provide this option in model.fetch function
+			 * anly for model.save.
+			 * 
+			 * This is because there are diferentes views for diferentes users roles :P
+			 */
+			$.ajax({
+				url: Data.Models.account.url(),
+				dataType: "json",
+				method: "GET",
+				async: false,
+				beforeSend: function (xhr) { 
+					xhr.setRequestHeader("Authorization", "ApiKey " + Get_Cookie('username') + ":" + token); 
+				},		
+				success: function (data){
+					Data.Models.account = new App.Models.Account(data);
+					Data.Models.account.id = data.id
+				},
+				error: function (error, textError, throughError){
+					view.logout();
+				} 
+			});
+			/*
 			Data.Models.account.fetch({
 				success: function (model, response){
-					
+					log("sucess");
 				},
 				error: function (model, response){
 					
-				}
+				},
+				wait: true 
 			});
+			*/
 			$(this.el).html(JST.logout({model: Data.Models.session}));
 			$("#main-menu").append('<li class="nav-item admin"><a href="#!/admin">Admin</a></li>');
 			

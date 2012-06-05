@@ -3,7 +3,16 @@ App.Views.Admin = Backbone.View.extend({
 	initialize: function (){
 		_.bindAll(this, 'render');
 		this.section = this.options.section;
-		this.render();	
+		//this.render();
+		log(Data.Models.account);
+		if(Data.Models.account.isNew()){
+			Data.Models.account.bind("change", this.render);
+			log("entro");	
+		}else{
+			this.render();
+			log("entro - asd");
+		}
+			
 	},
 	
 	events: {
@@ -630,6 +639,7 @@ App.Views.Idea = Backbone.View.extend({
 
 	initialize: function (){
 		_.bindAll(this, 'render', 'detail', 'remove', 'vote', 'unvote');
+		Data.Collections.ideas.bind("change", this.render, this);
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -676,21 +686,30 @@ App.Views.Idea = Backbone.View.extend({
 		view.model.validateVoting();
 		if (view.model.canVote) {
 			Data.Models.vote = new App.Models.Vote();
+			Data.Models.vote.spin = false;
+			$('.vote', view.el).button('loading');
 			Data.Models.vote.save({
 				user: Data.Models.account.url(),
 				vote_type: "idea",
 				type_id: this.model.url()
 			}, {
 				success: function(model, response){
-					view.model.set({
+					/*
+view.model.set({
 						"votes": view.model.get("votes") + 1
 					}, {
 						silent: true
 					});
+*/
+					view.model.set({
+						"votes": view.model.get("votes") + 1
+					});
 					view.model.addVote(model);
 					
 					view.render();
-					Data.Views.admin.render();
+					//Data.Views.admin.render();
+					$('.vote', view.el).button('reset');
+					Data.Collections.ideas.trigger("change");
 					//$("#vote-success").modal("show");
 				},
 				error: function(model, response){
@@ -707,12 +726,17 @@ App.Views.Idea = Backbone.View.extend({
 		var view = this;
 		log("vote");
 		log(view.model);
+		this.model.user_vote.spin = false;
+		$('.unvote', view.el).button('loading');
 		this.model.user_vote.destroy({
 			success: function (model, respond){
-				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
+				//view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
+				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)});
 				view.model.removeVote();
 				view.render();
-				Data.Views.admin.render();
+				$('.unvote', view.el).button('reset');
+				Data.Collections.ideas.trigger("change");
+				//Data.Views.admin.render();
 			},
 			error: function (model, response){
 				
@@ -798,14 +822,6 @@ App.Views.AdminIdeas = Backbone.View.extend({
 		 */
 		if (Data.Models.account != undefined && Data.Models.account.get("role") == "admins") {
 			$(".idea-form", this.el).html(JST.idea_create_form());
-			
-			$('#create-idea', this.el).on('hidden', function(e){
-				$('.create-idea-twisty').html("Create new Idea");
-			});
-			
-			$('#create-idea', this.el).on('shown', function(e){
-				$('.create-idea-twisty').html("Hide form");
-			});
 		}						
 		Data.Collections.ideas = new App.Collections.Ideas();
 		Data.Collections.ideas.fetch(
@@ -1014,9 +1030,11 @@ App.Views.AdminIdeas = Backbone.View.extend({
 	},
 	
 	clean_fields: function (){		
-		var name = $("input[name=name]", this.el).val("");
-		var participant = $("input[name=participant]", this.el).val("");
-		var description = $("textarea[name=description]", this.el).val("");
+		$("input[name=name]", this.el).val("");
+		$("input[name=participant]", this.el).val("");
+		$("textarea[name=description]", this.el).val("");
+		$("input[name=search-participant]", this.el).val("");
+		$(".gravatar", this.el).attr("src", "http://gravatar.com/avatar/doesnotexist?d=retro");
 	},
 	
 	validate: function (errors){
@@ -1134,33 +1152,51 @@ App.Views.AdminIdea = Backbone.View.extend({
 	
 	vote: function (){
 		var view = this;
-		Data.Models.vote = new App.Models.Vote();
-		Data.Models.vote.save({
-			user: Data.Models.account.url(),
-			vote_type: "idea",
-			type_id: this.model.url()
-		},{
-			success: function (model, response){
-				view.model.set({"votes": view.model.get("votes") + 1}, {silent: true});
-				view.render();
-				$("#vote-success").modal("show");
-				
-				
-			},
-			error: function (model, response){
-				$("#vote-error").modal("show");
-			}
-		});
+		log("vote");
+		log(view.model);
+		view.model.validateVoting();
+		if (view.model.canVote) {
+			Data.Models.vote = new App.Models.Vote();
+			Data.Models.vote.spin = false;
+			$('.vote', view.el).button('loading');
+			Data.Models.vote.save({
+				user: Data.Models.account.url(),
+				vote_type: "idea",
+				type_id: this.model.url()
+			}, {
+				success: function(model, response){
+					view.model.set({
+						"votes": view.model.get("votes") + 1
+					}, {
+						silent: true
+					});
+					view.model.addVote(model);
+					$('.vote', view.el).button('reset');
+					view.render();			
+					Data.Views.admin.render();
+					//$("#vote-success").modal("show");
+				},
+				error: function(model, response){
+					$("#vote-error").modal("show");
+				}
+			});
+		}else{
+			$("#vote-error").modal("show");
+		}
+		return false;
 	},	
 	
 	unvote: function (){
 		var view = this;
 		log("vote");
 		log(view.model);
+		this.model.user_vote.spin = false;
+		$('.unvote', view.el).button('loading');
 		this.model.user_vote.destroy({
 			success: function (model, respond){
 				view.model.set({"votes": (view.model.get("votes") < 1 ? 0 : view.model.get("votes")-1)}, {silent: true});
 				view.model.removeVote();
+				$('.unvote', view.el).button('loading');				
 				view.render();
 				Data.Views.admin.render();
 			},
@@ -1592,7 +1628,11 @@ App.Views.AdminProjects = Backbone.View.extend({
 		 * Load form and projects list
 		 */
 		if (Data.Models.account != undefined && Data.Models.account.get("role") == "admins") {
-			$(".project-form", this.el).html(JST.project_create_form());
+			/*
+			 * there is need to create project form this form but its can be use
+			 * uncomentig the next line
+			 */
+			//$(".project-form", this.el).html(JST.project_create_form());
 		}
 							
 		Data.Collections.projects = new App.Collections.Projects();
