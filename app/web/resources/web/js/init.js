@@ -62,7 +62,6 @@ var Data = {
 			setTimeout(function (){
 				$(".modal-backdrop").spin(false);
 				$("#loading").modal("hide");
-				log("ajax complete");			
 			}, mm);
 		}
 		spinStop(10000);

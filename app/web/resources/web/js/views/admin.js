@@ -4,13 +4,10 @@ App.Views.Admin = Backbone.View.extend({
 		_.bindAll(this, 'render');
 		this.section = this.options.section;
 		//this.render();
-		log(Data.Models.account);
 		if(Data.Models.account.isNew()){
 			Data.Models.account.bind("change", this.render);
-			log("entro");	
 		}else{
 			this.render();
-			log("entro - asd");
 		}
 			
 	},
@@ -66,11 +63,9 @@ App.Views.Invitation = Backbone.View.extend({
 				resend: true,
 			},{
 				success: function(model, response){
-					log("success");
 					$('#send-success').modal('show');
 				},
 				error: function(model, response){
-					log("error");
 					$('#send-error').modal('show');
 				}
 			}			
@@ -692,8 +687,6 @@ App.Views.Idea = Backbone.View.extend({
 	
 	vote: function (){
 		var view = this;
-		log("vote");
-		log(view.model);
 		view.model.validateVoting();
 		if (view.model.canVote) {
 			Data.Models.vote = new App.Models.Vote();
@@ -735,8 +728,6 @@ view.model.set({
 	
 	unvote: function (){
 		var view = this;
-		log("vote");
-		log(view.model);
 		this.model.user_vote.spin = false;
 		$('.unvote', view.el).button('loading');
 		this.model.user_vote.destroy({
@@ -758,7 +749,6 @@ view.model.set({
 	
 	detail: function (e){
 		if($(".edit", this.el).is(':visible') || $(".vote", this.el).is(':visible') || $(".unvote", this.el).is(':visible')){
-			log("entro");
 			e.preventDefault();
 			return false;	
 		}else{
@@ -775,7 +765,11 @@ view.model.set({
 	},
 	
 	remove: function (){
-		log('remove');
+		this.model.destroy({
+			error: function (model, response){
+				alert("Error deleting idea.\n Try again later.");
+			}
+		});
 	}
 	
 }); 
@@ -992,7 +986,6 @@ App.Views.AdminIdeas = Backbone.View.extend({
 					    	text = item[that.options.property]
 					avatar = Gravatar(item.email)
 					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
-					log(i)
 					return i[0]
 				})
 				
@@ -1131,7 +1124,6 @@ App.Views.AdminIdea = Backbone.View.extend({
 			description: this.model.get("description"),
 		},{
 			success: function (model, response){
-				log("project created");
 				view.new_project = model;
 				var idea = view.model;			
 				idea.save({
@@ -1163,8 +1155,6 @@ App.Views.AdminIdea = Backbone.View.extend({
 	
 	vote: function (){
 		var view = this;
-		log("vote");
-		log(view.model);
 		view.model.validateVoting();
 		if (view.model.canVote) {
 			Data.Models.vote = new App.Models.Vote();
@@ -1199,8 +1189,6 @@ App.Views.AdminIdea = Backbone.View.extend({
 	
 	unvote: function (){
 		var view = this;
-		log("vote");
-		log(view.model);
 		this.model.user_vote.spin = false;
 		$('.unvote', view.el).button('loading');
 		this.model.user_vote.destroy({
@@ -1396,7 +1384,6 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
 					    	text = item[that.options.property]
 					avatar = Gravatar(item.email)
 					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
-					log(i)
 					return i[0]
 				})
 				
@@ -1562,7 +1549,6 @@ App.Views.Project = Backbone.View.extend({
 	
 	detail: function (e){
 		if($(".edit", this.el).is(':visible') || $(".vote", this.el).is(':visible') ){
-			log("entro");
 			e.preventDefault();
 			return;	
 		}else{
@@ -1804,7 +1790,6 @@ App.Views.AdminProjects = Backbone.View.extend({
 					    	text = item[that.options.property]
 					avatar = Gravatar(item.email)
 					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
-					log(i)
 					return i[0]
 				})
 				
@@ -2155,7 +2140,6 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 					    	text = item[that.options.property]
 					avatar = Gravatar(item.email)
 					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
-					log(i)
 					return i[0]
 				})
 				
@@ -2299,7 +2283,6 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 					    	text = item[that.options.property]
 					avatar = Gravatar(item.email)
 					i.find('a').html("<img src='" + avatar + "?size=30'/> " + that.highlighter(text))
-					log(i)
 					return i[0]
 				})
 				
@@ -2531,7 +2514,6 @@ App.Views.AdminEvent = Backbone.View.extend({
 			end_date: end_date,
 		};
 		
-		log(data);
 		
 		this.model.save(data, {
 			success: function (model, response){
