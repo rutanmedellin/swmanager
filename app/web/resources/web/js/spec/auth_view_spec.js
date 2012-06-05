@@ -3,7 +3,30 @@ describe("App.Views.Auth", function() {
   
   beforeEach(function() {
 	setFixtures('<div class="login"></div>');
+	
+	this.server = sinon.fakeServer.create();
+	
+	this.user_data = {
+		id: "1",
+		first_name: "juan",
+		last_name: "gaviria",
+		email: "juanpgaviria@gmail.com",
+		role: "admins",
+		votes: [],
+	};
+	
+	this.server.respondWith(
+		"GET", 
+		"/api/v1/users/1/",
+		[200, {"Content-Type": "application/json"},
+		JSON.stringify(this.user_data)
+		]
+	);
 	this.view = new App.Views.Auth({el: ".login"});
+  });
+  
+  afterEach(function (){
+  	this.server.restore();
   });
   
   describe("Instantiation", function() {
@@ -89,7 +112,6 @@ describe("App.Views.Auth", function() {
     });
 	
 	it("should create a App.Models.Session object on login", function (){
-		log("")
 		expect(this.sessionModelStub.calledOnce).toEqual(true);
 	  	expect(this.spy_save.calledOnce).toEqual(true);
 		expect(this.spy_save.getCall(0).args[0].username).toEqual("admin");
@@ -113,15 +135,28 @@ describe("App.Views.Auth", function() {
 		// spy the fetch account
 		this.spy_fetch = sinon.spy(this.accountModel, "fetch");
 
-		// render view		
+		// render view
+		this.ajax = $.ajax;
+		$.ajax = function (options){		
+				return options.success({
+				id: "1",
+				username: "juanpgaviria@gmail.com",
+				first_name: "juan",
+				last_name: "gaviria",
+				email: "juanpgaviria@gmail.com",
+				role: "admins",
+				votes: [],
+			});
+		};		
 		this.view.render();
+		$.ajax = this.ajax;
     });
     
     afterEach(function() {
 		Delete_Cookie('Token', '/', host);
 	  	Delete_Cookie('username', '/', host);
 		Delete_Cookie('userID', '/', host);
-		window.App.Models.Account.restore();
+		this.accountModelStub.restore();
     });
 	
 	it("must render string with username and logout button", function (){
@@ -129,11 +164,6 @@ describe("App.Views.Auth", function() {
 		//expect($(this.view.el).html())
 		//	.toEqual('<p class="navbar-text pull-right">Logged in as <a href="#">admin</a> | <a class="logout-btn">logout</a></p>');
 	});
-	
-	it("should create a App.Models.Account object on login", function (){
-		expect(this.accountModelStub.calledOnce).toEqual(true);
-		expect(this.spy_fetch.calledOnce).toEqual(true);
-	});	
   });
   
 });

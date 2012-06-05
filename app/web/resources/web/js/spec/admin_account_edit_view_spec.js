@@ -84,7 +84,7 @@ beforeEach(function (){
 					'last_name': "cambio",
 					'email': "juanpgaviria@gmail.com",
 					'twitter': "cambio",
-					'role': "admin",
+					'role': "admins",
 					'bio': "cambio",
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
@@ -113,7 +113,7 @@ beforeEach(function (){
 					'last_name': "cambio",
 					'email': "juanpgaviria@gmail.com",
 					'twitter': "cambio",
-					'role': "admin",
+					'role': "admins",
 					'bio': "cambio",
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"

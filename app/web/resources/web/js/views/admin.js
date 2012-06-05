@@ -537,6 +537,12 @@ App.Views.UserProfileEditView = Backbone.View.extend({
 		}else{
 			this.model.canEdit = false;
 		}
+		if(this.loggedUser.get("role") == "admins"){
+			this.model.isAdmin = true;
+		}else{
+			this.model.isAdmin = false;
+		}
+		
 	},
 	
 	save: function (e){
@@ -1902,7 +1908,7 @@ App.Views.AdminProject = Backbone.View.extend({
 	},
 	
 	checkUser: function (){
-		var view = this;
+		var view = this;		
 		if (this.loggedUser != undefined) {
 			team_member = $.grep(this.model.get("team"), function (item){if(item.id == view.loggedUser.id) return item;});			
 			if (team_member.length >= 1 || this.loggedUser.id == this.model.get("owner").id || this.loggedUser.get("role") == "admins") {

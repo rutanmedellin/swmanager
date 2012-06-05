@@ -20,7 +20,8 @@ describe("Admin Idea view", function (){
 			"resource_uri": "/api/v1/ideas/123"
 		};
 		
-		Data.Models.account = new App.Models.Account({
+		Data.Models.account = new App.Models.Account();
+		Data.Models.account.set({
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
 					'username': "juanpgaviria",
@@ -69,7 +70,8 @@ describe("Admin Idea view", function (){
 
 		describe("When admin user is seen the idea", function (){
 			beforeEach(function (){
-				Data.Models.account = new App.Models.Account({
+				Data.Models.account = new App.Models.Account();
+				Data.Models.account.set({
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
 					'username': "juanpgaviria",
@@ -94,7 +96,8 @@ describe("Admin Idea view", function (){
 		
 		describe("When participant is seen the idea", function (){
 			beforeEach(function (){
-				Data.Models.account = new App.Models.Account({
+				Data.Models.account = new App.Models.Account();
+				Data.Models.account.set({
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
 					'username': "juanpgaviria",

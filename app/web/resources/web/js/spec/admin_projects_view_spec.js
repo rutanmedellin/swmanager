@@ -4,7 +4,7 @@ describe("Admin Projects view", function (){
 		$.fn.modal = function (options){};
 		$.fn.typeahead = function (options){};
 		
-		this.view = new App.Views.AdminProjects({el: ".admin-content"});		
+		this.view = new App.Views.AdminProjects({el: ".admin-content"});				
 	});
 	
 	afterEach(function (){
@@ -20,6 +20,7 @@ describe("Admin Projects view", function (){
     
   	});
 	
+/*
 	describe("Render the new project form", function (){
 		it("should render a div with class project-form", function (){
 			expect($(".project-form", this.el).length).toEqual(1);
@@ -43,9 +44,11 @@ describe("Admin Projects view", function (){
 			expect($(".create", this.el).length).toEqual(1);
 			expect($(".create", this.el).html()).toEqual("Create");
 		});
-		
+
+*/		
 	});
 	
+/*
 	describe("When method create is call", function (){
 		beforeEach(function (){
 			this.server = sinon.fakeServer.create();
@@ -100,6 +103,7 @@ describe("Admin Projects view", function (){
 			expect(this.spy_save.getCall(0).args[0].description).toEqual("test");			
 		});
 	});
+*/
 	
 	describe("Render the projects list", function (){
 		beforeEach(function (){
@@ -188,8 +192,10 @@ describe("Admin Projects view", function (){
 			this.projects = new App.Collections.Projects();
 			this.projects.fetch();
 			this.server.respond();
-						
-			this.view.projects = new App.Views.Projects({el: ".participants-projects", collection: this.projects});				
+			
+			setFixtures('<div class="admin-content"></div>');						
+			this.view = new App.Views.AdminProjects({el: ".admin-content"});			
+			this.view.projects = new App.Views.Projects({el: ".participants-projects", collection: this.projects});
 		});
 		
 		afterEach(function (){
@@ -221,12 +227,6 @@ describe("Admin Projects view", function (){
 				this.view.projects.project = new App.Views.Project({model: this.project});
 				this.view.projects.project.render();
 			});			
-			
-			
-			describe("When projects vote method is call", function (){
-				
-			});
-		});
 			
 	});
 });

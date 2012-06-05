@@ -10,10 +10,13 @@ describe("Account Model", function (){
   	});
 
 	describe("when no id is set", function() {
+		beforeEach(function(){
+			this.user_account = new App.Models.Account();
+		});
 	    it("should return the collection URL", function() {
-	      	url = typeof Data.Models.account.url == "function" && Data.Models.account.url();
+	      	url = typeof this.user_account.url == "function" && this.user_account.url();
 			if (!url){
-				url = typeof Data.Models.account.url == "string" && Data.Models.account.url;
+				url = typeof this.user_account.url == "string" && this.user_account.url;
 			}
 			expect(url).toEqual('/api/v1/users/');
 	    });
@@ -73,9 +76,7 @@ describe("Account Model", function (){
 		
 		it("should has the attribute id, username, role, first_name, last_name, email, ideas, projects", function (){
 			this.account.fetch();
-			log(this.account.url());
 			this.server.respond();
-			log(this.account.get("id"));
 			
 			expect(this.account.get("id")).toEqual(1);
 			expect(this.account.get("username")).toEqual("admin");

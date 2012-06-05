@@ -72,8 +72,8 @@ describe("Admin Project view", function (){
 
 		describe("When admin user is seen the project", function (){
 			beforeEach(function (){
-				Data.Models.account = new App.Models.Account({
-					'id': 1,
+				window.Data.Models.account = new App.Models.Account();
+				window.Data.Models.account.set({
 					'resource_uri': "/api/v1/users/1",
 					'username': "juanpgaviria",
 					'first_name': "juan",
@@ -82,10 +82,11 @@ describe("Admin Project view", function (){
 					'twitter': "@juanpgaviria",
 					'role': "admins",
 					'bio': "hola mundo",
+					'votes': [],
 					'ideas': "/api/v1/ideas/?user=1",
 					'projects': "/api/v1/projects/?user=1"
 				});
-				Data.Models.account.id = 1;
+				window.Data.Models.account.id = 1;
 				this.view = new App.Views.AdminProject({el: ".admin-content", model: this.project});
 			});	
 					
@@ -96,7 +97,7 @@ describe("Admin Project view", function (){
 		
 		describe("When participant is seen the project", function (){
 			beforeEach(function (){
-				Data.Models.account = new App.Models.Account({
+				window.Data.Models.account = new App.Models.Account({
 					'id': 1,
 					'resource_uri': "/api/v1/users/1",
 					'username': "juanpgaviria",

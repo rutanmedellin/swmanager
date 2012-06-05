@@ -4,12 +4,14 @@ describe("Admin Ideas view", function (){
 		$.fn.modal = function (options){};
 		$.fn.typeahead = function (options){};
 		
-		Data.Models.account = new App.Models.Account({
+		Data.Models.account = new App.Models.Account();
+		Data.Models.account.set({
 			id: "1",
 			first_name: "juan",
 			last_name: "gaviria",
 			email: "juanpgaviria@gmail.com",
-			role: "participants",
+			username: "juanpgaviria@gmail.com",
+			role: "admins",
 			'votes': [],						
 		});
 		Data.Models.account.id = 1;
@@ -204,6 +206,18 @@ describe("Admin Ideas view", function (){
 		describe("Every idea item", function (){
 			beforeEach(function (){
 				this.idea = this.ideas.get(this.ideas_collections.objects[0].id);
+				Data.Models.account = new App.Models.Account();
+				Data.Models.account.set({
+					id: "1",
+					first_name: "juan",
+					last_name: "gaviria",
+					email: "juanpgaviria@gmail.com",
+					username: "juanpgaviria@gmail.com",
+					role: "participants",
+					'votes': [],						
+				});
+				Data.Models.account.id = 1;
+				
 				this.view.ideas.idea = new App.Views.Idea({model: this.idea});
 				this.view.ideas.idea.render();
 			});			
@@ -215,13 +229,15 @@ describe("Admin Ideas view", function (){
 			describe("When idea vote method is call", function (){
 				beforeEach(function (){
 					
-					Data.Models.account = new App.Models.Account({
+					Data.Models.account = new App.Models.Account();
+					Data.Models.account.set({
 						id: "1",
 						first_name: "juan",
 						last_name: "gaviria",
 						email: "juanpgaviria@gmail.com",
+						username: "juanpgaviria@gmail.com",
 						role: "participants",
-						'votes': [],						
+						votes: [],						
 					});
 					Data.Models.account.id = 1;
 					
