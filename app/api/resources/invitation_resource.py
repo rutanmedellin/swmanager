@@ -27,11 +27,12 @@ class InvitationResourceValidation(Validation):
         if not 'email' in bundle.data:
             errors['email'] = 'You need an email to send the invitation'
 
-        if 'email' in bundle.data and 'role' in bundle.data:
-            if Invitation.objects.filter(email=bundle.data['email']).count() > 0:
-                errors['email'] = 'There is a pending invitation to this email. May be you want to resend it?'
-            if User.objects.filter(email=bundle.data['email']).count() > 0:
-                errors['email'] = 'Email already taken on the system. Are you inviting an existing user?'
+        if request.method == 'POST':
+            if 'email' in bundle.data and 'role' in bundle.data:
+                if Invitation.objects.filter(email=bundle.data['email']).count() > 0:
+                    errors['email'] = 'There is a pending invitation to this email. May be you want to resend it?'
+                if User.objects.filter(email=bundle.data['email']).count() > 0:
+                    errors['email'] = 'Email already taken on the system. Are you inviting an existing user?'
             
         return errors
 
@@ -51,8 +52,20 @@ class InvitationResource(ModelResource):
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
         always_return_data = True
-        allowed_methods = ['get', 'post', 'delete']
+        allowed_methods = ['get', 'post', 'delete', 'put']
         validation = InvitationResourceValidation()
+
+    def obj_update(self, bundle, request=None, skip_errors=False, **kwargs):
+        "Update the invitation."
+        from activation import signals
+
+        bundle = super(InvitationResource, self).obj_update(bundle, request, skip_errors, **kwargs)
+        
+        if 'resend' in bundle.data:
+            signals.invitation_created.send_robust(
+                sender=Invitation, invitation=bundle.obj)
+        
+        return bundle
     
     def obj_create(self, bundle, request=None, **kwargs):
         " Create a new invitation using the default manager "

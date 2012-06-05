@@ -90,24 +90,45 @@ def send_invitation_key(sender, invitation, **kwargs):
 
     This is an invitation to be part of the {group_name} group on a StartupWeekend event.
 
+    You can update your profile now and let the world know that your accept the SW challenge! 
+
     Click on the following link to activate your Startup Weekend Manager account:
     
     http://swmanager.co/#!/user/registration?email={email}&code={code}
     
 
-    Best of lucks on th event, and remember: Stop talk, more action!
+    Best of lucks on the event, and remember: Stop Talking, more Action!
 
 
+
+    
+    ---
+
+
+    
+    Hola,
+
+    Esta es una invitacion para que seas parte del grupo de {group_name} para el evento Satartup Weekend.
+
+    Puedes actualizar tu perfil de usuario ahora mismo y hacerle saber al mundo que ya aceptaste el reto SW!
+
+    Has click en el siguiente link para activar tu cuenta en Startup Weekend Manager:
+
+    http://swmanager.co/#!/user/registration?email={email}&code={code}
+
+    Mucha suerte en el evento y recuerda: Mas accion , menos charla!
+
+    
     --
     Startup Weekend Team
     """.format(group_name=invitation.to.name, email=invitation.email, code=invitation.key)
 
     print body
     
-    msg = EmailMessage(subject="Invitation to an swmanager event",
+    msg = EmailMessage(subject="Registro SWManager para participantes del SW Medellin",
                        body=body,
                        to=[invitation.email],
-                       bcc="team@swmanager.co")
+                       bcc=["team@swmanager.co"])
     print "msg : %s" % msg
     print msg.send()
     print "######## Invitation key: %s" % invitation.key

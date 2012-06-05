@@ -23,6 +23,11 @@ class UserResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
         errors = super(UserResourceValidation, self).is_valid(bundle, request)
 
+        if 'old_password' in bundle.data:
+            old_password = bundle.data.get('old_password')
+            if not bundle.obj.check_password(old_password):
+                errors['old_password'] = ["Forgot your password?"]
+        
         if request and request.method == 'PUT':
             return errors
         
@@ -87,6 +92,11 @@ class UserResource(ModelResource):
             profile.save()
         except UserProfile.DoesNotExist:
             pass
+
+        if 'password' in bundle.data and 'old_password' in bundle.data:
+            bundle.obj.set_password(bundle.data.get('password'))
+            bundle.obj.save() # FIXME: Too much saves
+        
         return bundle
     
 
