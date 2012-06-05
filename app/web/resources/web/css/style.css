@@ -65,6 +65,49 @@
 }
 
 /*
+ * body backgroud
+ */
+
+body {
+	background-image: url('../img/texture.png')
+}
+
+/*
+ * footer
+ */
+
+.powered {
+	font-weight: bold;
+}
+
+/*
+ * stripped tables 
+ */
+
+.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
+	background-color: whiteSmoke;
+}
+
+/*
+ * overwrite the jquery.tweet.css
+ */
+.tweet_list .tweet_even {
+	background-color: white;
+}
+
+.tweet_list li {
+	padding: 1.5em;
+}
+
+.tweet_list {
+	background-color: whiteSmoke;
+}
+
+.tweet_list li a {
+	color: #08C;
+}
+
+/*
  * Registration form centralized
  */
 .registrtion-form {
