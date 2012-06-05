@@ -28,7 +28,7 @@ class UserResourceValidation(Validation):
                 old_password = bundle.data.get('old_password')
                 if not bundle.obj.check_password(old_password):
                     errors['old_password'] = ["Forgot your password?"]
-                
+
             return errors
         
         if not bundle.data or 'code' not in bundle.data:
