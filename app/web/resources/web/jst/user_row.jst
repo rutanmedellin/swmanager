@@ -3,10 +3,18 @@
 </td>
 <td class="info">
 	<% if (!model.anonymous) { %>
-		<%= model.escape("first_name") %> <%= model.escape("last_name") %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %>
+		<% if (model.escape("frist_name") != "") { %>
+			<%= model.escape("first_name") %> <%= model.escape("last_name") %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %>
+		<% }else{ %>
+			<%= model.escape("email") %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %>
+		<% } %>	
 		<h6><%= model.escape("participant_type") %></h6> 
 	<% }else{ %>
-		<a href="#!/public/participants/<%= model.id %>"><%= model.escape("first_name") %> <%= model.escape("last_name") %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %> </a>
+		<% if (model.escape("frist_name") != "") { %>
+			<a href="#!/public/participants/<%= model.id %>"><%= model.escape("first_name") %> <%= model.escape("last_name") %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %> </a>
+		<% }else{ %>
+			<a href="#!/public/participants/<%= model.id %>"><%= model.escape("email").replace(/@/g, ' at ') %> <% if (model.get("twitter")) { %> (@<%= model.escape("twitter") %>) <% } %> </a>
+		<% } %>
 		<h6><%= model.escape("participant_type") %></h6>
 	<% } %>	
 </td>
