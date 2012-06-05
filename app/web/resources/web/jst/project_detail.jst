@@ -9,9 +9,11 @@
 
 <hr />
 <div class="row">
-	<div class="span2">
-		<img src="<%= model.get('image') %>" width="100px" />
-	</div>
+	<% if(model.escape("image") != "") { %>
+		<div class="span2">
+			<img src="<%= model.get('image') %>" width="100px" />
+		</div>
+	<% } %>
 	<div class="span6 description">
 		<p>
 			<%= model.escape("description") %>

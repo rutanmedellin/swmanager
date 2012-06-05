@@ -41,8 +41,8 @@
           	  Project Image
           </label>
           <div class="controls">
-        	<img src="<%= model.get('owner').avatar %>" class="project-img"/>
-			<p class="help-block">The project image is the profile picture of the project twitter account.</p>						
+        	<input type="text" name="image" value="<%= model.escape('image') %>" placeholder="Project image URL">
+			<p class="help-block">The project image url.</p>						
           </div>
       </div>
 	  
