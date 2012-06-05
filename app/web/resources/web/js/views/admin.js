@@ -157,7 +157,12 @@ App.Views.AdminUserView = Backbone.View.extend({
 				this.model.anonymous = true;	
 			}else{
 				this.model.anonymous = false;
-			} 
+				if(this.loggedUser.get("role") == "admins"){
+					this.model.canDelete = true;
+				}else{
+					this.model.canDelete = false;
+				}
+			} 			
 		}else{
 			this.model.anonymous = true;
 		}

@@ -128,7 +128,14 @@ App.Routers.StartupWeekendManager = Backbone.Router.extend({
 	
 	adminIdeas: function (){
 		this.admin("ideas");
-		Data.Views.admin = new App.Views.AdminIdeas({el: ".admin-content"});
+		Data.Models.account.fetch({
+			success: function (model, response){
+				Data.Views.admin = new App.Views.AdminIdeas({el: ".admin-content"});	
+			},
+			error: function (model, response){
+				
+			}
+		});		
 	},
 	
 	adminIdea: function (id){

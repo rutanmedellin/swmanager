@@ -14,8 +14,10 @@
 	<td class="actions">
 		<button class="btn btn-primary profile visible-desktop">Profile</button>
 	</td>
-	<td class="actions">	
-		<button class="btn btn-danger remove visible-desktop">Delete</button>
-	</td>
+	<% if (model.canDelete) { %>		
+		<td class="actions">	
+			<button class="btn btn-danger remove visible-desktop">Delete</button>
+		</td>
+	<% } %> 		
 <% } %> 		
 
