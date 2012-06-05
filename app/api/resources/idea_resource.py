@@ -2,12 +2,21 @@ from tastypie.resources import ModelResource
 from tastypie.models import ApiKey
 from tastypie.authorization import Authorization
 from tastypie.authentication import ApiKeyAuthentication
+from tastypie.validation import Validation
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
 from core.models import Idea, Vote
 from api.resources import UserResource
 
+class IdeaResourceValidation(Validation):
+    def is_valid(self, bundle, request=None):
+        errors = super(IdeaResourceValidation, self).is_valid(bundle, request)
+
+        if 'partipant' not in bundle.data:
+            errors['participant'] = "Can not be empty"
+
+        return errors
 
 class IdeaResource(ModelResource):
     participant = fields.ToOneField('api.resources.UserResource', 'participant', full=True)
@@ -18,6 +27,7 @@ class IdeaResource(ModelResource):
         resource_name = 'ideas'
         authorization = Authorization()
         #authentication = ApiKeyAuthentication()
+        validation = IdeaResourceValidation()
         always_return_data = True
         allowed_methods = ['post', 'get', 'put', 'delete']
         filtering = {
