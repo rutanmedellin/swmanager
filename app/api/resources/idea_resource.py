@@ -13,7 +13,7 @@ class IdeaResourceValidation(Validation):
     def is_valid(self, bundle, request=None):
         errors = super(IdeaResourceValidation, self).is_valid(bundle, request)
 
-        if 'partipant' not in bundle.data:
+        if 'participant' not in bundle.data:
             errors['participant'] = "Can not be empty"
 
         return errors
