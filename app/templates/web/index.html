@@ -75,6 +75,9 @@
     	<div class="content">
     		<div class="wrapper" >
     			<div class="proper-content" id="wrapper">
+                          {% if device.blackberry %}
+                            <h2>Sorry your device is not supported.</h2>
+                          {% endif %}
 		      	</div><!-- /.proper-content -->
 		        <div class="push"></div>
 				
@@ -93,9 +96,10 @@
 	<div class="modal hide" id="loading">	  
 	</div>
 	<div id="fb-root"></div>
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+        {% if not device.blackberry %}
+        <!-- Le javascript
+             ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
 	<script src="/media/web/js/libs/modernizr-2.0.min.js"></script>
 	<script src="/media/web/js/libs/respond.min.js"></script>
 
@@ -178,6 +182,7 @@
 		<script src="/media/web/js/mocks.js"></script>
 	{% endif %}	
 		
+        
 	<!-- backbone start -->
 	<script type="text/javascript">
 		$(document).ready(function (){
@@ -185,19 +190,19 @@
 		});
 	</script>
 
-    <script type="text/javascript">
-	window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '184632058330005', // App ID
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true,  // parse XFBML
-      oauth		 : true
-    });
+        <script type="text/javascript">
+	  window.fbAsyncInit = function() {
+          FB.init({
+          appId      : '184632058330005', // App ID
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true,  // parse XFBML
+          oauth		 : true
+          });
 	
-    // Additional initialization code here
-  };	     
-    </script>
-
+          // Additional initialization code here
+          };	     
+        </script>
+        {% endif %}
   </body>
 </html>

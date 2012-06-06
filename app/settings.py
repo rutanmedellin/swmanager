@@ -113,6 +113,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'app.context_processors.mobile',
+    'django.contrib.auth.context_processors.auth',
+    )
+
 ROOT_URLCONF = 'app.urls'
 
 TEMPLATE_DIRS = (

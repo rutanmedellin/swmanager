@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 from tastypie.api import Api
 admin.autodiscover()
 
@@ -21,10 +22,17 @@ swm_api.register(VoteResource())
 swm_api.register(ProjectResource())
 
 urlpatterns = patterns(
+    'django.views.generic.simple',
+    url(r'^/?$', 'direct_to_template', {'template': 'web/index.html', 
+                                        'extra_context': {'mocks': settings.MOCK_API_FOR_JS}
+                                        }
+    ),
+)
+
+urlpatterns += patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(swm_api.urls)),
-    url(r'^/?$', 'web.views.home'),
     url(r'^web/', include('web.urls')),
     
     # jasmine testings urls
@@ -32,7 +40,8 @@ urlpatterns = patterns(
     
 )
 
-    # redirect to dinami url from canonical url
+
+# redirect to dinami url from canonical url
 urlpatterns += patterns('django.views.generic.simple',
     ('^hash/(?P<org_url>[A-Za-z0-9/]+)$', 'redirect_to', {'url': '/#!/%(org_url)s'}),
 )
