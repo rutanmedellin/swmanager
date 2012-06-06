@@ -8,6 +8,7 @@ class Project(models.Model):
     description = models.TextField()
     twitter = models.CharField(max_length=128, default="")
     url = models.URLField(default="")
+    image = models.URLField(default="")
     email = models.EmailField(default="")
     team = models.ManyToManyField(User, related_name='projects', blank=True, null=True)
 
