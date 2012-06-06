@@ -34,6 +34,12 @@ class IdeaResource(ModelResource):
             'participant': ALL_WITH_RELATIONS
         }
 
+    def obj_delete(self, request=None, **kwargs):
+        obj = kwargs.get('_obj', None)
+        if obj:
+            Vote.objects.filter(type_id = obj.id).delete()
+        super(IdeaResource, self).obj_delete(request, **kwargs)
+
     def dehydrate(self, bundle):
         bundle.data['votes'] = Vote.objects.filter(vote_type='idea',
                                                    type_id="/api/v1/ideas/%s/" % bundle.obj.id).count()
