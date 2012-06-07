@@ -41,6 +41,12 @@ urlpatterns += patterns(
 )
 
 
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
+
+
 # redirect to dinami url from canonical url
 urlpatterns += patterns('django.views.generic.simple',
     ('^hash/(?P<org_url>[A-Za-z0-9/]+)$', 'redirect_to', {'url': '/#!/%(org_url)s'}),
