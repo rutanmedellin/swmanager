@@ -1,1 +1,1 @@
-web: gunicorn_django  -b 0.0.0.0:$PORT app --pythonpath=.
+web: gunicorn_django -b 0.0.0.0:$PORT -w3 app.wsgi
