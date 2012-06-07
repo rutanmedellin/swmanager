@@ -201,4 +201,50 @@ pre {
 	padding: 10px;
 }
 
+/*
+ * admin left navbar
+ */
+
+.leftbar {
+	margin-bottom: 30px;
+}
+
+.nav-list > li > a {
+    padding: 5px 14px 5px 31px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: grey !important;
+    text-shadow: 1px 1px 0px white !important;
+    height: 18px;
+    -moz-transition-property: color !important;
+    -webkit-transition-property: color !important;
+    -o-transition-property: color !important;
+    transition-property: color !important;
+    -moz-transition-duration: 0.2s !important;
+    -webkit-transition-duration: 0.2s !important;
+    -o-transition-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+}
+
+.nav > li > a:hover {
+    text-decoration: none !important;
+    background-color: transparent !important;
+    color: #08C !important;
+}
+
+.nav-list > .active > a:hover {
+    color: #08C !important;
+    text-shadow: 0 -1px 0 white !important;
+}
+
+.nav-list > .active > a, .nav-list > .active > a:hover {
+	color: #08C !important;
+    text-shadow: 0 -1px 0 white !important;
+    background-color: transparent !important;	
+}
+
+h1 {
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid #CCC !important;
+}
 

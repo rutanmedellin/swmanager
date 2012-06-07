@@ -70,7 +70,6 @@
         </div>
       </div>
     </div>
-
     <div class="container">
     	<div class="content">
     		<div class="wrapper" >
@@ -86,9 +85,13 @@
 				<footer class="container">
 					<hr>
 				    <p class="powered">
-				        Powered by <a href="http://www.rutanmedellin.org"><img src="/media/web/img/thum-rutaN.png"></a> <a href="http://coffeegrid.org"><img src="/media/web/img/cg.png"></a>				
+				        Powered by <a href="http://www.rutanmedellin.org"><img src="/media/web/img/thum-rutaN.png"></a> <a href="http://coffeegrid.org"><img src="/media/web/img/cg.png"></a>
+						<br />
+						<iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=rutanmedellin&repo=swmanager&type=fork"
+  allowtransparency="true" frameborder="0" scrolling="0" width="53px" height="20px"></iframe>
 				    </p>
 				</footer>
+				
 			</div>
 		</div>
     </div> <!-- /container -->	
@@ -204,7 +207,17 @@
           });
 	
           // Additional initialization code here
-          };	  
+          };	 
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-32477957-1']);
+		  _gaq.push(['_setDomainName', 'swmanager.co']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })(); 
         </script>
         {% endif %}
   </body>
