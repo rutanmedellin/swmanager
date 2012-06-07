@@ -137,7 +137,8 @@ try{
 		userAgent = "";
 	}
 */
-	if( userAgent == ""){
+	try{
+		if( userAgent == ""){
 		mobileModal = function (options){
 			var selector = this.selector;
 			if (selector.search("loading") > 0) {
@@ -158,6 +159,8 @@ try{
 		}
 		$.fn.orgmodal = $.fn.modal;
 		$.fn.modal = mobileModal;
-	}
+	}	
+	}catch(e){}
+	
 });
  
