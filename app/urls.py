@@ -12,6 +12,8 @@ from api.resources import EventResource
 from api.resources import VoteResource
 from api.resources import ProjectResource
 
+from web.views.blitz import index as blitz
+
 swm_api = Api(api_name='v1')
 swm_api.register(UserResource())
 swm_api.register(PublicSessionResource())
@@ -37,6 +39,8 @@ urlpatterns += patterns(
     
     # jasmine testings urls
     url(r'^jasmine/', include('django_jasmine.urls')),
+
+    url(r'^mu-04a82b9e-1eab12b7-71e4fb90-e88c3b98', blitz),
     
 )
 
