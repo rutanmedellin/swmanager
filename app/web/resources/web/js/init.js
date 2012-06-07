@@ -130,7 +130,15 @@ var Gravatar = function (email){
  */
 
 $(document).ready(function (){
-	if(userAgent == ""){
+	/*
+try{
+		userAgent = (userAgent == undefined ? "": "baseline");	
+	}catch(e){
+		userAgent = "";
+	}
+*/
+	try{
+		if( userAgent == ""){
 		mobileModal = function (options){
 			var selector = this.selector;
 			if (selector.search("loading") > 0) {
@@ -151,6 +159,8 @@ $(document).ready(function (){
 		}
 		$.fn.orgmodal = $.fn.modal;
 		$.fn.modal = mobileModal;
-	}
+	}	
+	}catch(e){}
+	
 });
  
