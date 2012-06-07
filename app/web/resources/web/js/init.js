@@ -130,11 +130,13 @@ var Gravatar = function (email){
  */
 
 $(document).ready(function (){
-	try{
-		userAgent = (userAgent == undefined ? "baseline": "");	
+	/*
+try{
+		userAgent = (userAgent == undefined ? "": "baseline");	
 	}catch(e){
 		userAgent = "";
 	}
+*/
 	if( userAgent == ""){
 		mobileModal = function (options){
 			var selector = this.selector;
