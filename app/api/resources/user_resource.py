@@ -24,6 +24,10 @@ class UserResourceValidation(Validation):
         errors = super(UserResourceValidation, self).is_valid(bundle, request)
 
         if request and request.method == 'PUT':
+            if 'old_password' in bundle.data and bundle.data['old_password'] == "" :
+                bundle.data.pop('password')
+                bundle.data.pop('old_password')
+            
             if 'old_password' in bundle.data and bundle.data['old_password'] != "" :
                 old_password = bundle.data.get('old_password')
                 if not bundle.obj.check_password(old_password):

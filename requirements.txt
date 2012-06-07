@@ -2,6 +2,7 @@
 Django==1.4
 psycopg2==2.4.5
 gunicorn==0.14.2
+gevent
 
 #
 # Due to problems with authentication the MVP is going to be relational
