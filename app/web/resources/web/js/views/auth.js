@@ -116,6 +116,9 @@ $('.login-btn', view.el).popover({
 					view.render();
 				},
 				error: function (model, response){
+					if(response.status <= 400){
+						alert("Bad username or password");
+					}
 					Data.Models.session.unset("password", {silent: true});
 				}
 			}

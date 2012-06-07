@@ -125,3 +125,32 @@ var Gravatar = function (email){
 	return "http://www.gravatar.com/avatar/" + md5;
 };
  
+/*
+ * replace bootstrap modal for mobile devices for alert
+ */
+
+$(document).ready(function (){
+	if(userAgent == ""){
+		mobileModal = function (options){
+			var selector = this.selector;
+			if (selector.search("loading") > 0) {
+				$.fn.modal = $.fn.orgmodal;
+				$(this).modal(options);
+				$.fn.orgmodal = $.fn.modal;
+				$.fn.modal = mobileModal;		
+			}
+			else {
+				if (selector.search("success") > 0) {
+					alert("Request Success ;)");
+				}
+				else 
+					if (selector.search("error") > 0) {
+						alert("Request Fail, try again later :(");
+					}
+			}
+		}
+		$.fn.orgmodal = $.fn.modal;
+		$.fn.modal = mobileModal;
+	}
+});
+ 

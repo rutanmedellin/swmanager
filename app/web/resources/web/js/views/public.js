@@ -167,6 +167,9 @@ App.Views.PublicProjects = Backbone.View.extend({
 		Data.Collections.projects = new App.Collections.Projects();
 		Data.Collections.projects.fetch(
 			{
+				data: {
+					limit: 0
+				},
 				success: function (collection, response){
 					/*
 					 * the App.Views.Projects is taken from the admin view
@@ -208,7 +211,8 @@ App.Views.PublicParticipants = Backbone.View.extend({
 		Data.Collections.participants.fetch(
 			{				
 				data: {
-					role: "participants"
+					role: "participants",
+					limit: 0
 				},
 				success: function (collection, response){
 					participants = new App.Views.AdminUsersList({el: "#list", collection: collection, role: "participants"});

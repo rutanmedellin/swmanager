@@ -250,8 +250,11 @@ App.Views.AdminUsers = Backbone.View.extend({
 		
 		$(".invitation-form", this.el).html(JST.invite_user_form({role: this.options.role}));				
 		Data.Collections.invitations = new App.Collections.Invitations();
-		Data.Collections.invitations.fetch(
+		Data.Collections.invitations.fetch(			
 			{
+				data: {
+					limit: 0,
+				},
 				success: function (collection, response){
 					view.invitations = new App.Views.Invitations({el: ".invitations-pending", collection: collection, role: view.options.role});
 				},
@@ -268,7 +271,8 @@ App.Views.AdminUsers = Backbone.View.extend({
 		Data.Collections.adminUsers.fetch(
 			{				
 				data: {
-					role: this.options.role
+					role: this.options.role,
+					limit: 0
 				},
 				success: function (collection, response){
 					view.adminUsers = new App.Views.AdminUsersList({el: ".admin-users-list", collection: collection, role: view.options.role});
@@ -340,7 +344,8 @@ App.Views.UserProfileView = Backbone.View.extend({
 		var user_ideas = new App.Collections.Ideas();
 		user_ideas.fetch({
 			data: {
-				participant__id: this.model.id
+				participant__id: this.model.id,
+				limit: 0
 			},
 			success: function (collection, response){
 				new App.Views.UserIdeas({el: ".user-ideas", collection: collection});
@@ -355,7 +360,8 @@ App.Views.UserProfileView = Backbone.View.extend({
 		var user_projects = new App.Collections.Projects();
 		user_projects.fetch({
 			data: {
-				member: this.model.id
+				member: this.model.id,
+				limit: 0
 			},
 			success: function (collection, response){
 				new App.Views.UserProjects({el: ".user-projects", collection: collection});
@@ -831,6 +837,9 @@ App.Views.AdminIdeas = Backbone.View.extend({
 		Data.Collections.ideas = new App.Collections.Ideas();
 		Data.Collections.ideas.fetch(
 			{
+				data: {
+					limit: 0,
+				},
 				success: function (collection, response){
 					view.ideas = new App.Views.Ideas({el: ".participants-ideas", collection: collection});
 				},
@@ -871,6 +880,7 @@ App.Views.AdminIdeas = Backbone.View.extend({
                 users.fetch({
 					data: {
 						q: term,
+						limit: 0,
 					},
                     success: function (collection, data){
                         cache[ term ] = data.objects;
@@ -1269,6 +1279,7 @@ App.Views.AdminIdeaEdit = Backbone.View.extend({
                 users.fetch({
 					data: {
 						q: term,
+						limit: 0
 					},
                     success: function (collection, data){
                         cache[ term ] = data.objects;
@@ -1635,6 +1646,9 @@ App.Views.AdminProjects = Backbone.View.extend({
 		Data.Collections.projects = new App.Collections.Projects();
 		Data.Collections.projects.fetch(
 			{
+				data: {
+					limit: 0,
+				},
 				success: function (collection, response){
 					view.projects = new App.Views.Projects({el: ".participants-projects", collection: collection});
 				},
@@ -1675,6 +1689,7 @@ App.Views.AdminProjects = Backbone.View.extend({
                 users.fetch({
 					data: {
 						q: term,
+						limit: 0
 					},
                     success: function (collection, data){
                         cache[ term ] = data.objects;
@@ -2025,6 +2040,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
                 users.fetch({
 					data: {
 						q: term,
+						limit: 0
 					},
                     success: function (collection, data){
                         cache[ term ] = data.objects;
@@ -2168,6 +2184,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
                 users.fetch({
 					data: {
 						q: term,
+						limit: 0
 					},
                     success: function (collection, data){
                         cache[ term ] = data.objects;
@@ -2310,6 +2327,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 		var description = $("textarea[name=description]", this.el).val();
 		var twitter = $("input[name=twitter]", this.el).val();
 		var url = $("input[name=url]", this.el).val();
+		var image = $("input[name=image]", this.el).val();
 
 		var team = [];
 		var userModel = new App.Models.User();
@@ -2327,6 +2345,7 @@ App.Views.AdminProjectEdit = Backbone.View.extend({
 				team: team,
 				url: url,
 				twitter: twitter,
+				image: image
 			},{
 				success: function(model, response){
 					Data.Routers.router.navigate("/#!/admin/projects/" + model.id, true);
