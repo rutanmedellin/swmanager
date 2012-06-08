@@ -1,7 +1,7 @@
 import sys, time
 from activation.models import Invitation
 from django.contrib.auth.models import User, Group
-from django.config import settings
+from django.conf import settings
 
 def get_participants():
     print "Start"
