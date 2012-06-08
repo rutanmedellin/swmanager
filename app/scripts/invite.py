@@ -1,11 +1,11 @@
 import sys, time
 from activation.models import Invitation
 from django.contrib.auth.models import User, Group
-
+from django.config import settings
 
 def get_participants():
     print "Start"
-    with open('templates/participants.txt') as f:
+    with open(path.join(os.path.dirname(os.path.realpath(__file__)), '../templates/participants.txt')) as f:
         user = User.objects.get(username='castillobuiles@gmail.com')
         group = Group.objects.get(name='participants')
         for email in f.readlines():
