@@ -1,5 +1,5 @@
 <div class="row-fluid">
-    <div class="span2">
+    <div class="span3">
         <div class="sidebar-nav">
             <ul class="nav nav-list leftbar">
             	<% if (model.get("role") == "admins") { %>
@@ -27,24 +27,20 @@
 				
 				<% }else { %>
 	                <li class="nav-header">
-	                    Settings
+	                    Admin Menu
 	                </li>
 					<li class="menu-item account">
-	                    <a href="#!/admin/account"><i class="icon-user"></i> Account</a>
+	                    <a href="#!/admin/account"><i class="icon-home"></i> Account</a>
 	                </li>
-	                <li class="nav-header">
-	                    Ideas
+					<li class="menu-item participants">
+	                    <a href="#!/admin/participants"><i class="icon-user"></i> Participants</a>
 	                </li>
-	                <li class="menu-item ideas-list">
-	                    <a href="#!/admin/ideas"><i class="icon-th-list"></i> List</a>
+	                <li class="menu-item ideas">
+	                    <a href="#!/admin/ideas"><i class="icon-info-sign"></i> Ideas</a>
 	                </li>
-	                <li class="nav-header">
-	                    Projects
-	                </li>
-	                <li class="menu-item projects-list">
-	                    <a href="#!/admin/projects"><i class="icon-th-list"></i> List</a>
-	                </li>
-			
+	                <li class="menu-item projects">
+	                    <a href="#!/admin/projects"><i class="icon-bookmark"></i> Projects</a>
+	                </li>			
 				<% } %>			
             </ul>
         </div>
