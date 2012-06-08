@@ -1,3 +1,5 @@
+import os
+from os import path
 import sys, time
 from activation.models import Invitation
 from django.contrib.auth.models import User, Group
