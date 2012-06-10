@@ -248,3 +248,10 @@ h1 {
     border-bottom: 1px solid #CCC !important;
 }
 
+/*
+ * Project list
+ */
+
+.project-image {
+	width: 100px;
+} 
