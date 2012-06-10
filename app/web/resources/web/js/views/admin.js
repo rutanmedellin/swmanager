@@ -1490,7 +1490,7 @@ App.Views.Project = Backbone.View.extend({
 	className: "project",
 
 	initialize: function (){
-		_.bindAll(this, 'render', 'detail', 'remove');
+		_.bindAll(this, 'render', 'detail', 'remove', 'pagotodo');
 		if (this.options.loggedUser == undefined){
 			this.loggedUser = (Data.Models.account == undefined ? new App.Models.Account() : Data.Models.account); 
 		}else{
@@ -1505,6 +1505,14 @@ App.Views.Project = Backbone.View.extend({
 		"click .vote": "vote",
 		"click .edit": "edit",		
 		"click .remove":	"remove",
+		'click .pagotodo': 	"pagotodo"
+	},
+
+	pagotodo: function (e){
+		e.preventDefault();
+		window.open('http://pagotodo.co:8080/pago/' + this.model.get('owner').username,
+			'pagartodopago', 
+			'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=500, height=350');
 	},
 
 	render: function(){
