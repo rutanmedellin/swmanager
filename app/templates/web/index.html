@@ -21,7 +21,7 @@
       }
     </style>
     <link href="/media/web/css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
-	
+
 	<link href="/media/web/css/jquery.tweet.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -31,13 +31,13 @@
 
 	<!-- bootstrap datepicker http://www.eyecon.ro/bootstrap-datepicker/ -->
 	<link href="/media/web/css/bootstrap/datepicker.css" rel="stylesheet">
-	 
+
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="/media/web/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/web/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/web/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/media/web/ico/apple-touch-icon-57-precomposed.png">
-	
+
 	<!-- custom style -->
 	<link href="/media/web/css/style.css" rel="stylesheet">
   </head>
@@ -60,12 +60,12 @@
             </ul>
 			<ul class="nav pull-right">
 				<li id="login">
-										
-				</li>				
+
+				</li>
 			</ul>
 			<div class="login">
 
-			</div>				
+			</div>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -79,24 +79,22 @@
                           {% endif %}
 		      	</div><!-- /.proper-content -->
 		        <div class="push"></div>
-				
+
     		</div>
-			<div class="footer-wrapper">				
+			<div class="footer-wrapper">
 				<footer class="container">
 					<hr>
 				    <p class="powered">
 				        Powered by <a href="http://www.rutanmedellin.org"><img src="/media/web/img/thum-rutaN.png"></a> <a href="http://coffeegrid.org"><img src="/media/web/img/cg.png"></a>
 						<br />
-						<iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=rutanmedellin&repo=swmanager&type=fork&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="53px" height="20px"></iframe>
 				    </p>
 				</footer>
-				
+
 			</div>
 		</div>
-    </div> <!-- /container -->	
+    </div> <!-- /container -->
 
-	<div class="modal hide" id="loading">	  
+	<div class="modal hide" id="loading">
 	</div>
 	<div id="fb-root"></div>
         {% if not device.blackberry %}
@@ -143,18 +141,18 @@
     <script src="/media/web/js/bootstrap/bootstrap-carousel.js"></script>
     <script src="/media/web/js/bootstrap/bootstrap-typeahead.js"></script>
 	<script src="/media/web/js/bootstrap/bootstrap-datepicker.js"></script>
-	
+
 	<!-- Backbone.js -->
 	<script src="/media/web/js/libs/underscore-min.js"></script>
-	<script src="/media/web/js/libs/json2.js"></script>	
+	<script src="/media/web/js/libs/json2.js"></script>
 	<script src="/media/web/js/libs/backbone.js"></script>
 
 	<!-- init -->
 	<script src="/media/web/js/init.js"></script>
-	
+
 	<!-- router -->
 	<script src="/media/web/js/routers/swmanager.js"></script>
-	
+
 	<!-- models -->
 	<script src="/media/web/js/models/account.js"></script>
 	<script src="/media/web/js/models/invitation.js"></script>
@@ -163,7 +161,7 @@
 	<script src="/media/web/js/models/project.js"></script>
 	<script src="/media/web/js/models/vote.js"></script>
 	<script src="/media/web/js/models/event.js"></script>
-	
+
 	<!-- collections -->
 	<script src="/media/web/js/collections/invitations.js"></script>
 	<script src="/media/web/js/collections/users.js"></script>
@@ -171,24 +169,24 @@
 	<script src="/media/web/js/collections/projects.js"></script>
 	<script src="/media/web/js/collections/events.js"></script>
 	<script src="/media/web/js/collections/votes.js"></script>
-	
+
 	<!-- views -->
 	<script src="/media/web/js/views/auth.js"></script>
 	<script src="/media/web/js/views/admin.js"></script>
 	<script src="/media/web/js/views/public.js"></script>
 	<script src="/media/web/js/views/registration.js"></script>
-	
+
 	<!-- templates -->
-	<script src="/web/templates.js"></script>	
+	<script src="/web/templates.js"></script>
 
 
 	{% if mocks %}
 	<!-- mocks -->
 		<script src="/media/web/js/spec/sinon-1.3.2.js"></script>
 		<script src="/media/web/js/mocks.js"></script>
-	{% endif %}	
-		
-        
+	{% endif %}
+
+
 	<!-- backbone start -->
 	<script type="text/javascript">
 		$(document).ready(function (){
@@ -205,19 +203,19 @@
           xfbml      : true,  // parse XFBML
           oauth		 : true
           });
-	
+
           // Additional initialization code here
-          };	 
+          };
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-32477957-1']);
 		  _gaq.push(['_setDomainName', 'swmanager.co']);
 		  _gaq.push(['_trackPageview']);
-		
+
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })(); 
+		  })();
         </script>
         {% endif %}
   </body>
